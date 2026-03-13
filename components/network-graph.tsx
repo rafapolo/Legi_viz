@@ -46,6 +46,17 @@ export const PARTY_COLORS: Record<string, string> = {
   PSOL:          '#C026D3',
   PV:            '#16A34A',
   NOVO:          '#FBBF24',
+  PRD:           '#64748B',
+  AGIR:          '#0D9488',
+  DC:            '#7C3AED',
+  REDE:          '#10B981',
+  'S.PART.':     '#6366F1',
+  'PARTIDO(':     '#94A3B8',
+  'FEDERAÇÃO':    '#F472B6',
+  PCO:           '#EF4444',
+  UP:            '#DC2626',
+  PATRIOTA:      '#F59E0B',
+  PMB:           '#EC4899',
 }
 
 const UF_COLORS: Record<string, string> = {
@@ -71,8 +82,32 @@ const TEMAS_FULL = ['Saude', 'Seguranca', 'Agro', 'Educacao', 'Economia', 'Meio 
 
 const PATRIMONIO_COLORS = ['#38BDF8','#818CF8','#F97316','#EF4444','#DC2626'] as const
 
+// Generate consistent color from party name (always returns hex)
+function partyColor(p: string): string {
+  if (PARTY_COLORS[p]) return PARTY_COLORS[p]
+  // Generate fallback color from hash (convert HSL to hex)
+  let hash = 0
+  for (let i = 0; i < p.length; i++) hash = ((hash << 5) - hash) + p.charCodeAt(i)
+  const h = Math.abs(hash) % 360
+  const s = 60, l = 50
+  const c = (1 - Math.abs(2 * l / 100 - 1)) * s / 100
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1))
+  const m = l / 100 - c / 2
+  let r = 0, g = 0, b = 0
+  if (h < 60) { r = c; g = x; b = 0 }
+  else if (h < 120) { r = x; g = c; b = 0 }
+  else if (h < 180) { r = 0; g = c; b = x }
+  else if (h < 240) { r = 0; g = x; b = c }
+  else if (h < 300) { r = x; g = 0; b = c }
+  else { r = c; g = 0; b = x }
+  r = Math.round((r + m) * 255)
+  g = Math.round((g + m) * 255)
+  b = Math.round((b + m) * 255)
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`
+}
+
 function getNodeColor(node: Parlamentar, mode: ClusterMode): string {
-  if (mode === 'partido') return PARTY_COLORS[node.partido] || '#64748B'
+  if (mode === 'partido') return partyColor(node.partido)
   if (mode === 'uf')      return UF_COLORS[node.uf] || '#64748B'
   if (mode === 'tema')    return TEMA_COLORS[node.macroTema] || '#64748B'
   if (mode === 'tipo')    return node.tipo === 'SENADOR' ? '#34D399' : '#818CF8'
@@ -100,7 +135,11 @@ function getNodeColor(node: Parlamentar, mode: ClusterMode): string {
 }
 
 function getClusterKey(node: Parlamentar, mode: ClusterMode): string {
-  if (mode === 'partido')     return node.partido || 'SEM PARTIDO'
+  if (mode === 'partido') {
+    const p = node.partido
+    if (!p || p === '' || p === 'SEM PARTIDO') return 'S.PART.'
+    return p
+  }
   if (mode === 'uf')          return node.uf
   if (mode === 'tema')        return node.macroTema
   if (mode === 'tipo')        return node.tipo === 'SENADOR' ? 'Senadores' : 'Deputados'
@@ -133,14 +172,16 @@ function computeClusterCenters(
   const pad = isMobile ? 70 : 110
 
   if (mode === 'partido') {
-    // Include SEM PARTIDO as its own cluster if it has members
-    const allKeys = [...PARTIDOS, 'SEM PARTIDO']
-    const activeKeys = counts ? allKeys.filter(k => (counts.get(k) ?? 0) > 0) : [...PARTIDOS]
-    const cols = isMobile ? 4 : 6
-    const rows = Math.ceil(activeKeys.length / cols)
+    // Get ALL parties with at least 1 member
+    const countsMap = counts ?? new Map<string, number>()
+    const allKeys = [...countsMap.keys()].filter(k => (countsMap.get(k) ?? 0) > 0)
+    const sorted = allKeys.sort((a, b) => (countsMap.get(b) ?? 0) - (countsMap.get(a) ?? 0))
+    // Use 6 cols with more rows for breathing room
+    const cols = 6
+    const rows = Math.ceil(sorted.length / cols) + 1  // Extra row for spacing
     const cw = (W - pad * 2) / cols
     const ch = (H - pad * 2) / rows
-    activeKeys.forEach((k, i) => {
+    sorted.forEach((k, i) => {
       map.set(k, {
         x: pad + (i % cols) * cw + cw / 2,
         y: pad + Math.floor(i / cols) * ch + ch / 2,
@@ -469,7 +510,18 @@ export function NetworkGraph({
         return acc
       }, {} as Record<string, number>),
     })
-  }, [clusterMode, filtered])
+
+    fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: filtered,
+        question: `Currently using cluster mode: ${clusterMode}. With filters: ${JSON.stringify({ filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterRaca, filterAlinhamento })}. What cluster mode would best visualize this filtered data? Provide recommendations.`
+      })
+    }).then(r => r.json()).then(claude => {
+      console.debug('[Claude Cluster Recommendation]', claude)
+    }).catch(() => {})
+  }, [clusterMode, filtered, filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterRaca, filterAlinhamento])
 
   const applyTargets = useCallback((mode: ClusterMode, nodes: NetworkNode[], W: number, H: number) => {
     const isMobile = W < 600
@@ -499,14 +551,18 @@ export function NetworkGraph({
       const waves = 1.5
       // Sort by alinhamento so wave is smooth
       const sorted = [...nodes].sort((a, b) => a.alinhamento - b.alinhamento)
+      // Distribute evenly across the wave (no gaps!)
       sorted.forEach((n, i) => {
-        const t = n.alinhamento / 100
+        const t = i / (sorted.length - 1 || 1) // Evenly distributed 0-1
         const x = wPad + t * (W - wPad * 2)
         const y = H / 2 + amp * Math.sin(t * Math.PI * waves * 2)
-        // Small stagger offset for nodes with same alinhamento
-        const offset = (i % 3 - 1) * 5
-        n.targetX = x + (Math.random() - 0.5) * 8
-        n.targetY = y + offset + (Math.random() - 0.5) * 6
+        // Offset based on alignment value to show variation
+        const alignOffset = (n.alinhamento / 100 - 0.5) * amp * 0.3
+        // Deterministic offset based on node index
+        const offset = ((i % 3) - 1) * 5
+        const hash = (n.idNumerico * 7919) % 1000 / 1000
+        n.targetX = x + (hash - 0.5) * 8
+        n.targetY = y + offset + alignOffset + ((hash * 17) % 100 - 50) / 100 * 6
         n.initColor = n.currentColor
         n.targetColor = getNodeColor(n, mode)
       })
@@ -545,9 +601,10 @@ export function NetworkGraph({
     // 4. Legend
     const items: {label: string, color: string}[] = []
     if (mode === 'partido') {
-      // Show only parties that actually have members, in order of size
-      const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1])
-      sorted.forEach(([p]) => items.push({ label: `${p} (${counts.get(p)})`, color: PARTY_COLORS[p] || '#888' }))
+      // Show ALL parties with at least 1 member
+      const countsMap = counts ?? new Map<string, number>()
+      const sorted = [...countsMap.entries()].sort((a, b) => b[1] - a[1])
+      sorted.forEach(([p, count]) => items.push({ label: `${p} (${count})`, color: partyColor(p) }))
     } else if (mode === 'uf') {
       UFS.forEach(u => items.push({ label: u, color: UF_COLORS[u] || '#888' }))
     } else if (mode === 'tema') {
@@ -641,7 +698,13 @@ export function NetworkGraph({
 
     // Labels de cluster - mostrar quando clustered
     if (phase !== 'congress') {
-      const centers = computeClusterCenters(clusterMode, W, H)
+      // Recompute counts and centers for accurate label positions
+      const labelCounts = new Map<string, number>()
+      nodes.forEach(n => {
+        const key = getClusterKey(n, clusterMode)
+        labelCounts.set(key, (labelCounts.get(key) ?? 0) + 1)
+      })
+      const centers = computeClusterCenters(clusterMode, W, H, labelCounts)
       const groups = new Map<string, {minY: number, cx: number, count: number}>()
 
       nodes.forEach(n => {
@@ -667,7 +730,7 @@ export function NetworkGraph({
         if (!g || g.count === 0) return
 
         const color = (() => {
-          if (clusterMode === 'partido') return PARTY_COLORS[label] || '#94A3B8'
+          if (clusterMode === 'partido') return partyColor(label)
           if (clusterMode === 'uf') return UF_COLORS[label] || '#94A3B8'
           if (clusterMode === 'tema') return TEMA_COLORS[label] || '#94A3B8'
           if (clusterMode === 'tipo') return label === 'Senadores' ? '#34D399' : '#818CF8'
@@ -787,11 +850,11 @@ export function NetworkGraph({
       ctx.save()
       ctx.scale(dpr, dpr)
 
-      const color = n.currentColor.startsWith('#') ? n.currentColor : '#3B82F6'
+      const color = (n.currentColor && (n.currentColor.startsWith('#') || n.currentColor.startsWith('rgb'))) ? n.currentColor : '#3B82F6'
       const lines = [
-        n.nomeUrna,
-        `${n.partido} · ${n.uf} · ${n.tipo === 'SENADOR' ? 'Senador(a)' : 'Dep. Federal'}`,
-        `Alinhamento ${n.alinhamento}% · Freq. ${Math.round(n.frequencia * 100)}%`,
+        n.nomeUrna || n.nome || 'Nome não disponível',
+        `${n.partido || 'S.PART.'} · ${n.uf || '??'} · ${n.tipo === 'SENADOR' ? 'Senador(a)' : 'Dep. Federal'}`,
+        `Alinhamento ${n.alinhamento ?? 0}% · Freq. ${Math.round((n.frequencia ?? 0) * 100)}%`,
       ]
       ctx.font = "600 12px 'Helvetica Neue', sans-serif"
       const maxW = Math.max(...lines.map(l => ctx.measureText(l).width))
@@ -1205,8 +1268,8 @@ export function NetworkGraph({
             </svg>
           </button>
           {legendOpen && (
-            <div className="p-2.5 pt-1.5 max-h-48 overflow-y-auto space-y-1.5">
-              {legendItems.slice(0, 22).map(item => (
+            <div className="p-2.5 pt-1.5 max-h-80 overflow-y-auto space-y-1.5">
+              {legendItems.slice(0, 50).map(item => (
                 <div key={item.label} className="flex items-center gap-2 min-w-0">
                   <div className="w-2.5 h-2.5 rounded-[2px] shrink-0" style={{ backgroundColor: item.color }} />
                   <span className="text-[10px] truncate font-mono" style={{ color: isDark ? '#94A3B8' : '#475569' }}>
@@ -1214,9 +1277,9 @@ export function NetworkGraph({
                   </span>
                 </div>
               ))}
-              {legendItems.length > 22 && (
+              {legendItems.length > 50 && (
                 <div className="text-[10px] font-mono" style={{ color: isDark ? '#475569' : '#94A3B8' }}>
-                  +{legendItems.length - 22} mais
+                  +{legendItems.length - 50} mais
                 </div>
               )}
             </div>

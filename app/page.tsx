@@ -261,7 +261,7 @@ export default function Home() {
     document.documentElement.classList.toggle('dark', dark)
     const userData = localStorage.getItem('legi-viz-user')
     if (userData) setUser(JSON.parse(userData))
-    getAllParliamentariansAsync().then((parlamentares) => {
+    getAllParliamentariansAsync().then(async (parlamentares) => {
       console.debug('[DEBUG] Data loaded:', {
         total: parlamentares.length,
         byTipo: {
@@ -281,7 +281,48 @@ export default function Home() {
           return acc
         }, {} as Record<string, number>),
       })
-      setAllParls(parlamentares)
+      
+      let correctedData = [...parlamentares]
+      let recommendedCluster = 'partido'
+      
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            data: parlamentares,
+            filters: {},
+            clusterMode: 'partido',
+            question: 'Analyze this Brazilian Congress data. Cross-validate that each parliamentarian has correct gender/race matching. Return ONLY a JSON object with corrections array and bestClusterMode. Format: { "corrections": [{ "id": "string", "field": "genero|raca|partido", "current": "string", "corrected": "string" }], "bestClusterMode": "partido|uf|tema|alinhamento|tipo|genero|faixaEtaria|raca|bancada|patrimonio|projetos" }'
+          })
+        })
+        
+        const claude = await response.json()
+        console.debug('[Claude Analysis]', claude)
+        
+        if (claude.analysis?.corrections?.length > 0) {
+          console.warn('[Claude Corrections]', claude.analysis.corrections)
+          
+          correctedData = parlamentares.map(p => {
+            const correction = claude.analysis.corrections.find((c: { id: string }) => c.id === p.id)
+            if (correction) {
+              console.log(`[Applying Correction] ${p.nome}: ${correction.field} ${correction.current} -> ${correction.corrected}`)
+              return { ...p, [correction.field]: correction.corrected }
+            }
+            return p
+          })
+        }
+        
+        if (claude.analysis?.bestClusterMode) {
+          recommendedCluster = claude.analysis.bestClusterMode
+          console.log(`[Claude Recommended] Cluster mode: ${recommendedCluster}`)
+          setClusterMode(recommendedCluster as ClusterMode)
+        }
+      } catch (err) {
+        console.warn('[Claude Error]', err)
+      }
+
+      setAllParls(correctedData)
       setParlamentaresLoaded(true)
       const saved: string[] = []
       for (let i = 0; i < localStorage.length; i++) {

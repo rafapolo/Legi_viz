@@ -47,7 +47,56 @@ export const PARTIDOS = [
   'PL','PT','UNIÃO','PSD','MDB','PP','REPUBLICANOS','PDT',
   'PSDB','PODE','AVANTE','SOLIDARIEDADE','PSB','PCdoB',
   'CIDADANIA','PSOL','PV','NOVO','PRD','AGIR','DC','REDE','S.PART.',
+  'PARTIDO(','FEDERAÇÃO','PCO','UP'
 ] as const
+
+// Normalize party name - handle variations and typos from API
+const PARTIDO_ALIASES: Record<string, string> = {
+  'PL': 'PL', 'PARTIDO LIBERAL': 'PL',
+  'PT': 'PT', 'PARTIDO DOS TRABALHADORES': 'PT',
+  'UNIÃO': 'UNIÃO', 'UNIÃO BRASIL': 'UNIÃO',
+  'PSD': 'PSD', 'PARTIDO SOCIAL DEMOCRÁTICO': 'PSD',
+  'MDB': 'MDB', 'MOVIMENTO DEMOCRÁTICO BRASILEIRO': 'MDB',
+  'PP': 'PP', 'PARTIDO PROGRESSISTA': 'PP', 'PROGRESSISTAS': 'PP',
+  'REPUBLICANOS': 'REPUBLICANOS', 'PARTIDO REPUBLICANO BRASILEIRO': 'REPUBLICANOS', 'PRB': 'REPUBLICANOS',
+  'PDT': 'PDT', 'PARTIDO DEMOCRÁTICO TRABALHADOR': 'PDT',
+  'PSDB': 'PSDB', 'PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA': 'PSDB',
+  'PODE': 'PODE', 'PARTIDO PODEMOS': 'PODE', 'PODEMOS': 'PODE',
+  'AVANTE': 'AVANTE', 'PARTIDO AVANTE': 'AVANTE',
+  'SOLIDARIEDADE': 'SOLIDARIEDADE', 'PARTIDO SOLIDARIEDADE': 'SOLIDARIEDADE',
+  'PSB': 'PSB', 'PARTIDO SOCIALISTA BRASILEIRO': 'PSB',
+  'PCDOB': 'PCdoB', 'PC DO B': 'PCdoB', 'PARTIDO COMUNISTA DO BRASIL': 'PCdoB',
+  'CIDADANIA': 'CIDADANIA', 'PARTIDO CIDADANIA': 'CIDADANIA',
+  'PSOL': 'PSOL', 'PARTIDO SOCIALISMO E LIBERDADE': 'PSOL',
+  'PV': 'PV', 'PARTIDO VERDE': 'PV',
+  'NOVO': 'NOVO', 'PARTIDO NOVO': 'NOVO',
+  'PRD': 'PRD', 'PARTIDO REFORMADOR DEMOCRÁTICO': 'PRD',
+  'AGIR': 'AGIR', 'PARTIDO AGIR': 'AGIR',
+  'DC': 'DC', 'PARTIDO DA CAUSA': 'DC', 'PARTIDO DA CAUSA OBREIRA': 'DC',
+  'REDE': 'REDE', 'REDE SUSTENTABILIDADE': 'REDE',
+  'S.PART.': 'S.PART.', 'SEM PARTIDO': 'S.PART.',
+  'PCO': 'PCO', 'PARTIDO COMUNISTA OPERÁRIO': 'PCO',
+  'UP': 'UP', 'UNIDADE POPULAR': 'UP',
+  'PATRIOTA': 'PATRIOTA',
+  'PMB': 'PMB', 'PARTIDO DA MULHER BRASILEIRA': 'PMB',
+}
+
+function normalizePartido(p: string): string {
+  if (!p) return 'S.PART.'
+  const upper = p.trim().toUpperCase()
+  const normalized = PARTIDO_ALIASES[upper]
+  // If not in aliases, try to find a partial match or return as-is
+  if (!normalized) {
+    // Try partial match for common variations
+    for (const [key, value] of Object.entries(PARTIDO_ALIASES)) {
+      if (upper.includes(key) || key.includes(upper)) {
+        return value
+      }
+    }
+    return upper // Return as-is if no match
+  }
+  return normalized
+}
 
 export const UFS = [
   'SP','MG','RJ','BA','PR','RS','PE','CE','PA','MA',
@@ -62,7 +111,7 @@ export const BANCADAS: Bancada[]            = ['Evangelica','Ruralista','Bala','
 export const PATRIMONIO_LABELS = ['Até R$1M','R$1M–3M','R$3M–7M','R$7M–15M','Acima R$15M'] as const
 export type PatrimonioLabel = typeof PATRIMONIO_LABELS[number]
 export function patrimonioLabel(patrimonio: number): PatrimonioLabel {
-  if (patrimonio < 1000)  return 'Até R$1M'
+  if (!patrimonio || patrimonio < 1000)  return 'Até R$1M'
   if (patrimonio < 3000)  return 'R$1M–3M'
   if (patrimonio < 7000)  return 'R$3M–7M'
   if (patrimonio < 15000) return 'R$7M–15M'
@@ -76,6 +125,7 @@ export const PARTY_COLORS: Record<string,string> = {
   PSB:'#FB923C', PCdoB:'#DC2626', CIDADANIA:'#0EA5E9', PSOL:'#C026D3',
   PV:'#16A34A', NOVO:'#FBBF24', PRD:'#64748B', AGIR:'#0D9488', DC:'#7C3AED',
   REDE:'#10B981', 'S.PART.':'#6366F1',
+  'PARTIDO(':'#94A3B8', 'FEDERAÇÃO':'#F472B6', 'PCO':'#EF4444', 'UP':'#DC2626',
 }
 
 export const GENERO_COLORS: Record<Genero,string> = {
@@ -130,7 +180,20 @@ async function loadTseCache(): Promise<Record<string, TseDado>> {
   if (_tseCache) return _tseCache
   try {
     const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
-    const res = await fetch(`${base}/data/tse-dados.json`, { cache: 'force-cache' })
+    // Try 2022 data first (current elected federal deputies)
+    let res = await fetch(`${base}/data/tse-deputados-2022.json`, { cache: 'force-cache' })
+    if (!res.ok) {
+      // Fallback to original smaller dataset
+      res = await fetch(`${base}/data/tse-dados.json`, { cache: 'force-cache' })
+    }
+    if (!res.ok) {
+      // Fallback to normalized version
+      res = await fetch(`${base}/data/tse-dados-normalized.json`, { cache: 'force-cache' })
+    }
+    if (!res.ok) {
+      // Fallback to large 2024 data
+      res = await fetch(`${base}/data/tse-raca-2024.json`, { cache: 'force-cache' })
+    }
     if (res.ok) {
       _tseCache = await res.json()
       return _tseCache!
@@ -163,21 +226,123 @@ const TRANS_CONHECIDAS = new Set([
  * TSE usa: MASCULINO, FEMININO, NÃO BINÁRIO, TRAVESTI, TRANSEXUAL
  */
 function parseGenero(sexo: string, nomeUrna?: string, tseGenero?: string): Genero {
-  // Dado TSE tem prioridade
-  if (tseGenero) {
-    if (tseGenero === 'Trans')       return 'Trans'
-    if (tseGenero === 'NaoBinarie')  return 'NaoBinarie'
-    if (tseGenero === 'Mulher')      return 'Mulher'
-    if (tseGenero === 'Homem')       return 'Homem'
-  }
-  // Check nas trans conhecidas
+  // Check trans conhecidas first
   if (nomeUrna) {
     const norm = normNome(nomeUrna)
     if (TRANS_CONHECIDAS.has(norm)) return 'Trans'
   }
-  // Fallback: campo sexo da API
+  
+  // ALWAYS check names first - names are more reliable than API data
+  if (nomeUrna) {
+    const nameUpper = normNome(nomeUrna).toUpperCase()
+    const firstName = nameUpper.split(' ')[0] || ''
+    
+    // Explicitly MALE names that end in "A" but are NOT female
+    const explicitlyMale = new Set([
+      'ATILA', 'ATILIO', 'MENDONCA', 'LULA', 'IRAJA', 'MARRECA', 'BALEIA', 'CEZINHA', 'CEZINHA', 
+      'ZEQUINHA', 'OTONI', 'MARCOS', 'MARCO', 'JOAO', 'PEDRO', 'BRUNO', 'LUCAS', 'MATEUS',
+      'THIAGO', 'GABRIEL', 'RAFAEL', 'LEONARDO', 'DANIEL', 'FELIPE', 'ANDERSON', 'RODRIGO',
+      'MIGUEL', 'LEO', 'ALEX', 'ALEXANDRE', 'ANDERSON', 'ARTHUR', 'BERNARDO', 'CAIO',
+      'DOUGLAS', 'EDUARDO', 'FERNANDO', 'GUILHERME', 'HENRIQUE', 'IGOR', 'ISAC', 'JEAN',
+      'KARLOS', 'KLEBER', 'LORENZO', 'LUIS', 'LUIZ', 'MARCELO', 'MATHEUS', 'MAURICIO', 
+      'MAX', 'NATANAEL', 'NICOLAS', 'OLIVER', 'OTAVIO', 'PAULO', 'RICARDO', 'ROBERTO',
+      'SAMUEL', 'SANDRO', 'TARCISIO', 'TIAGO', 'WESLEY', 'DAVITORIA', 'DA VITÓRIA', 'DAVITORIA',
+      'DURVAL', 'HELIO', 'HUGO', 'IVO', 'JUSTO', 'MELO', 'NEI', 'REINALDO', 'SERGIO', 'TEOFILO',
+      'ALDO', 'ALIPO', 'AMARILDO', 'BENEDITO', 'BETO', 'BLAU', 'BOLSONARO', 'CACICHO', 'CASSIO',
+      'CICERO', 'CIRINO', 'CLEBER', 'CLODOALDO', 'CRISTOVAM', 'DALTON', 'DEMOCRITIO', 'DIASS',
+      'ELISIO', 'ERIVELTO', 'FABIO', 'FLAVIO', 'FRANCISCO', 'GENECIAS', 'GERALDO', 'GERSON',
+      'GIORDANO', 'GOUVEIA', 'HAROLDO', 'HELDER', 'HIDELBRANDO', 'IRAPUAN', 'IVAN', 'JAIME',
+      'JAIRO', 'JEFFERSON', 'JOSAFA', 'JOSE', 'JURANDIR', 'LAERCIO', 'LINDONJOHNSON', 'LINO',
+      'LUPERCIO', 'MAFEM', 'MALTA', 'MANOEL', 'MARINHO', 'MASTERT', 'MEDEIROS', 'MEIRELLES',
+      'MILTON', 'MIRANDA', 'MOISES', 'MORAES', 'MOREIRA', 'MOTTA', 'NADSON', 'NILSON', 'NOSSA',
+      'OLAVO', 'ORLANDO', 'OSVALDO', 'PADRE', 'PAES', 'PEREIRA', 'PIAUILHO', 'PINHEIRO', 'PIO',
+      'POMPEU', 'PRADO', 'QUINTINO', 'RANIERE', 'RIBAMAR', 'RINALDO', 'ROCHA', 'RODRIGUES',
+      'SALVIANO', 'SEVERINO', 'SILAS', 'SILVIO', 'SIMAO', 'SOARES', 'SOCRATES', 'SOUZA',
+      'TABOSA', 'TAVARES', 'TEIXEIRA', 'TENORIO', 'TITO', 'VALADARES', 'VALMIR', 'VANDERLAN',
+      'VICTOR', 'VIEIRA', 'VILMAR', 'VINICIUS', 'VITOR', 'WASHINGTON', 'WILSON', 'XUXU',
+      // More male names
+      'DUDA', 'BANDEIRA'
+    ])
+    
+    // Check if explicitly male first
+    if (explicitlyMale.has(firstName) || nameUpper.split(' ').some(n => explicitlyMale.has(n))) {
+      return 'Homem'
+    }
+    
+    // Check specific female names
+    const allFemaleNames = new Set([
+      'MARIA', 'ANA', 'JANDIRA', 'LIDICE', 'ALICE', 'BENEDITA', 'ELCIONE', 'LUIZA', 'SORAIA', 
+      'CLAUDIA', 'ROSANGELA', 'MARCIA', 'ADRIANA', 'CRISTINA', 'TATIANA', 'PATRICIA', 'RAQUEL', 
+      'DANIELA', 'FLAVIA', 'IRACEMA', 'JUREMA', 'LUCIA', 'REGINA', 'SANDRA', 'TEREZA', 'VANIA', 
+      'APARECIDA', 'BERNADETE', 'JOANA', 'MARLENE', 'TELMA', 'ANGELA', 'BEATRIZ', 'CARLA', 
+      'FERNANDA', 'MARIANA', 'NATALIA', 'RENATA', 'SARAH', 'TANIA', 'VERA', 'IVONE', 'SOLANGE',
+      'SILVANA', 'VIVIANE', 'ALINE', 'SIMONE', 'ELIANE', 'DALVA', 'ROSANE', 'GRACA', 'CELIA',
+      'NEIDE', 'ELZA', 'IVETE', 'MARILIA', 'MAGDA', 'NADIR', 'ZILDA', 'VALERIA', 'CARMEN',
+      'LEANDRE', 'GORETE', 'GORETH', 'GORE', 'CHRIS', 'TONIETTO',
+      // Names from user feedback - VERY IMPORTANT
+      'FLAV', 'GLEISI', 'AMALIA', 'LUCYANA', 'PRISCILA', 'REGINETE', 'LORENY', 'MICHELLE',
+      'GLAUCIA', 'NELY', 'MAYARA', 'DAYANY', 'DETINA', 'DETINHA', 'CARLA', 'FERNANDA PESSOA', 'CARLA ZAMBELLI',
+      'PROFESSORA GORETH', 'PRISCILA COSTA', 'MISSIONARIA MICHELLE', 'CARLA AYES', 'FLAVINHA',
+      // More female names
+      'GLORIA', 'FABIANA', 'ALESSANDRA', 'JESSICA', 'THAIS', 'THAMIRES', 'RAFAELA', 'BRUNA', 'CAROLINA', 'ISABELA',
+      'LARISSA', 'NATHALIA', 'PAULA', 'CAMILA', 'GABRIELA', 'JULIANA', 'LETICIA', 'MONICA',
+      'PRISCILA', 'TATIANE', 'VANESSA', 'VITORIA', 'ADRIELLE', 'AMANDA', 'ANDRESSA', 'ANNE',
+      'BIANCA', 'CINTIA', 'CLARA', 'DAIANA', 'DAIANE', 'DANDARA', 'DANIELE', 'DANIELLA',
+      'DAYANE', 'DEBORA', 'EDUARDA', 'ELISA', 'ELIZABETH', 'ERIKA', 'ESTER',
+      'EVELIN', 'EVELYN', 'FABIOLA', 'FATIMA', 'GABRIELI', 'GABRIELLE', 'GEOVANA', 'GERALDA',
+      'GLUCIA', 'HELLEN', 'HELOISA', 'IASMIM', 'INES', 'ISADORA', 'JADE', 'JAMILY', 'JAQUELINE',
+      'JENNIFER', 'JOSEFA', 'JOSILENE', 'JOYCE', 'JULIA', 'JULIANE', 'JUSSARA',
+      'KAMILA', 'KARINE', 'KARLA', 'KATIA', 'KEILA', 'KELI', 'KELLY', 'LAIS', 'LANA', 'LAYLA',
+      'LEDA', 'LIDIA', 'LIDIANA', 'LIGIA', 'LILIAN', 'LILIANA', 'LUCIANA', 'LUCIANE',
+      'LUDMILA', 'LUISA', 'LUIZA', 'LUSINETE', 'LUZIA', 'MADALENA', 'MANUELA', 'MARCELA',
+      'MARCELLY', 'MARCIA', 'MARCIANA', 'MARGARIDA', 'MARIANNE', 'MARILENE', 'MARINA', 'MARISA',
+      'MARISTELA', 'MARIZA', 'MARLI', 'MARLUCIA', 'MARTA', 'MARTINA', 'MAURA', 'MAUREA', 'MEIRE',
+      'MEL', 'MELISSA', 'MICAELA', 'MICHELE', 'MICHELINE', 'MIRIAM', 'MONIQUE', 'NADIA',
+      'NAIARA', 'NAIRA', 'NEUSA', 'NICOLE', 'NILMA', 'NIVEA', 'NUBIA', 'OLGA', 'PALOMA',
+      'PAMELA', 'PAULINE', 'POLIANA', 'PRISCILLA', 'QUEILA', 'RAIANE', 'RAISSA', 'RAMONA',
+      'RAYANE', 'RAYSSA', 'REGIANE', 'RITA', 'ROBERTA', 'ROSE', 'ROSELI', 'ROSEMARY', 'ROSEMEIRE',
+      'ROSILDA', 'ROSILENE', 'ROSINEIDE', 'RUTE', 'SABRINA', 'SARA', 'SELMA', 'SHAIANE', 'SHIRLEI',
+      'SILVIA', 'SINTIA', 'SONIA', 'SUELEN', 'SUELLEN', 'TACIANA', 'TACIANE', 'TAIANE', 'TAIS',
+      'TALITA', 'TAMARA', 'TAMILES', 'TANIA', 'TATIANA', 'TAYNA', 'TAYSA', 'THALIA', 'THAMARA',
+      'THAUANE', 'THAYNARA', 'TICIANA', 'VERONICA', 'VICTORIA', 'VIVIAN', 'WALESKA',
+      'WELIDA', 'WENDY', 'WILMA', 'YASMIN', 'ZILMA', 'ZULEIDE', 'ZULEIKA', 'ZULENE',
+      // Nicknames
+      'NENA', 'NENE', 'LIA', 'BIA', 'BEL', 'BEBE', 'DORA', 'FLORA', 'NANA', 'NINA', 'PAM', 'TUTU',
+      'VAVA', 'ZAZA', 'ZOE', 'NARA', 'NAYRA', 'YASMIM',
+      // Titles - only explicitly female titles
+      'PROFESSORA', 'MISSIONARIA', 'MISS', 'DONA', 'SENHORA', 'SRA', 'DRA'
+    ])
+    
+    // Check if name is in female list (exact match on any word OR partial match for known female identifiers)
+    if (allFemaleNames.has(firstName) || nameUpper.split(' ').some(n => allFemaleNames.has(n)) || 
+        nameUpper.includes('GORETE') || nameUpper.includes('GORETH') || nameUpper.includes('LEANDRE')) {
+      return 'Mulher'
+    }
+    
+    // Check if first name ends in "A" (heurística) - only if not already matched as male
+    if (firstName.endsWith('A')) {
+      return 'Mulher'
+    }
+    
+    // Check if first name clearly indicates male
+    if (firstName.endsWith('O') || firstName.endsWith('U') || firstName.endsWith('S')) {
+      return 'Homem'
+    }
+  }
+  
+  // THEN check TSE
+  if (tseGenero) {
+    if (tseGenero === 'Trans') return 'Trans'
+    if (tseGenero === 'NaoBinarie') return 'NaoBinarie'
+    if (tseGenero === 'Mulher') return 'Mulher'
+    if (tseGenero === 'Homem') return 'Homem'
+  }
+  
+  // THEN check API (least reliable)
   const s = (sexo || '').toUpperCase()
   if (s === 'F' || s === 'FEMININO') return 'Mulher'
+  if (s === 'M' || s === 'MASCULINO') return 'Homem'
+  
   return 'Homem'
 }
 
@@ -290,6 +455,7 @@ interface RawDeputado {
   urlFoto?:         string
   email?:           string
   sexo?:            string
+  sexoAPI?:         string  // From SOAP API (masculino/feminino)
   dataNascimento?:  string
   escolaridade?:    string
 }
@@ -300,13 +466,14 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
   // Handle both old API (with ultimoStatus) and new API (direct fields)
   const status = raw.ultimoStatus ?? {}
   
-  const partido = (status.siglaPartido || raw.siglaPartido || 'SEM PARTIDO').trim().toUpperCase()
+  const partido = normalizePartido(status.siglaPartido || raw.siglaPartido || '')
   const uf = (status.siglaUf || raw.siglaUf || '??').trim().toUpperCase()
   const nome = raw.nomeCivil ?? raw.nome ?? 'Deputado(a)'
   const urna = status.nomeEleitoral ?? status.nome ?? nome
   const urlFoto = status.urlFoto ?? raw.urlFoto ?? ''
   const email = status.email ?? raw.email ?? ''
-  const sexo = raw.sexo ?? 'M'
+  // Gender: SOAP API has accurate sexo (masculino/feminino) > TSE > new API
+  const sexo = raw.sexoAPI ?? raw.sexo ?? 'M'
   const genero = parseGenero(sexo, urna, tse?.genero)
   const mandatos = 1 + Math.floor(lcg(id * 71 + 11)() * 5)
   // Raça: TSE tem prioridade se disponível
@@ -319,10 +486,12 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
     ? tse.patrimonio
     : Math.floor(200 + lcg(id * 191 + 17)() * 9800)
 
+  const alinhamento = calcAlinhamento(partido)
+
   return {
     id: `DEP-${id}`, idNumerico: id, nome, nomeUrna: urna,
     tipo: 'DEPUTADO_FEDERAL', partido, uf, urlFoto, email,
-    alinhamento: Math.floor(lcg(id * 251 + 5)() * 100),
+    alinhamento,
     frequencia: Math.round((0.4 + lcg(id * 173 + 9)() * 0.6) * 100) / 100,
     mandatos,
     processos: Math.floor(lcg(id * 97 + 13)() * 3),
@@ -336,6 +505,43 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
     votoBandidagem: pickVotoBandidagem(id, partido),
     projetosAprovados: Math.floor((id * 3 + 7) % 29) + 1,
   }
+}
+
+function calcAlinhamento(partido: string): number {
+  const p = partido.toUpperCase()
+  // Government (Lula) - Left parties get HIGH values
+  const governo = ['PT', 'PCDOB', 'PSOL', 'PSB', 'PV', 'REDE', 'SOLIDARIEDADE', 'PDT', 'AGIR', 'PCO', 'UP']
+  // Opposition - Right parties get LOW values
+  const oposicao = ['PL', 'PP', 'REPUBLICANOS', 'NOVO', 'PRD', 'DC', 'PODE', 'PATRIOTA', 'PMB']
+  // Center - Center parties get MID values
+  const centro = ['MDB', 'UNIÃO', 'PSD', 'AVANTE', 'PSDB', 'CIDADANIA', 'SD', 'S.PART.']
+  
+  // INVERTED: Government (left) = high %, Opposition (right) = low %
+  if (governo.includes(p)) {
+    const seeds: Record<string, number> = {
+      'PT': 85, 'PCDOB': 82, 'PSOL': 78, 'PSB': 88, 'PV': 80, 'REDE': 75, 
+      'SOLIDARIEDADE': 70, 'PDT': 72, 'AGIR': 68, 'PCO': 95, 'UP': 90
+    }
+    return seeds[p] ?? 80
+  }
+  if (oposicao.includes(p)) {
+    const seeds: Record<string, number> = {
+      'PL': 15, 'PP': 18, 'REPUBLICANOS': 12, 'NOVO': 5, 'PRD': 20, 
+      'DC': 22, 'PODE': 25, 'PATRIOTA': 10, 'PMB': 30
+    }
+    return seeds[p] ?? 20
+  }
+  if (centro.includes(p)) {
+    const seeds: Record<string, number> = {
+      'MDB': 45, 'UNIÃO': 50, 'PSD': 42, 'AVANTE': 55, 'PSDB': 48, 
+      'CIDADANIA': 40, 'SD': 38, 'S.PART.': 35
+    }
+    return seeds[p] ?? 45
+  }
+  // Unknown party - use hash of name for deterministic value
+  let hash = 0
+  for (let i = 0; i < p.length; i++) hash = ((hash << 5) - hash) + p.charCodeAt(i)
+  return Math.abs(hash) % 100
 }
 
 // ── NORMALIZAÇÃO: SENADOR ─────────────────────────────────────
@@ -356,7 +562,7 @@ interface RawSenador {
 function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
   const ip      = raw.IdentificacaoParlamentar ?? {}
   const idNum   = parseInt(ip.CodigoParlamentar ?? '0') || 0
-  const partido = (ip.SiglaPartidoParlamentar ?? 'SEM PARTIDO').trim().toUpperCase()
+  const partido = normalizePartido(ip.SiglaPartidoParlamentar ?? '')
   const uf      = (ip.UfParlamentar ?? '??').trim().toUpperCase()
   const nome    = ip.NomeCompletoParlamentar ?? ip.NomeParlamentar ?? 'Senador(a)'
   const urna    = ip.NomeParlamentar ?? nome
@@ -370,12 +576,13 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
   const patrimonio = (tse?.patrimonio && tse.patrimonio > 0)
     ? tse.patrimonio
     : Math.floor(500 + lcg(idNum * 191 + 31)() * 19500)
+  const senatorAlinhamento = calcAlinhamento(partido)
 
   return {
     id: `SEN-${idNum}`, idNumerico: idNum, nome, nomeUrna: urna,
     tipo: 'SENADOR', partido, uf,
     urlFoto, email: ip.EmailParlamentar ?? '',
-    alinhamento:  Math.floor(lcg(idNum * 251 + 19)() * 100),
+    alinhamento: senatorAlinhamento,
     frequencia:   Math.round((0.5 + lcg(idNum * 173 + 21)() * 0.5) * 100) / 100,
     mandatos,
     processos:    Math.floor(lcg(idNum * 97 + 27)()  * 3),
@@ -445,6 +652,9 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
     } catch { /* ignore */ }
   }
 
+  // Note: SOAP gender fetch is now in API route. Data comes from there via fetch.
+  // This is fallback for static generation only.
+
   if (senRaw.length === 0 && typeof window === 'undefined') {
     try {
       const res = await fetch(
@@ -460,27 +670,131 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
 
   // ── Carregar dados do TSE (raça, gênero, patrimônio reais) ──
   const tseMap = await loadTseCache()
+  
+  console.debug('[TSE Data] Loaded', Object.keys(tseMap).length, 'entries')
+  
+  // Count matches for debugging
+  let matchedCount = 0
+  let totalCount = 0
+
+  // Titles/functions to remove when matching
+  const TITLE_PREFIXES = [
+    'PROFESSOR ', 'PROFESSORA ', 'DELEGADO ', 'DELEGADA ', 
+    'PASTOR ', 'PASTORA ', 'DOUTOR ', 'DOUTORA ', 'DR ', 'DRA ',
+    'MISSIONÁRIO ', 'MISSIONÁRIA ', 'COMENDADOR ', 'COMENDADORA ',
+    'PADRE ', 'BISPO ', 'REVERENDO ', 'EXCELENTÍSSIMO ', 'EXMA ',
+    'SENADOR ', 'DEPUTADO ', 'VEREADOR ', 'VICE ',
+    'CORONEL ', 'MAJOR ', 'CAPITÃO ', 'GENERAL ', 'SARGENTO ',
+    'ADVOGADO ', 'ADVOGADA ', 'ENGENHEIRO ', 'ENGENHEIRA ',
+    'MÉDICO ', 'MÉDICA ', 'MEDICO ', 'MEDICA ',
+  ]
+  
+  function cleanTitle(name: string): string {
+    let cleaned = name
+    for (const title of TITLE_PREFIXES) {
+      if (cleaned.toUpperCase().startsWith(title)) {
+        cleaned = cleaned.slice(title.length)
+      }
+    }
+    return cleaned.trim()
+  }
 
   function lookupTse(nomeUrna: string): TseDado | undefined {
     if (!nomeUrna) return undefined
-    const key = normNome(nomeUrna)
-    if (tseMap[key]) return tseMap[key]
+    let key = normNome(nomeUrna)
     
-    // Fuzzy: primeiras 2-3 palavras
-    const words = key.split(' ').slice(0, 3).join(' ')
-    const found = Object.entries(tseMap).find(([k]) => 
-      k.startsWith(words) || words.startsWith(k.slice(0, words.length))
-    )
-    if (found) return found[1]
-    
-    // Try just first name + last name
-    const nameParts = key.split(' ')
-    if (nameParts.length >= 2) {
-      const partial = nameParts[0] + ' ' + nameParts[nameParts.length - 1]
-      const found2 = Object.entries(tseMap).find(([k]) => k.includes(partial) || partial.includes(k))
-      if (found2) return found2[1]
+    // Try exact match first
+    if (tseMap[key]) {
+      console.debug('[TSE Match] Exact:', nomeUrna, '->', tseMap[key])
+      return tseMap[key]
     }
     
+    // Try without title/function
+    const cleanKey = cleanTitle(key)
+    if (cleanKey !== key && tseMap[cleanKey]) {
+      console.debug('[TSE Match] Clean title:', nomeUrna, '->', tseMap[cleanKey])
+      return tseMap[cleanKey]
+    }
+    
+    // Try normalized variations
+    const variations = [
+      key,
+      cleanKey,
+      key.replace(/^(DE |DA |DOS |DAS |DO )/g, ''),
+      cleanKey.replace(/^(DE |DA |DOS |DAS |DO )/g, ''),
+      key.replace(/[^A-Z ]/g, ''),
+      cleanKey.replace(/[^A-Z ]/g, ''),
+      key.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
+      cleanKey.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
+      key.replace(/ /g, ''),
+      cleanKey.replace(/ /g, ''),
+    ]
+    
+    for (const v of variations) {
+      if (v.length > 3 && tseMap[v]) {
+        console.debug('[TSE Match] Variation:', nomeUrna, '->', tseMap[v])
+        return tseMap[v]
+      }
+    }
+    
+    // Try partial match
+    const partialMatch = Object.entries(tseMap).find(([k]) => 
+      (k.length > 5 && key.includes(k.slice(0, 8))) ||
+      (key.length > 5 && k.includes(key.slice(0, 8))) ||
+      (cleanKey.length > 5 && k.includes(cleanKey.slice(0, 8))) ||
+      (k.length > 5 && cleanKey.includes(k.slice(0, 8)))
+    )
+    if (partialMatch) {
+      console.debug('[TSE Match] Partial:', nomeUrna, '->', partialMatch[1])
+      return partialMatch[1]
+    }
+    
+    // Try first 3 words
+    const words3 = key.split(' ').slice(0, 3).join(' ')
+    const found3 = Object.entries(tseMap).find(([k]) => 
+      k.startsWith(words3) || words3.startsWith(k.slice(0, words3.length))
+    )
+    if (found3) {
+      console.debug('[TSE Match] 3 words:', nomeUrna, '->', found3[1])
+      return found3[1]
+    }
+    
+    // Try first 2 words
+    const words2 = key.split(' ').slice(0, 2).join(' ')
+    const found2 = Object.entries(tseMap).find(([k]) => 
+      k.startsWith(words2) || words2.startsWith(k.slice(0, words2.length))
+    )
+    if (found2) {
+      console.debug('[TSE Match] 2 words:', nomeUrna, '->', found2[1])
+      return found2[1]
+    }
+    
+    // Try first + last name
+    const nameParts = key.split(' ')
+    if (nameParts.length >= 2) {
+      const firstLast = nameParts[0] + ' ' + nameParts[nameParts.length - 1]
+      const foundFL = Object.entries(tseMap).find(([k]) => k.includes(firstLast) || firstLast.includes(k))
+      if (foundFL) {
+        console.debug('[TSE Match] First+Last:', nomeUrna, '->', foundFL[1])
+        return foundFL[1]
+      }
+    }
+    
+    // Try last name only (more lenient)
+    if (nameParts.length > 1) {
+      const lastName = nameParts[nameParts.length - 1]
+      if (lastName.length > 4) {
+        const matches = Object.entries(tseMap).filter(([k]) => 
+          k.includes(' ' + lastName) || k.includes(lastName + ' ')
+        )
+        if (matches.length > 0 && matches.length <= 3) {
+          console.debug('[TSE Match] Last name:', nomeUrna, '->', matches[0][1])
+          return matches[0][1]
+        }
+      }
+    }
+    
+    console.debug('[TSE No Match]', nomeUrna)
     return undefined
   }
 
@@ -495,6 +809,43 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
       return normalizeSenador(raw, lookupTse(urna))
     }),
   ]
+  
+  // Debug: Find likely women by name
+  const femaleNames = ['MARIA', 'ANA', 'JANDIRA', 'LÍDICE', 'ALICE', 'BENEDITA', 'ELCIONE', 'LUIZA', 'SORAIA', 'CLAUDIA', 'ROSÂNGELA', 'MÁRCIA', 'ALINE', 'ADRIANA', 'CRISTINA', 'TATIANA', 'VANESSA', 'PATRÍCIA', 'RAQUEL', 'DANIELA', 'MÔNICA', 'FLÁVIA', 'GILMA', 'IRACEMA', 'JUREMA', 'LÚCIA', 'NEUSA', 'REGINA', 'SANDRA', 'TEREZA', 'VÂNIA', 'ZILDA', 'APARECIDA', 'BERNADETE', 'CLEIDE', 'DELMA', 'EUNICE', 'HELENA', 'IVONE', 'JOANA', 'LENA', 'MARLENE', 'NILVA', 'ODETE', 'QUITÉRIA', 'ROSIMERE', 'TELMA', 'YOLANDA', 'ZULEICA', 'ALCIDES', 'ALMERINDA', 'AURORA', 'BERTA', 'CELESTE', 'DEBORA', 'ELENA', 'FÁTIMA', 'GERALDA', 'HELOÍSA', 'ISABEL', 'JOELINE', 'KÁTIA', 'LÚDERS', 'MAGDA', 'NADIR', 'OLÍMPIA', 'PAMELA', 'QUERUBINA', 'RUTE', 'SILENE', 'TALITA', 'URSULA', 'VIVIANE', 'WILMA', 'ZENI', 'ANGELA', 'BEATRIZ', 'CARLA', 'DORA', 'ESTER', 'FERNANDA', 'GLÓRIA', 'HILDA', 'ISABELA', 'JÚLIA', 'KARINA', 'LAURA', 'MARIANA', 'NATÁLIA', 'PATRÍCIA', 'RENATA', 'SARAH', 'TÂNIA', 'VERA', 'WANDA']
+  
+  const likelyWomen = _cache.filter(p => {
+    const nameUpper = p.nome.toUpperCase()
+    return femaleNames.some(n => nameUpper.includes(n)) && p.genero === 'Homem'
+  }).slice(0, 20)
+  
+  console.debug('[Parliamentarians] Final data:', {
+    total: _cache.length,
+    byTipo: _cache.reduce((acc, p) => {
+      acc[p.tipo] = (acc[p.tipo] || 0) + 1
+      return acc
+    }, {} as Record<string, number>),
+    byGenero: _cache.reduce((acc, p) => {
+      acc[p.genero] = (acc[p.genero] || 0) + 1
+      return acc
+    }, {} as Record<string, number>),
+    byRaca: _cache.reduce((acc, p) => {
+      acc[p.raca] = (acc[p.raca] || 0) + 1
+      return acc
+    }, {} as Record<string, number>),
+    likelyWomenWrong: likelyWomen.map(p => ({ id: p.id, nome: p.nome, genero: p.genero })),
+    sample: _cache.slice(0, 10).map(p => ({
+      id: p.id,
+      nome: p.nome,
+      nomeUrna: p.nomeUrna,
+      partido: p.partido,
+      uf: p.uf,
+      tipo: p.tipo,
+      genero: p.genero,
+      raca: p.raca,
+      alinhamento: p.alinhamento,
+      patrimonio: p.patrimonio,
+    }))
+  })
   
   // Remove duplicates by ID - keep first occurrence
   const seen = new Set<string>()
