@@ -633,13 +633,15 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
         </div>
       </div>
 
+      {/* Resumo do parlamentar */}
       <Hr/>
       <div style={{ padding:'14px 0 0' }}>
-        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:7 }}>
-          <Lbl c="Alinhamento com o governo"/>
-          <span style={{ fontSize:13,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>{p.alinhamento}%</span>
-        </div>
-        <PatBar value={p.alinhamento} max={100} pat={pats[0]} h={9}/>
+        <Lbl c="Resumo do mandato"/>
+        <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:6,lineHeight:1.5 }}>
+          {p.partido}/{p.uf} • {p.genero} • {p.raca}<br/>
+          {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {p.frequencia >= 0.8 ? 'Alta' : p.frequencia >= 0.5 ? 'Média' : 'Baixa'} frequência ({Math.round(p.frequencia*100)}%)<br/>
+          {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio > 5000 ? 'Patrimônio alto' : p.patrimonio > 1000 ? 'Patrimônio médio' : 'Patrimônio baixo'}
+        </p>
       </div>
 
           </div>

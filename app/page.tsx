@@ -33,7 +33,7 @@ const CLUSTER_OPTIONS: { mode: ClusterMode; label: string; icon: React.ReactNode
   { mode: 'alinhamento',label: 'Alinhamento',  icon: <TrendingUp size={13} />,  desc: 'Alinhamento com o governo' },
   { mode: 'tipo',       label: 'Casa',         icon: <BarChart2 size={13} />,   desc: 'Câmara vs Senado' },
   { mode: 'bancada',    label: 'Bancada',      icon: <Users size={13} />,       desc: 'Frentes parlamentares' },
-  { mode: 'genero',     label: 'Gênero',       icon: <Users size={13} />,       desc: 'Homem · Mulher · Trans · Não-binárie' },
+  { mode: 'genero',     label: 'Gênero',       icon: <Users size={13} />,       desc: 'Homem Cis · Mulher Cis · Mulher Trans · Não-binárie' },
   { mode: 'faixaEtaria',label: 'Mandatos',     icon: <Users size={13} />,       desc: 'Tempo no poder' },
   { mode: 'raca',       label: 'Raça',         icon: <Users size={13} />,       desc: 'Autodeclaração racial' },
   { mode: 'patrimonio', label: 'Patrimônio',   icon: <TrendingUp size={13} />,  desc: 'Os mais ricos do Congresso' },
@@ -1117,9 +1117,9 @@ export default function Home() {
                 <div className="flex gap-1 flex-wrap">
                   {[
                     { v: '',           l: 'Todos',        c: '#3B82F6' },
-                    { v: 'Homem',      l: 'Homem',        c: '#3B82F6' },
-                    { v: 'Mulher',     l: 'Mulher',       c: '#EC4899' },
-                    { v: 'Trans',      l: 'Trans',        c: '#A855F7' },
+                    { v: 'Homem',      l: 'Homem Cis',    c: '#3B82F6' },
+                    { v: 'Mulher',     l: 'Mulher Cis',   c: '#EC4899' },
+                    { v: 'Trans',      l: 'Mulher Trans', c: '#A855F7' },
                     { v: 'NaoBinarie', l: 'Não-binárie',  c: '#F97316' },
                   ].map(opt => (
                     <button

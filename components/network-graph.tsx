@@ -222,19 +222,26 @@ function computeClusterCenters(
   } else if (mode === 'genero') {
     const isMob = W < 600
     const positions = [
-      { key: 'Homem',      x: W * 0.18, y: H / 2 },
-      { key: 'Mulher',     x: W * 0.42, y: H / 2 },
-      { key: 'Trans',      x: W * 0.66, y: H / 2 },
-      { key: 'NaoBinarie', x: W * 0.88, y: H / 2 },
+      { key: 'Homem',      x: W * 0.18, y: H / 2, label: 'Homem Cis' },
+      { key: 'Mulher',     x: W * 0.42, y: H / 2, label: 'Mulher Cis' },
+      { key: 'Trans',      x: W * 0.66, y: H / 2, label: 'Mulher Trans' },
+      { key: 'NaoBinarie', x: W * 0.88, y: H / 2, label: 'Não-binárie' },
     ]
     if (isMob) {
       // mobile: 2x2 grid
-      positions[0] = { key: 'Homem',      x: W * 0.28, y: H * 0.35 }
-      positions[1] = { key: 'Mulher',     x: W * 0.72, y: H * 0.35 }
-      positions[2] = { key: 'Trans',      x: W * 0.28, y: H * 0.65 }
-      positions[3] = { key: 'NaoBinarie', x: W * 0.72, y: H * 0.65 }
+      positions[0] = { key: 'Homem',      x: W * 0.28, y: H * 0.35, label: 'Homem Cis' }
+      positions[1] = { key: 'Mulher',     x: W * 0.72, y: H * 0.35, label: 'Mulher Cis' }
+      positions[2] = { key: 'Trans',      x: W * 0.28, y: H * 0.65, label: 'Mulher Trans' }
+      positions[3] = { key: 'NaoBinarie', x: W * 0.72, y: H * 0.65, label: 'Não-binárie' }
     }
     positions.forEach(p => map.set(p.key, { x: p.x, y: p.y }))
+    // Store display labels for legend
+    ;(map as any)._generoLabels = {
+      'Homem': 'Homem Cis',
+      'Mulher': 'Mulher Cis',
+      'Trans': 'Mulher Trans',
+      'NaoBinarie': 'Não-binárie'
+    }
   } else if (mode === 'faixaEtaria') {
     FAIXAS_ETARIAS.forEach((k, i) => {
       map.set(k, { x: pad + (i / (FAIXAS_ETARIAS.length - 1)) * (W - pad * 2), y: H / 2 })
@@ -272,8 +279,8 @@ function computeClusterCenters(
 
 /** Approximate radius that a cluster of `count` nodes will occupy */
 function clusterRadius(count: number): number {
-  if (count <= 1) return 8
-  const spacing = Math.max(7, Math.min(16, Math.sqrt(count) * 1.4))
+  if (count <= 1) return 10
+  const spacing = Math.max(12, Math.min(22, Math.sqrt(count) * 1.8))
   return Math.ceil(Math.sqrt(count / Math.PI)) * spacing + spacing
 }
 
@@ -324,8 +331,8 @@ function buildClusterPositions(count: number, cx: number, cy: number): {x: numbe
   const positions: {x: number, y: number}[] = []
   if (count === 0) return positions
   if (count === 1) return [{ x: cx, y: cy }]
-  // Dynamic spacing so density stays constant regardless of cluster size
-  const spacing = Math.max(7, Math.min(16, Math.sqrt(count) * 1.4))
+  // Increased spacing for better visibility - no overlaps
+  const spacing = Math.max(12, Math.min(22, Math.sqrt(count) * 1.8))
   let placed = 0
   for (let ring = 0; placed < count; ring++) {
     if (ring === 0) { positions.push({ x: cx, y: cy }); placed++; continue }
@@ -441,7 +448,7 @@ export function NetworkGraph({
   const [isReady, setIsReady] = useState(false)
   const [legendItems, setLegendItems] = useState<{label: string, color: string}[]>([])
   const [filteredCount, setFilteredCount] = useState(594)
-  const [legendOpen, setLegendOpen] = useState(true)
+  const [legendOpen, setLegendOpen] = useState(false)
   const [showPinchHint, setShowPinchHint] = useState(false)
   const hasInteractedRef = useRef(false)
   const animEnabledRef = useRef(animationsEnabled)
@@ -618,10 +625,16 @@ export function NetworkGraph({
       items.push({ label: 'Alinhado (50-74%)', color: '#86EFAC' })
       items.push({ label: 'Governo (75-100%)', color: '#22C55E' })
     } else if (mode === 'genero') {
-      items.push({ label: 'Homem',      color: GENERO_COLORS['Homem'] })
-      items.push({ label: 'Mulher',     color: GENERO_COLORS['Mulher'] })
-      items.push({ label: 'Trans',      color: GENERO_COLORS['Trans'] })
-      items.push({ label: 'Não-binárie',color: GENERO_COLORS['NaoBinarie'] })
+      const labels: Record<string, string> = {
+        'Homem': 'Homem Cis',
+        'Mulher': 'Mulher Cis',
+        'Trans': 'Mulher Trans',
+        'NaoBinarie': 'Não-binárie'
+      }
+      items.push({ label: 'Homem Cis',      color: GENERO_COLORS['Homem'] })
+      items.push({ label: 'Mulher Cis',     color: GENERO_COLORS['Mulher'] })
+      items.push({ label: 'Mulher Trans',  color: GENERO_COLORS['Trans'] })
+      items.push({ label: 'Não-binárie',   color: GENERO_COLORS['NaoBinarie'] })
     } else if (mode === 'faixaEtaria') {
       const PAL: Record<string,string> = {'1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9'}
       FAIXAS_ETARIAS.forEach(f => items.push({ label: f, color: PAL[f] || '#888' }))
@@ -696,85 +709,7 @@ export function NetworkGraph({
       ctx.globalAlpha = 1
     }
 
-    // Labels de cluster - mostrar quando clustered
-    if (phase !== 'congress') {
-      // Recompute counts and centers for accurate label positions
-      const labelCounts = new Map<string, number>()
-      nodes.forEach(n => {
-        const key = getClusterKey(n, clusterMode)
-        labelCounts.set(key, (labelCounts.get(key) ?? 0) + 1)
-      })
-      const centers = computeClusterCenters(clusterMode, W, H, labelCounts)
-      const groups = new Map<string, {minY: number, cx: number, count: number}>()
-
-      nodes.forEach(n => {
-        const key = getClusterKey(n, clusterMode)
-        const g = groups.get(key)
-        if (!g) {
-          groups.set(key, { minY: n.y, cx: n.x, count: 1 })
-        } else {
-          g.minY = Math.min(g.minY, n.y)
-          g.cx = (g.cx * g.count + n.x) / (g.count + 1)
-          g.count++
-        }
-      })
-
-      const fontSize = Math.max(9, 13 / scale)
-      ctx.font = `700 ${fontSize}px 'Helvetica Neue', Helvetica, sans-serif`
-      ctx.textAlign = 'center'
-
-      const alpha = phase === 'clustered' ? 1 : colorTRef.current
-      
-      centers.forEach((center, label) => {
-        const g = groups.get(label)
-        if (!g || g.count === 0) return
-
-        const color = (() => {
-          if (clusterMode === 'partido') return partyColor(label)
-          if (clusterMode === 'uf') return UF_COLORS[label] || '#94A3B8'
-          if (clusterMode === 'tema') return TEMA_COLORS[label] || '#94A3B8'
-          if (clusterMode === 'tipo') return label === 'Senadores' ? '#34D399' : '#818CF8'
-          if (clusterMode === 'genero') return GENERO_COLORS[label as Genero] || '#94A3B8'
-          if (clusterMode === 'faixaEtaria') {
-            const PAL: Record<string,string> = {'1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9'}
-            return PAL[label] || '#94A3B8'
-          }
-          if (clusterMode === 'raca') return RACA_COLORS[label as Raca] || '#94A3B8'
-          if (clusterMode === 'bancada') return BANCADA_COLORS[label as Bancada] || '#94A3B8'
-          if (clusterMode === 'patrimonio') {
-            const idx = PATRIMONIO_LABELS.indexOf(label as typeof PATRIMONIO_LABELS[number])
-            return idx >= 0 ? PATRIMONIO_COLORS[idx] : '#94A3B8'
-          }
-          return '#94A3B8'
-        })()
-
-        const labelY = g.minY - (18 / scale)
-        const textW = ctx.measureText(label).width
-        const pad = 5 / scale
-
-        ctx.globalAlpha = alpha * 0.9
-        ctx.fillStyle = isDark ? 'rgba(6,13,26,0.8)' : 'rgba(241,245,249,0.85)'
-        rrect(ctx, center.x - textW/2 - pad, labelY - fontSize - pad/2, textW + pad*2, fontSize + pad, 3/scale)
-        ctx.fill()
-
-        ctx.globalAlpha = alpha
-        ctx.fillStyle = color
-        ctx.textBaseline = 'bottom'
-        ctx.fillText(label, center.x, labelY)
-
-        // contagem
-        const smallFont = Math.max(7, fontSize * 0.72)
-        ctx.font = `400 ${smallFont}px 'Helvetica Neue', Helvetica, sans-serif`
-        ctx.globalAlpha = alpha * 0.5
-        ctx.fillStyle = isDark ? '#94A3B8' : '#64748B'
-        ctx.fillText(`${g.count}`, center.x, labelY + fontSize * 0.5)
-        ctx.globalAlpha = 1
-
-        ctx.font = `700 ${fontSize}px 'Helvetica Neue', Helvetica, sans-serif`
-      })
-    }
-
-    // Nós como pixels quadrados — tamanho base ~10px (como o PixelReveal CELL)
+    // Nós como pixels — drawn first
     const nodeSize = Math.max(5, 8 / Math.sqrt(Math.max(0.3, scale)))
     const PHOTO_ZOOM = 3 // show photos above this zoom level
 
@@ -836,6 +771,84 @@ export function NetworkGraph({
         ctx.strokeRect(drawX - half - 2.5/scale, drawY - half - 2.5/scale, size + 5/scale, size + 5/scale)
       }
     })
+
+    // Labels de cluster - drawn AFTER nodes so they appear on top
+    if (phase !== 'congress') {
+      // Recompute counts and centers for accurate label positions
+      const labelCounts = new Map<string, number>()
+      nodes.forEach(n => {
+        const key = getClusterKey(n, clusterMode)
+        labelCounts.set(key, (labelCounts.get(key) ?? 0) + 1)
+      })
+      const centers = computeClusterCenters(clusterMode, W, H, labelCounts)
+      const groups = new Map<string, {minY: number, cx: number, count: number}>()
+
+      nodes.forEach(n => {
+        const key = getClusterKey(n, clusterMode)
+        const g = groups.get(key)
+        if (!g) {
+          groups.set(key, { minY: n.y, cx: n.x, count: 1 })
+        } else {
+          g.minY = Math.min(g.minY, n.y)
+          g.cx = (g.cx * g.count + n.x) / (g.count + 1)
+          g.count++
+        }
+      })
+
+      const fontSize = Math.max(9, 13 / scale)
+      ctx.font = `700 ${fontSize}px 'Helvetica Neue', Helvetica, sans-serif`
+      ctx.textAlign = 'center'
+
+      const alpha = phase === 'clustered' ? 1 : colorTRef.current
+      
+      centers.forEach((center, label) => {
+        const g = groups.get(label)
+        if (!g || g.count === 0) return
+
+        const color = (() => {
+          if (clusterMode === 'partido') return partyColor(label)
+          if (clusterMode === 'uf') return UF_COLORS[label] || '#94A3B8'
+          if (clusterMode === 'tema') return TEMA_COLORS[label] || '#94A3B8'
+          if (clusterMode === 'tipo') return label === 'Senadores' ? '#34D399' : '#818CF8'
+          if (clusterMode === 'genero') return GENERO_COLORS[label as Genero] || '#94A3B8'
+          if (clusterMode === 'faixaEtaria') {
+            const PAL: Record<string,string> = {'1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9'}
+            return PAL[label] || '#94A3B8'
+          }
+          if (clusterMode === 'raca') return RACA_COLORS[label as Raca] || '#94A3B8'
+          if (clusterMode === 'bancada') return BANCADA_COLORS[label as Bancada] || '#94A3B8'
+          if (clusterMode === 'patrimonio') {
+            const idx = PATRIMONIO_LABELS.indexOf(label as typeof PATRIMONIO_LABELS[number])
+            return idx >= 0 ? PATRIMONIO_COLORS[idx] : '#94A3B8'
+          }
+          return '#94A3B8'
+        })()
+
+        const labelY = g.minY - (22 / scale)
+        const textW = ctx.measureText(label).width
+        const pad = 5 / scale
+
+        ctx.globalAlpha = alpha * 0.95
+        ctx.fillStyle = isDark ? 'rgba(6,13,26,0.85)' : 'rgba(241,245,249,0.92)'
+        rrect(ctx, center.x - textW/2 - pad, labelY - fontSize - pad/2, textW + pad*2, fontSize + pad, 3/scale)
+        ctx.fill()
+
+        ctx.globalAlpha = alpha
+        ctx.fillStyle = color
+        ctx.textBaseline = 'bottom'
+        ctx.fillText(label, center.x, labelY)
+
+        // contagem
+        const smallFont = Math.max(7, fontSize * 0.72)
+        ctx.font = `400 ${smallFont}px 'Helvetica Neue', Helvetica, sans-serif`
+        ctx.globalAlpha = alpha * 0.6
+        ctx.fillStyle = isDark ? '#94A3B8' : '#64748B'
+        ctx.fillText(`${g.count}`, center.x, labelY + fontSize * 0.5)
+        ctx.globalAlpha = 1
+
+        ctx.font = `700 ${fontSize}px 'Helvetica Neue', Helvetica, sans-serif`
+      })
+    }
 
     ctx.restore()
 
@@ -1107,7 +1120,9 @@ export function NetworkGraph({
       return
     }
     const { x: mx, y: my } = screenToWorld(sx, sy)
-    let closest: number | null = null, closestD = 26 / transformRef.current.k
+    // Tighter hit detection - only select pixels that are actually under cursor
+    const baseHitRadius = 8
+    let closest: number | null = null, closestD = baseHitRadius / transformRef.current.k
     nodesRef.current.forEach((n, i) => {
       if (!filteredIds.has(n.id)) return
       const d = Math.hypot(n.x - mx, n.y - my)
