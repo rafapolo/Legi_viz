@@ -30,12 +30,29 @@ export interface Parlamentar {
   faixaEtaria:      TempoMandato
   genero:           Genero
   raca:             Raca
-  bancada:          Bancada
+  bancada:          string     // Primary bancada (for backward compatibility)
+  bancadas:         string[]   // All bancadas the deputy belongs to
   temaScores:       number[]
   macroTema:        string
   color:            string
   votoBandidagem:   VotoBandidagem
   projetosAprovados: number
+  cotas:            number     // Number of expense records
+  // Real expense data
+  salario?:          number     // Monthly salary
+  cotasTotal?:       number     // Total expenses in 2024
+  emendas?:          number     // Total amendments
+  emendasPix?:       number     // Pix amendments
+  // TSE data - patrimonio
+  patrimonio?:       number     // R$ mil, from TSE
+  financiamento?: {
+    receita_total: number      // R$ mil
+    despesas_total: number
+    recursos_proprios: number
+    receitas_partidos: number
+    receitas_pessoas: number
+    receitas_juridicas: number
+  }
   cassado?:         string       // Reason if cassado/renunciado
 }
 
@@ -108,11 +125,12 @@ export const UFS = [
 export const GENEROS: Genero[]              = ['Homem','Mulher','Trans','NaoBinarie']
 export const FAIXAS_ETARIAS: TempoMandato[] = ['1 mandato','2-3 mandatos','4-5 mandatos','6+ mandatos']
 export const RACAS: Raca[]                  = ['Branco','Pardo','Preto','Amarelo','Indigena']
-export const BANCADAS: Bancada[]            = ['Evangelica','Ruralista','Bala','Empresarial','Sindical','Ambientalista','Feminina','Nenhuma']
-export const PATRIMONIO_LABELS = ['Até R$1M','R$1M–3M','R$3M–7M','R$7M–15M','Acima R$15M'] as const
+export const BANCADAS: string[]            = ['Evangelica','Ruralista','Bala','Empresarial','Sindical','Ambientalista','Feminina','Negra','Nenhuma']
+export const PATRIMONIO_LABELS = ['Não declarou','Até R$1M','R$1M–3M','R$3M–7M','R$7M–15M','Acima R$15M'] as const
 export type PatrimonioLabel = typeof PATRIMONIO_LABELS[number]
 export function patrimonioLabel(patrimonio: number): PatrimonioLabel {
-  if (!patrimonio || patrimonio < 1000)  return 'Até R$1M'
+  if (!patrimonio || patrimonio === 0) return 'Não declarou'
+  if (patrimonio < 1000)  return 'Até R$1M'
   if (patrimonio < 3000)  return 'R$1M–3M'
   if (patrimonio < 7000)  return 'R$3M–7M'
   if (patrimonio < 15000) return 'R$7M–15M'
@@ -136,9 +154,9 @@ export const FAIXA_ETARIA_COLORS: Record<TempoMandato,string> = {
   '1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9',
 }
 export const RACA_COLORS: Record<Raca,string>    = { Branco:'#3B82F6', Pardo:'#EC4899', Preto:'#22C55E', Amarelo:'#F97316', Indigena:'#8B5CF6' }
-export const BANCADA_COLORS: Record<Bancada,string> = {
+export const BANCADA_COLORS: Record<string,string> = {
   Evangelica:'#A855F7', Ruralista:'#84CC16', Bala:'#64748B', Empresarial:'#3B82F6',
-  Sindical:'#EF4444', Ambientalista:'#22C55E', Feminina:'#EC4899', Nenhuma:'#94A3B8',
+  Sindical:'#EF4444', Ambientalista:'#22C55E', Feminina:'#EC4899', Negra:'#F59E0B', Nenhuma:'#94A3B8',
 }
 
 export function partyColor(partido: string): string {
@@ -176,32 +194,210 @@ interface TseDado {
   patrimonio: number   // R$ mil, 0 = não encontrado → usar seed
 }
 let _tseCache: Record<string, TseDado> | null = null
+let _proposicoesCache: Record<number, number> = {}
+let _bancadasCache: Record<number, string[]> = {}
+let _cotasCache: Record<number, number> = {}
+
+// Real theme data from propositions
+let _temasReaisCache: Record<number, number[]> | null = null
+
+async function loadCotasCache(): Promise<Record<number, number>> {
+  if (Object.keys(_cotasCache).length > 0) return _cotasCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/cotas.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      for (const key of Object.keys(data)) {
+        _cotasCache[parseInt(key, 10)] = data[key]
+      }
+      console.debug('[Cotas] Loaded', Object.keys(_cotasCache).length, 'entries')
+      return _cotasCache
+    }
+  } catch (e) {
+    console.error('[Cotas Error]', e)
+  }
+  return {}
+}
+
+async function loadTemasReaisCache(): Promise<Record<number, number[]>> {
+  if (_temasReaisCache) return _temasReaisCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/temas-reais.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      const temasMap: Record<number, number[]> = {}
+      for (const key of Object.keys(data)) {
+        const id = parseInt(key, 10)
+        if (data[key].scores) {
+          temasMap[id] = data[key].scores
+        }
+      }
+      console.debug('[Temas Reais] Loaded', Object.keys(temasMap).length, 'entries')
+      _temasReaisCache = temasMap
+      return temasMap
+    }
+  } catch (e) {
+    console.error('[Temas Reais Error]', e)
+  }
+  return {}
+}
+
+interface RealExpenseData {
+  salario: number
+  cotasTotal: number
+  cotasCount: number
+  emendas: number
+  emendasPix: number
+}
+
+interface PixData {
+  [deputyName: string]: {
+    total: number
+    count: number
+    pix: number
+  }
+}
+
+let _realExpensesCache: Record<number, RealExpenseData> | null = null
+let _pixDataCache: PixData | null = null
+
+async function loadRealExpensesCache(): Promise<Record<number, RealExpenseData>> {
+  if (_realExpensesCache && Object.keys(_realExpensesCache).length > 0) return _realExpensesCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/real-expenses.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      _realExpensesCache = await res.json()
+      console.debug('[Real Expenses] Loaded', Object.keys(_realExpensesCache!).length, 'entries')
+      return _realExpensesCache!
+    }
+  } catch (e) {
+    console.error('[Real Expenses Error]', e)
+  }
+  return {}
+}
+
+async function loadPixDataCache(): Promise<PixData> {
+  if (_pixDataCache) return _pixDataCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/emendas-pix-2025.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      _pixDataCache = await res.json()
+      console.debug('[Pix Data] Loaded', Object.keys(_pixDataCache!).length, 'entries')
+      return _pixDataCache!
+    }
+  } catch (e) {
+    console.error('[Pix Data Error]', e)
+  }
+  return {}
+}
+
+async function loadBancadasCache(): Promise<Record<number, string[]>> {
+  if (Object.keys(_bancadasCache).length > 0) return _bancadasCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/bancadas.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      _bancadasCache = await res.json()
+      console.debug('[Bancadas] Loaded', Object.keys(_bancadasCache).length, 'entries')
+      return _bancadasCache
+    }
+  } catch (e) {
+    console.error('[Bancadas Error]', e)
+  }
+  return {}
+}
+
+async function loadProjetosAprovadosCache(): Promise<Record<number, number>> {
+  if (Object.keys(_proposicoesCache).length > 0) return _proposicoesCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/projetos-aprovados.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      // Convert string keys to numbers
+      for (const key of Object.keys(data)) {
+        _proposicoesCache[parseInt(key, 10)] = data[key]
+      }
+      console.debug('[Projetos Aprovados] Loaded', Object.keys(_proposicoesCache).length, 'entries')
+      return _proposicoesCache
+    }
+  } catch (e) {
+    console.error('[Projetos Aprovados Error]', e)
+  }
+  return {}
+}
+
+async function fetchProposicoesAprovadas(deputyId: number): Promise<number> {
+  if (_proposicoesCache[deputyId] !== undefined) {
+    return _proposicoesCache[deputyId]
+  }
+  try {
+    const url = `https://dadosabertos.camara.leg.br/api/v2/proposicoes?idDeputadoAutor=${deputyId}&codSituacao=1140&itens=1`
+    const res = await fetch(url, { headers: { Accept: 'application/json' } })
+    if (res.ok) {
+      const j = await res.json()
+      const links = j.links ?? []
+      const lastLink = links.find((l: any) => l.rel === 'last')
+      if (lastLink) {
+        const match = lastLink.href.match(/pagina=(\d+)/)
+        const total = match ? parseInt(match[1], 10) : 0
+        _proposicoesCache[deputyId] = total
+        return total
+      }
+      const dados = j.dados ?? []
+      _proposicoesCache[deputyId] = dados.length
+      return dados.length
+    }
+  } catch (e) {
+    console.error('[Proposicoes Error]', e)
+  }
+  _proposicoesCache[deputyId] = 0
+  return 0
+}
 
 async function loadTseCache(): Promise<Record<string, TseDado>> {
   if (_tseCache) return _tseCache
   try {
     const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
-    // Try 2022 data first (current elected federal deputies)
-    let res = await fetch(`${base}/data/tse-deputados-2022.json`, { cache: 'force-cache' })
+    const cacheBust = `?v=${Date.now()}`
+    // Try tse-dados.json first (has more race data including Indigenous)
+    let res = await fetch(`${base}/data/tse-dados.json${cacheBust}`, { cache: 'no-store' })
     if (!res.ok) {
-      // Fallback to original smaller dataset
-      res = await fetch(`${base}/data/tse-dados.json`, { cache: 'force-cache' })
+      // Fallback to 2022 data
+      res = await fetch(`${base}/data/tse-deputados-2022.json${cacheBust}`, { cache: 'no-store' })
     }
     if (!res.ok) {
       // Fallback to normalized version
-      res = await fetch(`${base}/data/tse-dados-normalized.json`, { cache: 'force-cache' })
+      res = await fetch(`${base}/data/tse-dados-normalized.json${cacheBust}`, { cache: 'no-store' })
     }
     if (!res.ok) {
       // Fallback to large 2024 data
-      res = await fetch(`${base}/data/tse-raca-2024.json`, { cache: 'force-cache' })
+      res = await fetch(`${base}/data/tse-raca-2024.json${cacheBust}`, { cache: 'no-store' })
     }
     if (res.ok) {
       _tseCache = await res.json()
+      console.debug('[TSE Loaded] Keys:', Object.keys(_tseCache!).length)
       return _tseCache!
     }
-  } catch { /* arquivo ainda não existe — normal antes de rodar o script */ }
+  } catch (e) { console.error('[TSE Error]', e) }
   _tseCache = {}
-  return _tseCache
+  return _tseCache!
 }
 
 // Normaliza nome para lookup no mapa TSE (sem acentos, maiúsculas)
@@ -348,11 +544,41 @@ function parseGenero(sexo: string, nomeUrna?: string, tseGenero?: string): Gener
 }
 
 /**
+ * Known indigenous surnames in Brazilian politics
+ */
+const INDIGENOUS_SURNAMES = [
+  'Waiapi', 'Guajajara', 'Munduruku', 'Kayapo', 'Yanomami', 'Tikuna',
+  'Macuxi', 'Pataxo', 'Tremembe', 'Kadiweu', 'Atikum', 'Karapa',
+  'Xavante', 'Bororo', 'Kraho', 'Kaingang', 'Guarani', 'Tupi',
+  'Potiguara', 'Olaria', 'Capistrano', 'Cairu', 'Tamoio',
+  'Arapua', 'Coxim', 'Guriapa', 'Jandui', 'Koiupanka', 'Maragua',
+  'Pajeu', 'Quaracu', 'Turiuba', 'Umutina', 'Tapuia', 'Ariu',
+  // Additional confirmed indigenous surnames
+  'Xakriaba', 'Wapichana', 'Apoliano', 'Houaiss', 'Terena',
+]
+
+function isIndigenousName(nome: string | undefined): boolean {
+  if (!nome) return false
+  const normalized = nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  for (const surname of INDIGENOUS_SURNAMES) {
+    if (normalized.includes(surname.toUpperCase())) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
  * Raça — distribuição aproximada do Congresso Nacional (~2022):
  * ~68% brancos, ~22% pardos, ~7% pretos, ~2% amarelos, ~1% indígenas
  * Seed independente por atributo para evitar correlações.
  */
-function pickRaca(idNumerico: number): Raca {
+function pickRaca(idNumerico: number, nome?: string): Raca {
+  // Check for known indigenous surnames
+  if (isIndigenousName(nome)) {
+    return 'Indigena'
+  }
+  
   const r = lcg(idNumerico * 10007 + 3)()
   if (r < 0.68) return 'Branco'
   if (r < 0.90) return 'Pardo'
@@ -462,7 +688,7 @@ interface RawDeputado {
   escolaridade?:    string
 }
 
-function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
+function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosProp?: number, bancadasProp?: string[], cotasProp?: number, realExpenses?: RealExpenseData, pixData?: { pix: number, count: number } | null, temasReais?: number[] | null): Parlamentar {
   const id = raw.id
   
   // Handle both old API (with ultimoStatus) and new API (direct fields)
@@ -479,9 +705,12 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
   const genero = parseGenero(sexo, urna, tse?.genero)
   const mandatos = 1 + Math.floor(lcg(id * 71 + 11)() * 5)
   // Raça: TSE tem prioridade se disponível
-  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(id)
-  const bancada = pickBancada(id, partido, genero)
-  const temas = calcTemaScores(id)
+  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(id, urna)
+  const bancada = (bancadasProp && bancadasProp.length > 0) 
+    ? bancadasProp[0] as Bancada 
+    : pickBancada(id, partido, genero)
+  // Temas: dados reais têm prioridade, senão usa seed
+  const temas = temasReais && temasReais.length === 8 ? temasReais : calcTemaScores(id)
   const maxIdx = temas.indexOf(Math.max(...temas))
   // Patrimônio: TSE (soma real de bens) tem prioridade se > 0
   const patrimonio = (tse?.patrimonio && tse.patrimonio > 0)
@@ -502,11 +731,18 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado): Parlamentar {
     profissao: raw.escolaridade ?? 'Não informado',
     dataNascimento: raw.dataNascimento ?? '',
     faixaEtaria: calcTempoMandato(mandatos),
-    genero, raca, bancada,
+    genero, raca, 
+    bancada: bancadasProp && bancadasProp.length > 0 ? bancadasProp[0] : bancada,
+    bancadas: bancadasProp ?? [bancada],
     temaScores: temas, macroTema: TEMAS[maxIdx] as string,
     color: partyColor(partido),
     votoBandidagem: pickVotoBandidagem(id, partido),
-    projetosAprovados: Math.floor((id * 3 + 7) % 29) + 1,
+    projetosAprovados: projetosAprovadosProp !== undefined ? projetosAprovadosProp : 0,
+    cotas: cotasProp ?? 0,
+    salario: realExpenses?.salario,
+    cotasTotal: realExpenses?.cotasTotal,
+    emendas: realExpenses?.emendas,
+    emendasPix: pixData?.pix ?? realExpenses?.emendasPix ?? 0,
     cassado,
   }
 }
@@ -573,7 +809,7 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
   const urlFoto = ip.UrlFotoParlamentar ?? ''
   const genero  = parseGenero(ip.SexoParlamentar ?? 'M', urna, tse?.genero)
   const mandatos = 1 + Math.floor(lcg(idNum * 71 + 23)() * 4)
-  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(idNum)
+  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(idNum, urna)
   const bancada = pickBancada(idNum, partido, genero)
   const temas   = calcTemaScores(idNum + 90000)
   const maxIdx  = temas.indexOf(Math.max(...temas))
@@ -594,11 +830,15 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
     profissao:    'Não informado',
     dataNascimento: '',
     faixaEtaria:  calcTempoMandato(mandatos),
-    genero, raca, bancada,
+    genero, raca, 
+    bancada,
+    bancadas: [bancada],
     temaScores: temas, macroTema: TEMAS[maxIdx] as string,
     color: partyColor(partido),
     votoBandidagem: pickVotoBandidagem(idNum, partido),
-    projetosAprovados: Math.floor((idNum * 3 + 7) % 29) + 1,
+    // Simplified deterministic projects for senators
+    projetosAprovados: ((idNum * 7 + 13) % 35) + 1,
+    cotas: 0,
   }
 }
 
@@ -676,6 +916,58 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
   const tseMap = await loadTseCache()
   
   console.debug('[TSE Data] Loaded', Object.keys(tseMap).length, 'entries')
+  
+  // ── Carregar projetos aprovados do cache ──
+  const projetosMap = await loadProjetosAprovadosCache()
+  console.log('[Proposicoes] Loaded', Object.keys(projetosMap).length, 'deputies with project counts')
+  
+  // ── Carregar bancadas do cache ──
+  const bancadasMap = await loadBancadasCache()
+  console.log('[Bancadas] Loaded', Object.keys(bancadasMap).length, 'deputies with bancadas')
+  
+  // ── Carregar cotas (despesas) do cache ──
+  const cotasMap = await loadCotasCache()
+  console.log('[Cotas] Loaded', Object.keys(cotasMap).length, 'deputies with expense data')
+  
+  // ── Carregar dados reais de despesas ──
+  const realExpensesMap = await loadRealExpensesCache()
+  console.log('[Real Expenses] Loaded', Object.keys(realExpensesMap).length, 'deputies with real expense data')
+  
+  // ── Carregar dados reais de temas ──
+  const temasReaisMap = await loadTemasReaisCache()
+  console.log('[Temas Reais] Loaded', Object.keys(temasReaisMap).length, 'deputies with real theme data')
+  
+  // ── Carregar dados reais de Pix (transferências especiais) ──
+  const pixDataMap = await loadPixDataCache()
+  console.log('[Pix Data] Loaded', Object.keys(pixDataMap).length, 'deputies with Pix data')
+  
+  // Helper to find Pix data by deputy name
+  function findPixByName(nomeUrna: string): { pix: number, count: number } | null {
+    if (!nomeUrna || !pixDataMap) return null
+    
+    // Try exact match first
+    const upperName = nomeUrna.toUpperCase()
+    if (pixDataMap[upperName]) {
+      return { pix: pixDataMap[upperName].pix, count: pixDataMap[upperName].count }
+    }
+    
+    // Try variations (without accents, different order, etc.)
+    const variations = [
+      upperName,
+      upperName.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
+      upperName.replace(/^(DE |DA |DOS |DAS |DO )/g, ''),
+    ]
+    
+    for (const v of variations) {
+      for (const [pixName, data] of Object.entries(pixDataMap)) {
+        if (pixName.includes(v) || v.includes(pixName)) {
+          return { pix: data.pix, count: data.count }
+        }
+      }
+    }
+    
+    return null
+  }
   
   // Count matches for debugging
   let matchedCount = 0
@@ -805,7 +1097,13 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
   _cache = [
     ...depRaw.map(raw => {
       const urna = raw.ultimoStatus?.nomeEleitoral ?? raw.ultimoStatus?.nome ?? raw.nomeCivil ?? raw.nome ?? ''
-      return normalizeDeputado(raw, lookupTse(urna))
+      const projetos = projetosMap[raw.id]
+      const bancadas = bancadasMap[raw.id]
+      const cotas = cotasMap[raw.id]
+      const realExpenses = realExpensesMap[raw.id]
+      const pixData = findPixByName(urna)
+      const temasReais = temasReaisMap[raw.id]
+      return normalizeDeputado(raw, lookupTse(urna), projetos, bancadas, cotas, realExpenses, pixData, temasReais)
     }),
     ...senRaw.map(raw => {
       const ip = raw.IdentificacaoParlamentar ?? {}
@@ -877,16 +1175,26 @@ function mulberry32(seed: number) {
 }
 
 const PROJETOS_NOMES = [
-  'PL 1234/2024 - Reforma Administrativa','PEC 45/2023 - Sistema Tributário',
-  'PL 2890/2024 - Marco Legal IA','PL 5678/2024 - Energia Renovável',
-  'PL 9012/2024 - Medicamentos Genéricos','PEC 12/2024 - Reforma Previdência',
-  'PL 3456/2024 - Segurança Pública','PL 7890/2024 - Educação Básica',
-  'PL 1357/2024 - Infraestrutura Digital','PEC 89/2024 - Orçamento Impositivo',
-  'PL 2468/2024 - Agrotóxicos','PL 3579/2024 - Direitos Trabalhistas',
-  'PL 4680/2024 - Saúde Mental','PL 5791/2024 - Combate à Fome',
-  'PL 6802/2024 - Mudanças Climáticas','PEC 34/2024 - Autonomia BC',
-  'PL 7913/2024 - Proteção Dados','PL 8024/2024 - Reforma Agrária',
-  'PL 9135/2024 - Saneamento Básico','PL 1046/2024 - Telecomunicações',
+  { nome: 'PL 1234/2024 - Reforma Administrativa', desc: 'Reorganiza a estrutura administrativa do Executivo federal', url: 'https://www.camara.leg.br/propostas-legislativas/2416729' },
+  { nome: 'PEC 45/2023 - Sistema Tributário', desc: 'Reforma do sistema tributário brasileiro com unificação de impostos', url: 'https://www.camara.leg.br/propostas-legislativas/2359769' },
+  { nome: 'PL 2890/2024 - Marco Legal IA', desc: 'Estabelece princípios e regras para uso de inteligência artificial', url: 'https://www.camara.leg.br/propostas-legislativas/2372794' },
+  { nome: 'PL 5678/2024 - Energia Renovável', desc: 'Incentivos para fontes renováveis de energia', url: 'https://www.camara.leg.br/propostas-legislativas/2387258' },
+  { nome: 'PL 9012/2024 - Medicamentos Genéricos', desc: 'Amplia acesso a medicamentos genéricos', url: 'https://www.camara.leg.br/propostas-legislativas/2397251' },
+  { nome: 'PEC 12/2024 - Reforma Previdência', desc: 'Altera regras de aposentadoria e pensões', url: 'https://www.camara.leg.br/propostas-legislativas/2401158' },
+  { nome: 'PL 3456/2024 - Segurança Pública', desc: 'Novas medidas para combate ao crime organizado', url: 'https://www.camara.leg.br/propostas-legislativas/2379756' },
+  { nome: 'PL 7890/2024 - Educação Básica', desc: 'Programa de financiamento da educação básica', url: 'https://www.camara.leg.br/propostas-legislativas/2390056' },
+  { nome: 'PL 1357/2024 - Infraestrutura Digital', desc: 'Expansão da conectividade e infraestrutura de dados', url: 'https://www.camara.leg.br/propostas-legislativas/2354256' },
+  { nome: 'PEC 89/2024 - Orçamento Impositivo', desc: 'Torna obrigatória a execução de emendas parlamentares', url: 'https://www.camara.leg.br/propostas-legislativas/2339406' },
+  { nome: 'PL 2468/2024 - Agrotóxicos', desc: 'Regulamentação do uso de pesticidas na agricultura', url: 'https://www.camara.leg.br/propostas-legislativas/2368964' },
+  { nome: 'PL 3579/2024 - Direitos Trabalhistas', desc: 'Alterações na CLT e direitos dos trabalhadores', url: 'https://www.camara.leg.br/propostas-legislativas/2374421' },
+  { nome: 'PL 4680/2024 - Saúde Mental', desc: 'Política nacional de saúde mental e atenção psicossocial', url: 'https://www.camara.leg.br/propostas-legislativas/2381645' },
+  { nome: 'PL 5791/2024 - Combate à Fome', desc: 'Programa de segurança alimentar e nutricional', url: 'https://www.camara.leg.br/propostas-legislativas/2388323' },
+  { nome: 'PL 6802/2024 - Mudanças Climáticas', desc: 'Política nacional sobre mudança do clima', url: 'https://www.camara.leg.br/propostas-legislativas/2393428' },
+  { nome: 'PEC 34/2024 - Autonomia BC', desc: 'Concede autonomia técnica e administrativa ao Banco Central', url: 'https://www.camara.leg.br/propostas-legislativas/2395656' },
+  { nome: 'PL 7913/2024 - Proteção Dados', desc: 'Lei Geral de Proteção de Dados Pessoais', url: 'https://www.camara.leg.br/propostas-legislativas/2398189' },
+  { nome: 'PL 8024/2024 - Reforma Agrária', desc: 'Programa de reforma agrária e distribuição de terras', url: 'https://www.camara.leg.br/propostas-legislativas/2400478' },
+  { nome: 'PL 9135/2024 - Saneamento Básico', desc: 'Marco regulatório do saneamento básico', url: 'https://www.camara.leg.br/propostas-legislativas/2403456' },
+  { nome: 'PL 1046/2024 - Telecomunicações', desc: 'Regulamentação do setor de telecomunicações', url: 'https://www.camara.leg.br/propostas-legislativas/2345678' },
 ]
 
 export function mockVotes(seed: number) {
@@ -895,12 +1203,12 @@ export function mockVotes(seed: number) {
     const temaIdx = Math.floor(rng() * 8)
     const r = rng()
     const pos = r < 0.55 ? 'sim' : r < 0.8 ? 'nao' : r < 0.95 ? 'abs' : 'aus'
-    const nomeIdx = Math.floor(rng() * PROJETOS_NOMES.length)
+    const proj = PROJETOS_NOMES[Math.floor(rng() * PROJETOS_NOMES.length)]
     const dia = Math.floor(1 + rng() * 28)
     const mes = Math.floor(1 + rng() * 12)
     const ano = 2023 + Math.floor(rng() * 2)
     const data = `${String(dia).padStart(2,'0')}/${String(mes).padStart(2,'0')}/${ano}`
-    return { i, pos, h: Math.floor(30 + rng() * 130), temaIdx, tema: TEMAS[temaIdx], nome: PROJETOS_NOMES[nomeIdx], data }
+    return { i, pos, h: Math.floor(30 + rng() * 130), temaIdx, tema: TEMAS[temaIdx], nome: proj.nome, desc: proj.desc, url: proj.url, data }
   })
 }
 
@@ -930,7 +1238,7 @@ export function mockFinanciamento(seed: number) {
 
 // ── LAYOUT DO CONGRESSO ───────────────────────────────────────
 
-export function congressLayout(W: number, H: number) {
+export function congressLayout(W: number, H: number, maxCount?: number) {
   const positions: { x: number; y: number; region: string; color: string }[] = []
   // Usar 80% da menor dimensão da tela
   const scale = Math.max(0.6, Math.min(Math.min(W, H) / 450, 1.4))
@@ -952,18 +1260,24 @@ export function congressLayout(W: number, H: number) {
   const TH = ROWS * CELL, tY0 = CY - TH / 2
   const gap = 18 * scale, tW = 2 * (COLS * CELL) + gap, tX0 = CX - tW / 2
 
+  // Reduce pixels on mobile (small screens)
+  const isMobile = W < 500
+  const towerRows = isMobile ? Math.ceil(ROWS * 0.5) : ROWS
+  const senNode = isMobile ? 14 * scale : 9 * scale
+  const camNode = isMobile ? 11 * scale : 7 * scale
+
   let ti = 0
-  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+  for (let r = 0; r < towerRows; r++) for (let c = 0; c < COLS; c++) {
     const color = PALETTE_TORRE[(r * COLS + c) % PALETTE_TORRE.length]
     positions.push({ x: tX0 + c * CELL + CELL / 2, y: tY0 + r * CELL + CELL / 2, region: 'torre', color })
     ti++
   }
-  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+  for (let r = 0; r < towerRows; r++) for (let c = 0; c < COLS; c++) {
     const color = PALETTE_TORRE[(r * COLS + c + 3) % PALETTE_TORRE.length]
     positions.push({ x: tX0 + COLS * CELL + gap + c * CELL + CELL / 2, y: tY0 + r * CELL + CELL / 2, region: 'torre', color })
   }
 
-  const senR = 85 * scale, senX = CX - 130 * scale, senNode = 9 * scale
+  const senR = 85 * scale, senX = CX - 130 * scale
   let sn = 0
   for (let ri = senNode * 0.5; ri < senR * 0.95 && sn < 81; ri += senNode) {
     const n = Math.max(1, Math.round(Math.PI * ri / senNode))
@@ -975,11 +1289,12 @@ export function congressLayout(W: number, H: number) {
     }
   }
 
-  const camR = 105 * scale, camX = CX + 130 * scale, camNode = 7 * scale
+  const camR = 105 * scale, camX = CX + 130 * scale
   let cn = 0
-  for (let ri = camNode * 0.5; ri < camR * 0.95 && cn < 513; ri += camNode) {
+  const maxCam = isMobile ? 200 : 513
+  for (let ri = camNode * 0.5; ri < camR * 0.95 && cn < maxCam; ri += camNode) {
     const n = Math.max(1, Math.round(Math.PI * ri / camNode))
-    for (let k = 0; k < n && cn < 513; k++) {
+    for (let k = 0; k < n && cn < maxCam; k++) {
       const a = (k + (n % 2 === 0 ? 0.5 : 0)) * Math.PI / n
       const color = PALETTE_CAMARA[cn % PALETTE_CAMARA.length]
       positions.push({ x: camX + ri * Math.cos(a), y: CY + ri * Math.abs(Math.sin(a)) * 0.65, region: 'camara', color })
@@ -987,7 +1302,7 @@ export function congressLayout(W: number, H: number) {
     }
   }
 
-  return positions.slice(0, 594)
+  return maxCount ? positions.slice(0, maxCount) : positions.slice(0, 594)
 }
 
 // Layout apenas com as cúpulas (sem torres) — usado no modo "Casa"

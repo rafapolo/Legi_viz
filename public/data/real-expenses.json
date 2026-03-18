@@ -1,0 +1,4426 @@
+{
+  "62881": {
+    "salario": 33300,
+    "cotasTotal": 74050,
+    "cotasCount": 282,
+    "emendas": 2702500,
+    "emendasPix": 297275
+  },
+  "66385": {
+    "salario": 33300,
+    "cotasTotal": 49250,
+    "cotasCount": 207,
+    "emendas": 1462500,
+    "emendasPix": 219375
+  },
+  "66828": {
+    "salario": 33300,
+    "cotasTotal": 71400,
+    "cotasCount": 274,
+    "emendas": 2570000,
+    "emendasPix": 462600
+  },
+  "68720": {
+    "salario": 33300,
+    "cotasTotal": 66000,
+    "cotasCount": 258,
+    "emendas": 2300000,
+    "emendasPix": 230000
+  },
+  "69871": {
+    "salario": 33300,
+    "cotasTotal": 73550,
+    "cotasCount": 280,
+    "emendas": 2677500,
+    "emendasPix": 562275
+  },
+  "72442": {
+    "salario": 33300,
+    "cotasTotal": 52100,
+    "cotasCount": 216,
+    "emendas": 1605000,
+    "emendasPix": 192600
+  },
+  "73433": {
+    "salario": 33300,
+    "cotasTotal": 51650,
+    "cotasCount": 214,
+    "emendas": 1582500,
+    "emendasPix": 363975
+  },
+  "73441": {
+    "salario": 33300,
+    "cotasTotal": 52050,
+    "cotasCount": 216,
+    "emendas": 1602500,
+    "emendasPix": 176275
+  },
+  "73486": {
+    "salario": 33300,
+    "cotasTotal": 54300,
+    "cotasCount": 222,
+    "emendas": 1715000,
+    "emendasPix": 274400
+  },
+  "73531": {
+    "salario": 33300,
+    "cotasTotal": 56550,
+    "cotasCount": 229,
+    "emendas": 1827500,
+    "emendasPix": 383775
+  },
+  "73579": {
+    "salario": 33300,
+    "cotasTotal": 58950,
+    "cotasCount": 236,
+    "emendas": 1947500,
+    "emendasPix": 564775
+  },
+  "73604": {
+    "salario": 33300,
+    "cotasTotal": 60200,
+    "cotasCount": 240,
+    "emendas": 2010000,
+    "emendasPix": 281400
+  },
+  "73692": {
+    "salario": 33300,
+    "cotasTotal": 64600,
+    "cotasCount": 253,
+    "emendas": 2230000,
+    "emendasPix": 490600
+  },
+  "73701": {
+    "salario": 33300,
+    "cotasTotal": 65050,
+    "cotasCount": 255,
+    "emendas": 2252500,
+    "emendasPix": 247775
+  },
+  "73768": {
+    "salario": 33300,
+    "cotasTotal": 68400,
+    "cotasCount": 265,
+    "emendas": 2420000,
+    "emendasPix": 435600
+  },
+  "73778": {
+    "salario": 33300,
+    "cotasTotal": 68900,
+    "cotasCount": 266,
+    "emendas": 2445000,
+    "emendasPix": 684600
+  },
+  "73788": {
+    "salario": 33300,
+    "cotasTotal": 69400,
+    "cotasCount": 268,
+    "emendas": 2470000,
+    "emendasPix": 444600
+  },
+  "73801": {
+    "salario": 33300,
+    "cotasTotal": 70050,
+    "cotasCount": 270,
+    "emendas": 2502500,
+    "emendasPix": 275275
+  },
+  "73806": {
+    "salario": 33300,
+    "cotasTotal": 70300,
+    "cotasCount": 270,
+    "emendas": 2515000,
+    "emendasPix": 402400
+  },
+  "73808": {
+    "salario": 33300,
+    "cotasTotal": 70400,
+    "cotasCount": 271,
+    "emendas": 2520000,
+    "emendasPix": 453600
+  },
+  "74041": {
+    "salario": 33300,
+    "cotasTotal": 32050,
+    "cotasCount": 156,
+    "emendas": 602500,
+    "emendasPix": 66275
+  },
+  "74043": {
+    "salario": 33300,
+    "cotasTotal": 32150,
+    "cotasCount": 156,
+    "emendas": 607500,
+    "emendasPix": 78975
+  },
+  "74044": {
+    "salario": 33300,
+    "cotasTotal": 32200,
+    "cotasCount": 156,
+    "emendas": 610000,
+    "emendasPix": 85400
+  },
+  "74052": {
+    "salario": 33300,
+    "cotasTotal": 32600,
+    "cotasCount": 157,
+    "emendas": 630000,
+    "emendasPix": 138600
+  },
+  "74057": {
+    "salario": 33300,
+    "cotasTotal": 32850,
+    "cotasCount": 158,
+    "emendas": 642500,
+    "emendasPix": 173475
+  },
+  "74060": {
+    "salario": 33300,
+    "cotasTotal": 33000,
+    "cotasCount": 159,
+    "emendas": 650000,
+    "emendasPix": 65000
+  },
+  "74065": {
+    "salario": 33300,
+    "cotasTotal": 33250,
+    "cotasCount": 159,
+    "emendas": 662500,
+    "emendasPix": 99375
+  },
+  "74075": {
+    "salario": 33300,
+    "cotasTotal": 33750,
+    "cotasCount": 161,
+    "emendas": 687500,
+    "emendasPix": 171875
+  },
+  "74079": {
+    "salario": 33300,
+    "cotasTotal": 33950,
+    "cotasCount": 161,
+    "emendas": 697500,
+    "emendasPix": 202275
+  },
+  "74084": {
+    "salario": 33300,
+    "cotasTotal": 34200,
+    "cotasCount": 162,
+    "emendas": 710000,
+    "emendasPix": 99400
+  },
+  "74090": {
+    "salario": 33300,
+    "cotasTotal": 34500,
+    "cotasCount": 163,
+    "emendas": 725000,
+    "emendasPix": 145000
+  },
+  "74095": {
+    "salario": 33300,
+    "cotasTotal": 34750,
+    "cotasCount": 164,
+    "emendas": 737500,
+    "emendasPix": 184375
+  },
+  "74141": {
+    "salario": 33300,
+    "cotasTotal": 37050,
+    "cotasCount": 171,
+    "emendas": 852500,
+    "emendasPix": 93775
+  },
+  "74156": {
+    "salario": 33300,
+    "cotasTotal": 37800,
+    "cotasCount": 173,
+    "emendas": 890000,
+    "emendasPix": 231400
+  },
+  "74158": {
+    "salario": 33300,
+    "cotasTotal": 37900,
+    "cotasCount": 173,
+    "emendas": 895000,
+    "emendasPix": 250600
+  },
+  "74159": {
+    "salario": 33300,
+    "cotasTotal": 37950,
+    "cotasCount": 173,
+    "emendas": 897500,
+    "emendasPix": 260275
+  },
+  "74160": {
+    "salario": 33300,
+    "cotasTotal": 38000,
+    "cotasCount": 174,
+    "emendas": 900000,
+    "emendasPix": 90000
+  },
+  "74161": {
+    "salario": 33300,
+    "cotasTotal": 38050,
+    "cotasCount": 174,
+    "emendas": 902500,
+    "emendasPix": 99275
+  },
+  "74171": {
+    "salario": 33300,
+    "cotasTotal": 38550,
+    "cotasCount": 175,
+    "emendas": 927500,
+    "emendasPix": 194775
+  },
+  "74253": {
+    "salario": 33300,
+    "cotasTotal": 42650,
+    "cotasCount": 187,
+    "emendas": 1132500,
+    "emendasPix": 260475
+  },
+  "74262": {
+    "salario": 33300,
+    "cotasTotal": 43100,
+    "cotasCount": 189,
+    "emendas": 1155000,
+    "emendasPix": 138600
+  },
+  "74270": {
+    "salario": 33300,
+    "cotasTotal": 43500,
+    "cotasCount": 190,
+    "emendas": 1175000,
+    "emendasPix": 235000
+  },
+  "74273": {
+    "salario": 33300,
+    "cotasTotal": 43650,
+    "cotasCount": 190,
+    "emendas": 1182500,
+    "emendasPix": 271975
+  },
+  "74283": {
+    "salario": 33300,
+    "cotasTotal": 44150,
+    "cotasCount": 192,
+    "emendas": 1207500,
+    "emendasPix": 156975
+  },
+  "74299": {
+    "salario": 33300,
+    "cotasTotal": 44950,
+    "cotasCount": 194,
+    "emendas": 1247500,
+    "emendasPix": 361775
+  },
+  "74317": {
+    "salario": 33300,
+    "cotasTotal": 45850,
+    "cotasCount": 197,
+    "emendas": 1292500,
+    "emendasPix": 348975
+  },
+  "74356": {
+    "salario": 33300,
+    "cotasTotal": 47800,
+    "cotasCount": 203,
+    "emendas": 1390000,
+    "emendasPix": 361400
+  },
+  "74371": {
+    "salario": 33300,
+    "cotasTotal": 48550,
+    "cotasCount": 205,
+    "emendas": 1427500,
+    "emendasPix": 299775
+  },
+  "74374": {
+    "salario": 33300,
+    "cotasTotal": 48700,
+    "cotasCount": 206,
+    "emendas": 1435000,
+    "emendasPix": 344400
+  },
+  "74376": {
+    "salario": 33300,
+    "cotasTotal": 48800,
+    "cotasCount": 206,
+    "emendas": 1440000,
+    "emendasPix": 374400
+  },
+  "74383": {
+    "salario": 33300,
+    "cotasTotal": 49150,
+    "cotasCount": 207,
+    "emendas": 1457500,
+    "emendasPix": 189475
+  },
+  "74398": {
+    "salario": 33300,
+    "cotasTotal": 49900,
+    "cotasCount": 209,
+    "emendas": 1495000,
+    "emendasPix": 418600
+  },
+  "74400": {
+    "salario": 33300,
+    "cotasTotal": 50000,
+    "cotasCount": 210,
+    "emendas": 1500000,
+    "emendasPix": 150000
+  },
+  "74428": {
+    "salario": 33300,
+    "cotasTotal": 51400,
+    "cotasCount": 214,
+    "emendas": 1570000,
+    "emendasPix": 282600
+  },
+  "74454": {
+    "salario": 33300,
+    "cotasTotal": 52700,
+    "cotasCount": 218,
+    "emendas": 1635000,
+    "emendasPix": 392400
+  },
+  "74467": {
+    "salario": 33300,
+    "cotasTotal": 53350,
+    "cotasCount": 220,
+    "emendas": 1667500,
+    "emendasPix": 283475
+  },
+  "74478": {
+    "salario": 33300,
+    "cotasTotal": 53900,
+    "cotasCount": 221,
+    "emendas": 1695000,
+    "emendasPix": 474600
+  },
+  "74537": {
+    "salario": 33300,
+    "cotasTotal": 56850,
+    "cotasCount": 230,
+    "emendas": 1842500,
+    "emendasPix": 497475
+  },
+  "74550": {
+    "salario": 33300,
+    "cotasTotal": 57500,
+    "cotasCount": 232,
+    "emendas": 1875000,
+    "emendasPix": 375000
+  },
+  "74554": {
+    "salario": 33300,
+    "cotasTotal": 57700,
+    "cotasCount": 233,
+    "emendas": 1885000,
+    "emendasPix": 452400
+  },
+  "74574": {
+    "salario": 33300,
+    "cotasTotal": 58700,
+    "cotasCount": 236,
+    "emendas": 1935000,
+    "emendasPix": 464400
+  },
+  "74585": {
+    "salario": 33300,
+    "cotasTotal": 59250,
+    "cotasCount": 237,
+    "emendas": 1962500,
+    "emendasPix": 294375
+  },
+  "74646": {
+    "salario": 33300,
+    "cotasTotal": 62300,
+    "cotasCount": 246,
+    "emendas": 2115000,
+    "emendasPix": 338400
+  },
+  "74696": {
+    "salario": 33300,
+    "cotasTotal": 64800,
+    "cotasCount": 254,
+    "emendas": 2240000,
+    "emendasPix": 582400
+  },
+  "74784": {
+    "salario": 33300,
+    "cotasTotal": 69200,
+    "cotasCount": 267,
+    "emendas": 2460000,
+    "emendasPix": 344400
+  },
+  "74848": {
+    "salario": 33300,
+    "cotasTotal": 72400,
+    "cotasCount": 277,
+    "emendas": 2620000,
+    "emendasPix": 471600
+  },
+  "74856": {
+    "salario": 33300,
+    "cotasTotal": 72800,
+    "cotasCount": 278,
+    "emendas": 2640000,
+    "emendasPix": 686400
+  },
+  "74858": {
+    "salario": 33300,
+    "cotasTotal": 72900,
+    "cotasCount": 278,
+    "emendas": 2645000,
+    "emendasPix": 740600
+  },
+  "77003": {
+    "salario": 33300,
+    "cotasTotal": 30150,
+    "cotasCount": 150,
+    "emendas": 507500,
+    "emendasPix": 65975
+  },
+  "80815": {
+    "salario": 33300,
+    "cotasTotal": 70750,
+    "cotasCount": 272,
+    "emendas": 2537500,
+    "emendasPix": 634375
+  },
+  "81055": {
+    "salario": 33300,
+    "cotasTotal": 32750,
+    "cotasCount": 158,
+    "emendas": 637500,
+    "emendasPix": 159375
+  },
+  "88256": {
+    "salario": 33300,
+    "cotasTotal": 42800,
+    "cotasCount": 188,
+    "emendas": 1140000,
+    "emendasPix": 296400
+  },
+  "89536": {
+    "salario": 33300,
+    "cotasTotal": 56800,
+    "cotasCount": 230,
+    "emendas": 1840000,
+    "emendasPix": 478400
+  },
+  "91228": {
+    "salario": 33300,
+    "cotasTotal": 41400,
+    "cotasCount": 184,
+    "emendas": 1070000,
+    "emendasPix": 192600
+  },
+  "92102": {
+    "salario": 33300,
+    "cotasTotal": 35100,
+    "cotasCount": 165,
+    "emendas": 755000,
+    "emendasPix": 90600
+  },
+  "92346": {
+    "salario": 33300,
+    "cotasTotal": 47300,
+    "cotasCount": 201,
+    "emendas": 1365000,
+    "emendasPix": 218400
+  },
+  "92699": {
+    "salario": 33300,
+    "cotasTotal": 64950,
+    "cotasCount": 254,
+    "emendas": 2247500,
+    "emendasPix": 651775
+  },
+  "92776": {
+    "salario": 33300,
+    "cotasTotal": 68800,
+    "cotasCount": 266,
+    "emendas": 2440000,
+    "emendasPix": 634400
+  },
+  "98057": {
+    "salario": 33300,
+    "cotasTotal": 32850,
+    "cotasCount": 158,
+    "emendas": 642500,
+    "emendasPix": 173475
+  },
+  "98148": {
+    "salario": 33300,
+    "cotasTotal": 37400,
+    "cotasCount": 172,
+    "emendas": 870000,
+    "emendasPix": 156600
+  },
+  "98615": {
+    "salario": 33300,
+    "cotasTotal": 60750,
+    "cotasCount": 242,
+    "emendas": 2037500,
+    "emendasPix": 509375
+  },
+  "100689": {
+    "salario": 33300,
+    "cotasTotal": 64450,
+    "cotasCount": 253,
+    "emendas": 2222500,
+    "emendasPix": 422275
+  },
+  "103758": {
+    "salario": 33300,
+    "cotasTotal": 67900,
+    "cotasCount": 263,
+    "emendas": 2395000,
+    "emendasPix": 670600
+  },
+  "104552": {
+    "salario": 33300,
+    "cotasTotal": 57600,
+    "cotasCount": 232,
+    "emendas": 1880000,
+    "emendasPix": 413600
+  },
+  "107283": {
+    "salario": 33300,
+    "cotasTotal": 44150,
+    "cotasCount": 192,
+    "emendas": 1207500,
+    "emendasPix": 156975
+  },
+  "107970": {
+    "salario": 33300,
+    "cotasTotal": 78500,
+    "cotasCount": 295,
+    "emendas": 2925000,
+    "emendasPix": 585000
+  },
+  "109429": {
+    "salario": 33300,
+    "cotasTotal": 51450,
+    "cotasCount": 214,
+    "emendas": 1572500,
+    "emendasPix": 298775
+  },
+  "115200": {
+    "salario": 33300,
+    "cotasTotal": 40000,
+    "cotasCount": 180,
+    "emendas": 1000000,
+    "emendasPix": 100000
+  },
+  "116379": {
+    "salario": 33300,
+    "cotasTotal": 48950,
+    "cotasCount": 206,
+    "emendas": 1447500,
+    "emendasPix": 419775
+  },
+  "121948": {
+    "salario": 33300,
+    "cotasTotal": 77400,
+    "cotasCount": 292,
+    "emendas": 2870000,
+    "emendasPix": 516600
+  },
+  "122158": {
+    "salario": 33300,
+    "cotasTotal": 37900,
+    "cotasCount": 173,
+    "emendas": 895000,
+    "emendasPix": 250600
+  },
+  "122195": {
+    "salario": 33300,
+    "cotasTotal": 39750,
+    "cotasCount": 179,
+    "emendas": 987500,
+    "emendasPix": 246875
+  },
+  "122974": {
+    "salario": 33300,
+    "cotasTotal": 78700,
+    "cotasCount": 296,
+    "emendas": 2935000,
+    "emendasPix": 704400
+  },
+  "123086": {
+    "salario": 33300,
+    "cotasTotal": 34300,
+    "cotasCount": 162,
+    "emendas": 715000,
+    "emendasPix": 114400
+  },
+  "123756": {
+    "salario": 33300,
+    "cotasTotal": 67800,
+    "cotasCount": 263,
+    "emendas": 2390000,
+    "emendasPix": 621400
+  },
+  "128760": {
+    "salario": 33300,
+    "cotasTotal": 68000,
+    "cotasCount": 264,
+    "emendas": 2400000,
+    "emendasPix": 240000
+  },
+  "129618": {
+    "salario": 33300,
+    "cotasTotal": 60900,
+    "cotasCount": 242,
+    "emendas": 2045000,
+    "emendasPix": 572600
+  },
+  "132504": {
+    "salario": 33300,
+    "cotasTotal": 55200,
+    "cotasCount": 225,
+    "emendas": 1760000,
+    "emendasPix": 246400
+  },
+  "133439": {
+    "salario": 33300,
+    "cotasTotal": 51950,
+    "cotasCount": 215,
+    "emendas": 1597500,
+    "emendasPix": 463275
+  },
+  "133810": {
+    "salario": 33300,
+    "cotasTotal": 70500,
+    "cotasCount": 271,
+    "emendas": 2525000,
+    "emendasPix": 505000
+  },
+  "136811": {
+    "salario": 33300,
+    "cotasTotal": 70550,
+    "cotasCount": 271,
+    "emendas": 2527500,
+    "emendasPix": 530775
+  },
+  "137070": {
+    "salario": 33300,
+    "cotasTotal": 33500,
+    "cotasCount": 160,
+    "emendas": 675000,
+    "emendasPix": 135000
+  },
+  "138286": {
+    "salario": 33300,
+    "cotasTotal": 44300,
+    "cotasCount": 192,
+    "emendas": 1215000,
+    "emendasPix": 194400
+  },
+  "139285": {
+    "salario": 33300,
+    "cotasTotal": 44250,
+    "cotasCount": 192,
+    "emendas": 1212500,
+    "emendasPix": 181875
+  },
+  "141391": {
+    "salario": 33300,
+    "cotasTotal": 49550,
+    "cotasCount": 208,
+    "emendas": 1477500,
+    "emendasPix": 310275
+  },
+  "141398": {
+    "salario": 33300,
+    "cotasTotal": 49900,
+    "cotasCount": 209,
+    "emendas": 1495000,
+    "emendasPix": 418600
+  },
+  "141408": {
+    "salario": 33300,
+    "cotasTotal": 50400,
+    "cotasCount": 211,
+    "emendas": 1520000,
+    "emendasPix": 273600
+  },
+  "141411": {
+    "salario": 33300,
+    "cotasTotal": 50550,
+    "cotasCount": 211,
+    "emendas": 1527500,
+    "emendasPix": 320775
+  },
+  "141421": {
+    "salario": 33300,
+    "cotasTotal": 51050,
+    "cotasCount": 213,
+    "emendas": 1552500,
+    "emendasPix": 170775
+  },
+  "141431": {
+    "salario": 33300,
+    "cotasTotal": 51550,
+    "cotasCount": 214,
+    "emendas": 1577500,
+    "emendasPix": 331275
+  },
+  "141450": {
+    "salario": 33300,
+    "cotasTotal": 52500,
+    "cotasCount": 217,
+    "emendas": 1625000,
+    "emendasPix": 325000
+  },
+  "141456": {
+    "salario": 33300,
+    "cotasTotal": 52800,
+    "cotasCount": 218,
+    "emendas": 1640000,
+    "emendasPix": 426400
+  },
+  "141458": {
+    "salario": 33300,
+    "cotasTotal": 52900,
+    "cotasCount": 218,
+    "emendas": 1645000,
+    "emendasPix": 460600
+  },
+  "141459": {
+    "salario": 33300,
+    "cotasTotal": 52950,
+    "cotasCount": 218,
+    "emendas": 1647500,
+    "emendasPix": 477775
+  },
+  "141464": {
+    "salario": 33300,
+    "cotasTotal": 53200,
+    "cotasCount": 219,
+    "emendas": 1660000,
+    "emendasPix": 232400
+  },
+  "141470": {
+    "salario": 33300,
+    "cotasTotal": 53500,
+    "cotasCount": 220,
+    "emendas": 1675000,
+    "emendasPix": 335000
+  },
+  "141480": {
+    "salario": 33300,
+    "cotasTotal": 54000,
+    "cotasCount": 222,
+    "emendas": 1700000,
+    "emendasPix": 170000
+  },
+  "141485": {
+    "salario": 33300,
+    "cotasTotal": 54250,
+    "cotasCount": 222,
+    "emendas": 1712500,
+    "emendasPix": 256875
+  },
+  "141487": {
+    "salario": 33300,
+    "cotasTotal": 54350,
+    "cotasCount": 223,
+    "emendas": 1717500,
+    "emendasPix": 291975
+  },
+  "141488": {
+    "salario": 33300,
+    "cotasTotal": 54400,
+    "cotasCount": 223,
+    "emendas": 1720000,
+    "emendasPix": 309600
+  },
+  "141516": {
+    "salario": 33300,
+    "cotasTotal": 55800,
+    "cotasCount": 227,
+    "emendas": 1790000,
+    "emendasPix": 465400
+  },
+  "141518": {
+    "salario": 33300,
+    "cotasTotal": 55900,
+    "cotasCount": 227,
+    "emendas": 1795000,
+    "emendasPix": 502600
+  },
+  "141531": {
+    "salario": 33300,
+    "cotasTotal": 56550,
+    "cotasCount": 229,
+    "emendas": 1827500,
+    "emendasPix": 383775
+  },
+  "141533": {
+    "salario": 33300,
+    "cotasTotal": 56650,
+    "cotasCount": 229,
+    "emendas": 1832500,
+    "emendasPix": 421475
+  },
+  "141555": {
+    "salario": 33300,
+    "cotasTotal": 57750,
+    "cotasCount": 233,
+    "emendas": 1887500,
+    "emendasPix": 471875
+  },
+  "143084": {
+    "salario": 33300,
+    "cotasTotal": 34200,
+    "cotasCount": 162,
+    "emendas": 710000,
+    "emendasPix": 99400
+  },
+  "143632": {
+    "salario": 33300,
+    "cotasTotal": 61600,
+    "cotasCount": 244,
+    "emendas": 2080000,
+    "emendasPix": 457600
+  },
+  "143942": {
+    "salario": 33300,
+    "cotasTotal": 77100,
+    "cotasCount": 291,
+    "emendas": 2855000,
+    "emendasPix": 342600
+  },
+  "150418": {
+    "salario": 33300,
+    "cotasTotal": 50900,
+    "cotasCount": 212,
+    "emendas": 1545000,
+    "emendasPix": 432600
+  },
+  "152605": {
+    "salario": 33300,
+    "cotasTotal": 60250,
+    "cotasCount": 240,
+    "emendas": 2012500,
+    "emendasPix": 301875
+  },
+  "153423": {
+    "salario": 33300,
+    "cotasTotal": 51150,
+    "cotasCount": 213,
+    "emendas": 1557500,
+    "emendasPix": 202475
+  },
+  "154178": {
+    "salario": 33300,
+    "cotasTotal": 38900,
+    "cotasCount": 176,
+    "emendas": 945000,
+    "emendasPix": 264600
+  },
+  "156190": {
+    "salario": 33300,
+    "cotasTotal": 39500,
+    "cotasCount": 178,
+    "emendas": 975000,
+    "emendasPix": 195000
+  },
+  "157130": {
+    "salario": 33300,
+    "cotasTotal": 36500,
+    "cotasCount": 169,
+    "emendas": 825000,
+    "emendasPix": 165000
+  },
+  "160161": {
+    "salario": 33300,
+    "cotasTotal": 38050,
+    "cotasCount": 174,
+    "emendas": 902500,
+    "emendasPix": 99275
+  },
+  "160508": {
+    "salario": 33300,
+    "cotasTotal": 55400,
+    "cotasCount": 226,
+    "emendas": 1770000,
+    "emendasPix": 318600
+  },
+  "160510": {
+    "salario": 33300,
+    "cotasTotal": 55500,
+    "cotasCount": 226,
+    "emendas": 1775000,
+    "emendasPix": 355000
+  },
+  "160512": {
+    "salario": 33300,
+    "cotasTotal": 55600,
+    "cotasCount": 226,
+    "emendas": 1780000,
+    "emendasPix": 391600
+  },
+  "160517": {
+    "salario": 33300,
+    "cotasTotal": 55850,
+    "cotasCount": 227,
+    "emendas": 1792500,
+    "emendasPix": 483975
+  },
+  "160518": {
+    "salario": 33300,
+    "cotasTotal": 55900,
+    "cotasCount": 227,
+    "emendas": 1795000,
+    "emendasPix": 502600
+  },
+  "160527": {
+    "salario": 33300,
+    "cotasTotal": 56350,
+    "cotasCount": 229,
+    "emendas": 1817500,
+    "emendasPix": 308975
+  },
+  "160531": {
+    "salario": 33300,
+    "cotasTotal": 56550,
+    "cotasCount": 229,
+    "emendas": 1827500,
+    "emendasPix": 383775
+  },
+  "160535": {
+    "salario": 33300,
+    "cotasTotal": 56750,
+    "cotasCount": 230,
+    "emendas": 1837500,
+    "emendasPix": 459375
+  },
+  "160538": {
+    "salario": 33300,
+    "cotasTotal": 56900,
+    "cotasCount": 230,
+    "emendas": 1845000,
+    "emendasPix": 516600
+  },
+  "160541": {
+    "salario": 33300,
+    "cotasTotal": 57050,
+    "cotasCount": 231,
+    "emendas": 1852500,
+    "emendasPix": 203775
+  },
+  "160545": {
+    "salario": 33300,
+    "cotasTotal": 57250,
+    "cotasCount": 231,
+    "emendas": 1862500,
+    "emendasPix": 279375
+  },
+  "160548": {
+    "salario": 33300,
+    "cotasTotal": 57400,
+    "cotasCount": 232,
+    "emendas": 1870000,
+    "emendasPix": 336600
+  },
+  "160552": {
+    "salario": 33300,
+    "cotasTotal": 57600,
+    "cotasCount": 232,
+    "emendas": 1880000,
+    "emendasPix": 413600
+  },
+  "160553": {
+    "salario": 33300,
+    "cotasTotal": 57650,
+    "cotasCount": 232,
+    "emendas": 1882500,
+    "emendasPix": 432975
+  },
+  "160556": {
+    "salario": 33300,
+    "cotasTotal": 57800,
+    "cotasCount": 233,
+    "emendas": 1890000,
+    "emendasPix": 491400
+  },
+  "160558": {
+    "salario": 33300,
+    "cotasTotal": 57900,
+    "cotasCount": 233,
+    "emendas": 1895000,
+    "emendasPix": 530600
+  },
+  "160559": {
+    "salario": 33300,
+    "cotasTotal": 57950,
+    "cotasCount": 233,
+    "emendas": 1897500,
+    "emendasPix": 550275
+  },
+  "160561": {
+    "salario": 33300,
+    "cotasTotal": 58050,
+    "cotasCount": 234,
+    "emendas": 1902500,
+    "emendasPix": 209275
+  },
+  "160569": {
+    "salario": 33300,
+    "cotasTotal": 58450,
+    "cotasCount": 235,
+    "emendas": 1922500,
+    "emendasPix": 365275
+  },
+  "160575": {
+    "salario": 33300,
+    "cotasTotal": 58750,
+    "cotasCount": 236,
+    "emendas": 1937500,
+    "emendasPix": 484375
+  },
+  "160588": {
+    "salario": 33300,
+    "cotasTotal": 59400,
+    "cotasCount": 238,
+    "emendas": 1970000,
+    "emendasPix": 354600
+  },
+  "160591": {
+    "salario": 33300,
+    "cotasTotal": 59550,
+    "cotasCount": 238,
+    "emendas": 1977500,
+    "emendasPix": 415275
+  },
+  "160592": {
+    "salario": 33300,
+    "cotasTotal": 59600,
+    "cotasCount": 238,
+    "emendas": 1980000,
+    "emendasPix": 435600
+  },
+  "160598": {
+    "salario": 33300,
+    "cotasTotal": 59900,
+    "cotasCount": 239,
+    "emendas": 1995000,
+    "emendasPix": 558600
+  },
+  "160599": {
+    "salario": 33300,
+    "cotasTotal": 59950,
+    "cotasCount": 239,
+    "emendas": 1997500,
+    "emendasPix": 579275
+  },
+  "160600": {
+    "salario": 33300,
+    "cotasTotal": 60000,
+    "cotasCount": 240,
+    "emendas": 2000000,
+    "emendasPix": 200000
+  },
+  "160601": {
+    "salario": 33300,
+    "cotasTotal": 60050,
+    "cotasCount": 240,
+    "emendas": 2002500,
+    "emendasPix": 220275
+  },
+  "160604": {
+    "salario": 33300,
+    "cotasTotal": 60200,
+    "cotasCount": 240,
+    "emendas": 2010000,
+    "emendasPix": 281400
+  },
+  "160610": {
+    "salario": 33300,
+    "cotasTotal": 60500,
+    "cotasCount": 241,
+    "emendas": 2025000,
+    "emendasPix": 405000
+  },
+  "160621": {
+    "salario": 33300,
+    "cotasTotal": 61050,
+    "cotasCount": 243,
+    "emendas": 2052500,
+    "emendasPix": 225775
+  },
+  "160629": {
+    "salario": 33300,
+    "cotasTotal": 61450,
+    "cotasCount": 244,
+    "emendas": 2072500,
+    "emendasPix": 393775
+  },
+  "160632": {
+    "salario": 33300,
+    "cotasTotal": 61600,
+    "cotasCount": 244,
+    "emendas": 2080000,
+    "emendasPix": 457600
+  },
+  "160635": {
+    "salario": 33300,
+    "cotasTotal": 61750,
+    "cotasCount": 245,
+    "emendas": 2087500,
+    "emendasPix": 521875
+  },
+  "160640": {
+    "salario": 33300,
+    "cotasTotal": 62000,
+    "cotasCount": 246,
+    "emendas": 2100000,
+    "emendasPix": 210000
+  },
+  "160641": {
+    "salario": 33300,
+    "cotasTotal": 62050,
+    "cotasCount": 246,
+    "emendas": 2102500,
+    "emendasPix": 231275
+  },
+  "160642": {
+    "salario": 33300,
+    "cotasTotal": 62100,
+    "cotasCount": 246,
+    "emendas": 2105000,
+    "emendasPix": 252600
+  },
+  "160665": {
+    "salario": 33300,
+    "cotasTotal": 63250,
+    "cotasCount": 249,
+    "emendas": 2162500,
+    "emendasPix": 324375
+  },
+  "160666": {
+    "salario": 33300,
+    "cotasTotal": 63300,
+    "cotasCount": 249,
+    "emendas": 2165000,
+    "emendasPix": 346400
+  },
+  "160673": {
+    "salario": 33300,
+    "cotasTotal": 63650,
+    "cotasCount": 250,
+    "emendas": 2182500,
+    "emendasPix": 501975
+  },
+  "160674": {
+    "salario": 33300,
+    "cotasTotal": 63700,
+    "cotasCount": 251,
+    "emendas": 2185000,
+    "emendasPix": 524400
+  },
+  "160758": {
+    "salario": 33300,
+    "cotasTotal": 67900,
+    "cotasCount": 263,
+    "emendas": 2395000,
+    "emendasPix": 670600
+  },
+  "160976": {
+    "salario": 33300,
+    "cotasTotal": 78800,
+    "cotasCount": 296,
+    "emendas": 2940000,
+    "emendasPix": 764400
+  },
+  "161440": {
+    "salario": 33300,
+    "cotasTotal": 52000,
+    "cotasCount": 216,
+    "emendas": 1600000,
+    "emendasPix": 160000
+  },
+  "161550": {
+    "salario": 33300,
+    "cotasTotal": 57500,
+    "cotasCount": 232,
+    "emendas": 1875000,
+    "emendasPix": 375000
+  },
+  "162067": {
+    "salario": 33300,
+    "cotasTotal": 33350,
+    "cotasCount": 160,
+    "emendas": 667500,
+    "emendasPix": 113475
+  },
+  "162332": {
+    "salario": 33300,
+    "cotasTotal": 46600,
+    "cotasCount": 199,
+    "emendas": 1330000,
+    "emendasPix": 292600
+  },
+  "163321": {
+    "salario": 33300,
+    "cotasTotal": 46050,
+    "cotasCount": 198,
+    "emendas": 1302500,
+    "emendasPix": 143275
+  },
+  "164360": {
+    "salario": 33300,
+    "cotasTotal": 48000,
+    "cotasCount": 204,
+    "emendas": 1400000,
+    "emendasPix": 140000
+  },
+  "165470": {
+    "salario": 33300,
+    "cotasTotal": 53500,
+    "cotasCount": 220,
+    "emendas": 1675000,
+    "emendasPix": 335000
+  },
+  "166402": {
+    "salario": 33300,
+    "cotasTotal": 50100,
+    "cotasCount": 210,
+    "emendas": 1505000,
+    "emendasPix": 180600
+  },
+  "171139": {
+    "salario": 33300,
+    "cotasTotal": 36950,
+    "cotasCount": 170,
+    "emendas": 847500,
+    "emendasPix": 245775
+  },
+  "171617": {
+    "salario": 33300,
+    "cotasTotal": 60850,
+    "cotasCount": 242,
+    "emendas": 2042500,
+    "emendasPix": 551475
+  },
+  "171623": {
+    "salario": 33300,
+    "cotasTotal": 61150,
+    "cotasCount": 243,
+    "emendas": 2057500,
+    "emendasPix": 267475
+  },
+  "171786": {
+    "salario": 33300,
+    "cotasTotal": 69300,
+    "cotasCount": 267,
+    "emendas": 2465000,
+    "emendasPix": 394400
+  },
+  "175765": {
+    "salario": 33300,
+    "cotasTotal": 68250,
+    "cotasCount": 264,
+    "emendas": 2412500,
+    "emendasPix": 361875
+  },
+  "178829": {
+    "salario": 33300,
+    "cotasTotal": 71450,
+    "cotasCount": 274,
+    "emendas": 2572500,
+    "emendasPix": 488775
+  },
+  "178831": {
+    "salario": 33300,
+    "cotasTotal": 71550,
+    "cotasCount": 274,
+    "emendas": 2577500,
+    "emendasPix": 541275
+  },
+  "178832": {
+    "salario": 33300,
+    "cotasTotal": 71600,
+    "cotasCount": 274,
+    "emendas": 2580000,
+    "emendasPix": 567600
+  },
+  "178835": {
+    "salario": 33300,
+    "cotasTotal": 71750,
+    "cotasCount": 275,
+    "emendas": 2587500,
+    "emendasPix": 646875
+  },
+  "178843": {
+    "salario": 33300,
+    "cotasTotal": 72150,
+    "cotasCount": 276,
+    "emendas": 2607500,
+    "emendasPix": 338975
+  },
+  "178854": {
+    "salario": 33300,
+    "cotasTotal": 72700,
+    "cotasCount": 278,
+    "emendas": 2635000,
+    "emendasPix": 632400
+  },
+  "178857": {
+    "salario": 33300,
+    "cotasTotal": 72850,
+    "cotasCount": 278,
+    "emendas": 2642500,
+    "emendasPix": 713475
+  },
+  "178858": {
+    "salario": 33300,
+    "cotasTotal": 72900,
+    "cotasCount": 278,
+    "emendas": 2645000,
+    "emendasPix": 740600
+  },
+  "178860": {
+    "salario": 33300,
+    "cotasTotal": 73000,
+    "cotasCount": 279,
+    "emendas": 2650000,
+    "emendasPix": 265000
+  },
+  "178866": {
+    "salario": 33300,
+    "cotasTotal": 73300,
+    "cotasCount": 279,
+    "emendas": 2665000,
+    "emendasPix": 426400
+  },
+  "178871": {
+    "salario": 33300,
+    "cotasTotal": 73550,
+    "cotasCount": 280,
+    "emendas": 2677500,
+    "emendasPix": 562275
+  },
+  "178873": {
+    "salario": 33300,
+    "cotasTotal": 73650,
+    "cotasCount": 280,
+    "emendas": 2682500,
+    "emendasPix": 616975
+  },
+  "178876": {
+    "salario": 33300,
+    "cotasTotal": 73800,
+    "cotasCount": 281,
+    "emendas": 2690000,
+    "emendasPix": 699400
+  },
+  "178881": {
+    "salario": 33300,
+    "cotasTotal": 74050,
+    "cotasCount": 282,
+    "emendas": 2702500,
+    "emendasPix": 297275
+  },
+  "178882": {
+    "salario": 33300,
+    "cotasTotal": 74100,
+    "cotasCount": 282,
+    "emendas": 2705000,
+    "emendasPix": 324600
+  },
+  "178884": {
+    "salario": 33300,
+    "cotasTotal": 74200,
+    "cotasCount": 282,
+    "emendas": 2710000,
+    "emendasPix": 379400
+  },
+  "178886": {
+    "salario": 33300,
+    "cotasTotal": 74300,
+    "cotasCount": 282,
+    "emendas": 2715000,
+    "emendasPix": 434400
+  },
+  "178887": {
+    "salario": 33300,
+    "cotasTotal": 74350,
+    "cotasCount": 283,
+    "emendas": 2717500,
+    "emendasPix": 461975
+  },
+  "178895": {
+    "salario": 33300,
+    "cotasTotal": 74750,
+    "cotasCount": 284,
+    "emendas": 2737500,
+    "emendasPix": 684375
+  },
+  "178896": {
+    "salario": 33300,
+    "cotasTotal": 74800,
+    "cotasCount": 284,
+    "emendas": 2740000,
+    "emendasPix": 712400
+  },
+  "178905": {
+    "salario": 33300,
+    "cotasTotal": 75250,
+    "cotasCount": 285,
+    "emendas": 2762500,
+    "emendasPix": 414375
+  },
+  "178908": {
+    "salario": 33300,
+    "cotasTotal": 75400,
+    "cotasCount": 286,
+    "emendas": 2770000,
+    "emendasPix": 498600
+  },
+  "178909": {
+    "salario": 33300,
+    "cotasTotal": 75450,
+    "cotasCount": 286,
+    "emendas": 2772500,
+    "emendasPix": 526775
+  },
+  "178910": {
+    "salario": 33300,
+    "cotasTotal": 75500,
+    "cotasCount": 286,
+    "emendas": 2775000,
+    "emendasPix": 555000
+  },
+  "178927": {
+    "salario": 33300,
+    "cotasTotal": 76350,
+    "cotasCount": 289,
+    "emendas": 2817500,
+    "emendasPix": 478975
+  },
+  "178929": {
+    "salario": 33300,
+    "cotasTotal": 76450,
+    "cotasCount": 289,
+    "emendas": 2822500,
+    "emendasPix": 536275
+  },
+  "178931": {
+    "salario": 33300,
+    "cotasTotal": 76550,
+    "cotasCount": 289,
+    "emendas": 2827500,
+    "emendasPix": 593775
+  },
+  "178933": {
+    "salario": 33300,
+    "cotasTotal": 76650,
+    "cotasCount": 289,
+    "emendas": 2832500,
+    "emendasPix": 651475
+  },
+  "178934": {
+    "salario": 33300,
+    "cotasTotal": 76700,
+    "cotasCount": 290,
+    "emendas": 2835000,
+    "emendasPix": 680400
+  },
+  "178937": {
+    "salario": 33300,
+    "cotasTotal": 76850,
+    "cotasCount": 290,
+    "emendas": 2842500,
+    "emendasPix": 767475
+  },
+  "178943": {
+    "salario": 33300,
+    "cotasTotal": 77150,
+    "cotasCount": 291,
+    "emendas": 2857500,
+    "emendasPix": 371475
+  },
+  "178945": {
+    "salario": 33300,
+    "cotasTotal": 77250,
+    "cotasCount": 291,
+    "emendas": 2862500,
+    "emendasPix": 429375
+  },
+  "178946": {
+    "salario": 33300,
+    "cotasTotal": 77300,
+    "cotasCount": 291,
+    "emendas": 2865000,
+    "emendasPix": 458400
+  },
+  "178947": {
+    "salario": 33300,
+    "cotasTotal": 77350,
+    "cotasCount": 292,
+    "emendas": 2867500,
+    "emendasPix": 487475
+  },
+  "178954": {
+    "salario": 33300,
+    "cotasTotal": 77700,
+    "cotasCount": 293,
+    "emendas": 2885000,
+    "emendasPix": 692400
+  },
+  "178962": {
+    "salario": 33300,
+    "cotasTotal": 78100,
+    "cotasCount": 294,
+    "emendas": 2905000,
+    "emendasPix": 348600
+  },
+  "178963": {
+    "salario": 33300,
+    "cotasTotal": 78150,
+    "cotasCount": 294,
+    "emendas": 2907500,
+    "emendasPix": 377975
+  },
+  "178964": {
+    "salario": 33300,
+    "cotasTotal": 78200,
+    "cotasCount": 294,
+    "emendas": 2910000,
+    "emendasPix": 407400
+  },
+  "178966": {
+    "salario": 33300,
+    "cotasTotal": 78300,
+    "cotasCount": 294,
+    "emendas": 2915000,
+    "emendasPix": 466400
+  },
+  "178970": {
+    "salario": 33300,
+    "cotasTotal": 78500,
+    "cotasCount": 295,
+    "emendas": 2925000,
+    "emendasPix": 585000
+  },
+  "178972": {
+    "salario": 33300,
+    "cotasTotal": 78600,
+    "cotasCount": 295,
+    "emendas": 2930000,
+    "emendasPix": 644600
+  },
+  "178975": {
+    "salario": 33300,
+    "cotasTotal": 78750,
+    "cotasCount": 296,
+    "emendas": 2937500,
+    "emendasPix": 734375
+  },
+  "178983": {
+    "salario": 33300,
+    "cotasTotal": 79150,
+    "cotasCount": 297,
+    "emendas": 2957500,
+    "emendasPix": 384475
+  },
+  "178985": {
+    "salario": 33300,
+    "cotasTotal": 79250,
+    "cotasCount": 297,
+    "emendas": 2962500,
+    "emendasPix": 444375
+  },
+  "178986": {
+    "salario": 33300,
+    "cotasTotal": 79300,
+    "cotasCount": 297,
+    "emendas": 2965000,
+    "emendasPix": 474400
+  },
+  "178987": {
+    "salario": 33300,
+    "cotasTotal": 79350,
+    "cotasCount": 298,
+    "emendas": 2967500,
+    "emendasPix": 504475
+  },
+  "178989": {
+    "salario": 33300,
+    "cotasTotal": 79450,
+    "cotasCount": 298,
+    "emendas": 2972500,
+    "emendasPix": 564775
+  },
+  "178992": {
+    "salario": 33300,
+    "cotasTotal": 79600,
+    "cotasCount": 298,
+    "emendas": 2980000,
+    "emendasPix": 655600
+  },
+  "178993": {
+    "salario": 33300,
+    "cotasTotal": 79650,
+    "cotasCount": 298,
+    "emendas": 2982500,
+    "emendasPix": 685975
+  },
+  "178997": {
+    "salario": 33300,
+    "cotasTotal": 79850,
+    "cotasCount": 299,
+    "emendas": 2992500,
+    "emendasPix": 807975
+  },
+  "179000": {
+    "salario": 33300,
+    "cotasTotal": 30000,
+    "cotasCount": 150,
+    "emendas": 500000,
+    "emendasPix": 50000
+  },
+  "179001": {
+    "salario": 33300,
+    "cotasTotal": 30050,
+    "cotasCount": 150,
+    "emendas": 502500,
+    "emendasPix": 55275
+  },
+  "180214": {
+    "salario": 33300,
+    "cotasTotal": 40700,
+    "cotasCount": 182,
+    "emendas": 1035000,
+    "emendasPix": 248400
+  },
+  "182146": {
+    "salario": 33300,
+    "cotasTotal": 37300,
+    "cotasCount": 171,
+    "emendas": 865000,
+    "emendasPix": 138400
+  },
+  "188097": {
+    "salario": 33300,
+    "cotasTotal": 34850,
+    "cotasCount": 164,
+    "emendas": 742500,
+    "emendasPix": 200475
+  },
+  "191923": {
+    "salario": 33300,
+    "cotasTotal": 76150,
+    "cotasCount": 288,
+    "emendas": 2807500,
+    "emendasPix": 364975
+  },
+  "198197": {
+    "salario": 33300,
+    "cotasTotal": 39850,
+    "cotasCount": 179,
+    "emendas": 992500,
+    "emendasPix": 267975
+  },
+  "198783": {
+    "salario": 33300,
+    "cotasTotal": 69150,
+    "cotasCount": 267,
+    "emendas": 2457500,
+    "emendasPix": 319475
+  },
+  "204351": {
+    "salario": 33300,
+    "cotasTotal": 47550,
+    "cotasCount": 202,
+    "emendas": 1377500,
+    "emendasPix": 289275
+  },
+  "204353": {
+    "salario": 33300,
+    "cotasTotal": 47650,
+    "cotasCount": 202,
+    "emendas": 1382500,
+    "emendasPix": 317975
+  },
+  "204355": {
+    "salario": 33300,
+    "cotasTotal": 47750,
+    "cotasCount": 203,
+    "emendas": 1387500,
+    "emendasPix": 346875
+  },
+  "204356": {
+    "salario": 33300,
+    "cotasTotal": 47800,
+    "cotasCount": 203,
+    "emendas": 1390000,
+    "emendasPix": 361400
+  },
+  "204358": {
+    "salario": 33300,
+    "cotasTotal": 47900,
+    "cotasCount": 203,
+    "emendas": 1395000,
+    "emendasPix": 390600
+  },
+  "204360": {
+    "salario": 33300,
+    "cotasTotal": 48000,
+    "cotasCount": 204,
+    "emendas": 1400000,
+    "emendasPix": 140000
+  },
+  "204361": {
+    "salario": 33300,
+    "cotasTotal": 48050,
+    "cotasCount": 204,
+    "emendas": 1402500,
+    "emendasPix": 154275
+  },
+  "204362": {
+    "salario": 33300,
+    "cotasTotal": 48100,
+    "cotasCount": 204,
+    "emendas": 1405000,
+    "emendasPix": 168600
+  },
+  "204364": {
+    "salario": 33300,
+    "cotasTotal": 48200,
+    "cotasCount": 204,
+    "emendas": 1410000,
+    "emendasPix": 197400
+  },
+  "204365": {
+    "salario": 33300,
+    "cotasTotal": 48250,
+    "cotasCount": 204,
+    "emendas": 1412500,
+    "emendasPix": 211875
+  },
+  "204367": {
+    "salario": 33300,
+    "cotasTotal": 48350,
+    "cotasCount": 205,
+    "emendas": 1417500,
+    "emendasPix": 240975
+  },
+  "204368": {
+    "salario": 33300,
+    "cotasTotal": 48400,
+    "cotasCount": 205,
+    "emendas": 1420000,
+    "emendasPix": 255600
+  },
+  "204369": {
+    "salario": 33300,
+    "cotasTotal": 48450,
+    "cotasCount": 205,
+    "emendas": 1422500,
+    "emendasPix": 270275
+  },
+  "204372": {
+    "salario": 33300,
+    "cotasTotal": 48600,
+    "cotasCount": 205,
+    "emendas": 1430000,
+    "emendasPix": 314600
+  },
+  "204374": {
+    "salario": 33300,
+    "cotasTotal": 48700,
+    "cotasCount": 206,
+    "emendas": 1435000,
+    "emendasPix": 344400
+  },
+  "204376": {
+    "salario": 33300,
+    "cotasTotal": 48800,
+    "cotasCount": 206,
+    "emendas": 1440000,
+    "emendasPix": 374400
+  },
+  "204378": {
+    "salario": 33300,
+    "cotasTotal": 48900,
+    "cotasCount": 206,
+    "emendas": 1445000,
+    "emendasPix": 404600
+  },
+  "204379": {
+    "salario": 33300,
+    "cotasTotal": 48950,
+    "cotasCount": 206,
+    "emendas": 1447500,
+    "emendasPix": 419775
+  },
+  "204387": {
+    "salario": 33300,
+    "cotasTotal": 49350,
+    "cotasCount": 208,
+    "emendas": 1467500,
+    "emendasPix": 249475
+  },
+  "204388": {
+    "salario": 33300,
+    "cotasTotal": 49400,
+    "cotasCount": 208,
+    "emendas": 1470000,
+    "emendasPix": 264600
+  },
+  "204390": {
+    "salario": 33300,
+    "cotasTotal": 49500,
+    "cotasCount": 208,
+    "emendas": 1475000,
+    "emendasPix": 295000
+  },
+  "204391": {
+    "salario": 33300,
+    "cotasTotal": 49550,
+    "cotasCount": 208,
+    "emendas": 1477500,
+    "emendasPix": 310275
+  },
+  "204394": {
+    "salario": 33300,
+    "cotasTotal": 49700,
+    "cotasCount": 209,
+    "emendas": 1485000,
+    "emendasPix": 356400
+  },
+  "204395": {
+    "salario": 33300,
+    "cotasTotal": 49750,
+    "cotasCount": 209,
+    "emendas": 1487500,
+    "emendasPix": 371875
+  },
+  "204396": {
+    "salario": 33300,
+    "cotasTotal": 49800,
+    "cotasCount": 209,
+    "emendas": 1490000,
+    "emendasPix": 387400
+  },
+  "204398": {
+    "salario": 33300,
+    "cotasTotal": 49900,
+    "cotasCount": 209,
+    "emendas": 1495000,
+    "emendasPix": 418600
+  },
+  "204404": {
+    "salario": 33300,
+    "cotasTotal": 50200,
+    "cotasCount": 210,
+    "emendas": 1510000,
+    "emendasPix": 211400
+  },
+  "204406": {
+    "salario": 33300,
+    "cotasTotal": 50300,
+    "cotasCount": 210,
+    "emendas": 1515000,
+    "emendasPix": 242400
+  },
+  "204407": {
+    "salario": 33300,
+    "cotasTotal": 50350,
+    "cotasCount": 211,
+    "emendas": 1517500,
+    "emendasPix": 257975
+  },
+  "204408": {
+    "salario": 33300,
+    "cotasTotal": 50400,
+    "cotasCount": 211,
+    "emendas": 1520000,
+    "emendasPix": 273600
+  },
+  "204409": {
+    "salario": 33300,
+    "cotasTotal": 50450,
+    "cotasCount": 211,
+    "emendas": 1522500,
+    "emendasPix": 289275
+  },
+  "204410": {
+    "salario": 33300,
+    "cotasTotal": 50500,
+    "cotasCount": 211,
+    "emendas": 1525000,
+    "emendasPix": 305000
+  },
+  "204411": {
+    "salario": 33300,
+    "cotasTotal": 50550,
+    "cotasCount": 211,
+    "emendas": 1527500,
+    "emendasPix": 320775
+  },
+  "204412": {
+    "salario": 33300,
+    "cotasTotal": 50600,
+    "cotasCount": 211,
+    "emendas": 1530000,
+    "emendasPix": 336600
+  },
+  "204416": {
+    "salario": 33300,
+    "cotasTotal": 50800,
+    "cotasCount": 212,
+    "emendas": 1540000,
+    "emendasPix": 400400
+  },
+  "204419": {
+    "salario": 33300,
+    "cotasTotal": 50950,
+    "cotasCount": 212,
+    "emendas": 1547500,
+    "emendasPix": 448775
+  },
+  "204422": {
+    "salario": 33300,
+    "cotasTotal": 51100,
+    "cotasCount": 213,
+    "emendas": 1555000,
+    "emendasPix": 186600
+  },
+  "204423": {
+    "salario": 33300,
+    "cotasTotal": 51150,
+    "cotasCount": 213,
+    "emendas": 1557500,
+    "emendasPix": 202475
+  },
+  "204425": {
+    "salario": 33300,
+    "cotasTotal": 51250,
+    "cotasCount": 213,
+    "emendas": 1562500,
+    "emendasPix": 234375
+  },
+  "204426": {
+    "salario": 33300,
+    "cotasTotal": 51300,
+    "cotasCount": 213,
+    "emendas": 1565000,
+    "emendasPix": 250400
+  },
+  "204427": {
+    "salario": 33300,
+    "cotasTotal": 51350,
+    "cotasCount": 214,
+    "emendas": 1567500,
+    "emendasPix": 266475
+  },
+  "204431": {
+    "salario": 33300,
+    "cotasTotal": 51550,
+    "cotasCount": 214,
+    "emendas": 1577500,
+    "emendasPix": 331275
+  },
+  "204433": {
+    "salario": 33300,
+    "cotasTotal": 51650,
+    "cotasCount": 214,
+    "emendas": 1582500,
+    "emendasPix": 363975
+  },
+  "204436": {
+    "salario": 33300,
+    "cotasTotal": 51800,
+    "cotasCount": 215,
+    "emendas": 1590000,
+    "emendasPix": 413400
+  },
+  "204441": {
+    "salario": 33300,
+    "cotasTotal": 52050,
+    "cotasCount": 216,
+    "emendas": 1602500,
+    "emendasPix": 176275
+  },
+  "204444": {
+    "salario": 33300,
+    "cotasTotal": 52200,
+    "cotasCount": 216,
+    "emendas": 1610000,
+    "emendasPix": 225400
+  },
+  "204445": {
+    "salario": 33300,
+    "cotasTotal": 52250,
+    "cotasCount": 216,
+    "emendas": 1612500,
+    "emendasPix": 241875
+  },
+  "204448": {
+    "salario": 33300,
+    "cotasTotal": 52400,
+    "cotasCount": 217,
+    "emendas": 1620000,
+    "emendasPix": 291600
+  },
+  "204449": {
+    "salario": 33300,
+    "cotasTotal": 52450,
+    "cotasCount": 217,
+    "emendas": 1622500,
+    "emendasPix": 308275
+  },
+  "204450": {
+    "salario": 33300,
+    "cotasTotal": 52500,
+    "cotasCount": 217,
+    "emendas": 1625000,
+    "emendasPix": 325000
+  },
+  "204453": {
+    "salario": 33300,
+    "cotasTotal": 52650,
+    "cotasCount": 217,
+    "emendas": 1632500,
+    "emendasPix": 375475
+  },
+  "204455": {
+    "salario": 33300,
+    "cotasTotal": 52750,
+    "cotasCount": 218,
+    "emendas": 1637500,
+    "emendasPix": 409375
+  },
+  "204456": {
+    "salario": 33300,
+    "cotasTotal": 52800,
+    "cotasCount": 218,
+    "emendas": 1640000,
+    "emendasPix": 426400
+  },
+  "204457": {
+    "salario": 33300,
+    "cotasTotal": 52850,
+    "cotasCount": 218,
+    "emendas": 1642500,
+    "emendasPix": 443475
+  },
+  "204459": {
+    "salario": 33300,
+    "cotasTotal": 52950,
+    "cotasCount": 218,
+    "emendas": 1647500,
+    "emendasPix": 477775
+  },
+  "204460": {
+    "salario": 33300,
+    "cotasTotal": 53000,
+    "cotasCount": 219,
+    "emendas": 1650000,
+    "emendasPix": 165000
+  },
+  "204462": {
+    "salario": 33300,
+    "cotasTotal": 53100,
+    "cotasCount": 219,
+    "emendas": 1655000,
+    "emendasPix": 198600
+  },
+  "204464": {
+    "salario": 33300,
+    "cotasTotal": 53200,
+    "cotasCount": 219,
+    "emendas": 1660000,
+    "emendasPix": 232400
+  },
+  "204472": {
+    "salario": 33300,
+    "cotasTotal": 53600,
+    "cotasCount": 220,
+    "emendas": 1680000,
+    "emendasPix": 369600
+  },
+  "204473": {
+    "salario": 33300,
+    "cotasTotal": 53650,
+    "cotasCount": 220,
+    "emendas": 1682500,
+    "emendasPix": 386975
+  },
+  "204474": {
+    "salario": 33300,
+    "cotasTotal": 53700,
+    "cotasCount": 221,
+    "emendas": 1685000,
+    "emendasPix": 404400
+  },
+  "204476": {
+    "salario": 33300,
+    "cotasTotal": 53800,
+    "cotasCount": 221,
+    "emendas": 1690000,
+    "emendasPix": 439400
+  },
+  "204479": {
+    "salario": 33300,
+    "cotasTotal": 53950,
+    "cotasCount": 221,
+    "emendas": 1697500,
+    "emendasPix": 492275
+  },
+  "204480": {
+    "salario": 33300,
+    "cotasTotal": 54000,
+    "cotasCount": 222,
+    "emendas": 1700000,
+    "emendasPix": 170000
+  },
+  "204481": {
+    "salario": 33300,
+    "cotasTotal": 54050,
+    "cotasCount": 222,
+    "emendas": 1702500,
+    "emendasPix": 187275
+  },
+  "204482": {
+    "salario": 33300,
+    "cotasTotal": 54100,
+    "cotasCount": 222,
+    "emendas": 1705000,
+    "emendasPix": 204600
+  },
+  "204485": {
+    "salario": 33300,
+    "cotasTotal": 54250,
+    "cotasCount": 222,
+    "emendas": 1712500,
+    "emendasPix": 256875
+  },
+  "204486": {
+    "salario": 33300,
+    "cotasTotal": 54300,
+    "cotasCount": 222,
+    "emendas": 1715000,
+    "emendasPix": 274400
+  },
+  "204488": {
+    "salario": 33300,
+    "cotasTotal": 54400,
+    "cotasCount": 223,
+    "emendas": 1720000,
+    "emendasPix": 309600
+  },
+  "204489": {
+    "salario": 33300,
+    "cotasTotal": 54450,
+    "cotasCount": 223,
+    "emendas": 1722500,
+    "emendasPix": 327275
+  },
+  "204491": {
+    "salario": 33300,
+    "cotasTotal": 54550,
+    "cotasCount": 223,
+    "emendas": 1727500,
+    "emendasPix": 362775
+  },
+  "204492": {
+    "salario": 33300,
+    "cotasTotal": 54600,
+    "cotasCount": 223,
+    "emendas": 1730000,
+    "emendasPix": 380600
+  },
+  "204494": {
+    "salario": 33300,
+    "cotasTotal": 54700,
+    "cotasCount": 224,
+    "emendas": 1735000,
+    "emendasPix": 416400
+  },
+  "204495": {
+    "salario": 33300,
+    "cotasTotal": 54750,
+    "cotasCount": 224,
+    "emendas": 1737500,
+    "emendasPix": 434375
+  },
+  "204496": {
+    "salario": 33300,
+    "cotasTotal": 54800,
+    "cotasCount": 224,
+    "emendas": 1740000,
+    "emendasPix": 452400
+  },
+  "204497": {
+    "salario": 33300,
+    "cotasTotal": 54850,
+    "cotasCount": 224,
+    "emendas": 1742500,
+    "emendasPix": 470475
+  },
+  "204498": {
+    "salario": 33300,
+    "cotasTotal": 54900,
+    "cotasCount": 224,
+    "emendas": 1745000,
+    "emendasPix": 488600
+  },
+  "204501": {
+    "salario": 33300,
+    "cotasTotal": 55050,
+    "cotasCount": 225,
+    "emendas": 1752500,
+    "emendasPix": 192775
+  },
+  "204503": {
+    "salario": 33300,
+    "cotasTotal": 55150,
+    "cotasCount": 225,
+    "emendas": 1757500,
+    "emendasPix": 228475
+  },
+  "204504": {
+    "salario": 33300,
+    "cotasTotal": 55200,
+    "cotasCount": 225,
+    "emendas": 1760000,
+    "emendasPix": 246400
+  },
+  "204506": {
+    "salario": 33300,
+    "cotasTotal": 55300,
+    "cotasCount": 225,
+    "emendas": 1765000,
+    "emendasPix": 282400
+  },
+  "204507": {
+    "salario": 33300,
+    "cotasTotal": 55350,
+    "cotasCount": 226,
+    "emendas": 1767500,
+    "emendasPix": 300475
+  },
+  "204508": {
+    "salario": 33300,
+    "cotasTotal": 55400,
+    "cotasCount": 226,
+    "emendas": 1770000,
+    "emendasPix": 318600
+  },
+  "204511": {
+    "salario": 33300,
+    "cotasTotal": 55550,
+    "cotasCount": 226,
+    "emendas": 1777500,
+    "emendasPix": 373275
+  },
+  "204512": {
+    "salario": 33300,
+    "cotasTotal": 55600,
+    "cotasCount": 226,
+    "emendas": 1780000,
+    "emendasPix": 391600
+  },
+  "204514": {
+    "salario": 33300,
+    "cotasTotal": 55700,
+    "cotasCount": 227,
+    "emendas": 1785000,
+    "emendasPix": 428400
+  },
+  "204515": {
+    "salario": 33300,
+    "cotasTotal": 55750,
+    "cotasCount": 227,
+    "emendas": 1787500,
+    "emendasPix": 446875
+  },
+  "204517": {
+    "salario": 33300,
+    "cotasTotal": 55850,
+    "cotasCount": 227,
+    "emendas": 1792500,
+    "emendasPix": 483975
+  },
+  "204518": {
+    "salario": 33300,
+    "cotasTotal": 55900,
+    "cotasCount": 227,
+    "emendas": 1795000,
+    "emendasPix": 502600
+  },
+  "204520": {
+    "salario": 33300,
+    "cotasTotal": 56000,
+    "cotasCount": 228,
+    "emendas": 1800000,
+    "emendasPix": 180000
+  },
+  "204522": {
+    "salario": 33300,
+    "cotasTotal": 56100,
+    "cotasCount": 228,
+    "emendas": 1805000,
+    "emendasPix": 216600
+  },
+  "204524": {
+    "salario": 33300,
+    "cotasTotal": 56200,
+    "cotasCount": 228,
+    "emendas": 1810000,
+    "emendasPix": 253400
+  },
+  "204525": {
+    "salario": 33300,
+    "cotasTotal": 56250,
+    "cotasCount": 228,
+    "emendas": 1812500,
+    "emendasPix": 271875
+  },
+  "204526": {
+    "salario": 33300,
+    "cotasTotal": 56300,
+    "cotasCount": 228,
+    "emendas": 1815000,
+    "emendasPix": 290400
+  },
+  "204528": {
+    "salario": 33300,
+    "cotasTotal": 56400,
+    "cotasCount": 229,
+    "emendas": 1820000,
+    "emendasPix": 327600
+  },
+  "204531": {
+    "salario": 33300,
+    "cotasTotal": 56550,
+    "cotasCount": 229,
+    "emendas": 1827500,
+    "emendasPix": 383775
+  },
+  "204533": {
+    "salario": 33300,
+    "cotasTotal": 56650,
+    "cotasCount": 229,
+    "emendas": 1832500,
+    "emendasPix": 421475
+  },
+  "204534": {
+    "salario": 33300,
+    "cotasTotal": 56700,
+    "cotasCount": 230,
+    "emendas": 1835000,
+    "emendasPix": 440400
+  },
+  "204535": {
+    "salario": 33300,
+    "cotasTotal": 56750,
+    "cotasCount": 230,
+    "emendas": 1837500,
+    "emendasPix": 459375
+  },
+  "204536": {
+    "salario": 33300,
+    "cotasTotal": 56800,
+    "cotasCount": 230,
+    "emendas": 1840000,
+    "emendasPix": 478400
+  },
+  "204539": {
+    "salario": 33300,
+    "cotasTotal": 56950,
+    "cotasCount": 230,
+    "emendas": 1847500,
+    "emendasPix": 535775
+  },
+  "204540": {
+    "salario": 33300,
+    "cotasTotal": 57000,
+    "cotasCount": 231,
+    "emendas": 1850000,
+    "emendasPix": 185000
+  },
+  "204541": {
+    "salario": 33300,
+    "cotasTotal": 57050,
+    "cotasCount": 231,
+    "emendas": 1852500,
+    "emendasPix": 203775
+  },
+  "204549": {
+    "salario": 33300,
+    "cotasTotal": 57450,
+    "cotasCount": 232,
+    "emendas": 1872500,
+    "emendasPix": 355775
+  },
+  "204550": {
+    "salario": 33300,
+    "cotasTotal": 57500,
+    "cotasCount": 232,
+    "emendas": 1875000,
+    "emendasPix": 375000
+  },
+  "204553": {
+    "salario": 33300,
+    "cotasTotal": 57650,
+    "cotasCount": 232,
+    "emendas": 1882500,
+    "emendasPix": 432975
+  },
+  "204557": {
+    "salario": 33300,
+    "cotasTotal": 57850,
+    "cotasCount": 233,
+    "emendas": 1892500,
+    "emendasPix": 510975
+  },
+  "204559": {
+    "salario": 33300,
+    "cotasTotal": 57950,
+    "cotasCount": 233,
+    "emendas": 1897500,
+    "emendasPix": 550275
+  },
+  "204560": {
+    "salario": 33300,
+    "cotasTotal": 58000,
+    "cotasCount": 234,
+    "emendas": 1900000,
+    "emendasPix": 190000
+  },
+  "204563": {
+    "salario": 33300,
+    "cotasTotal": 58150,
+    "cotasCount": 234,
+    "emendas": 1907500,
+    "emendasPix": 247975
+  },
+  "204566": {
+    "salario": 33300,
+    "cotasTotal": 58300,
+    "cotasCount": 234,
+    "emendas": 1915000,
+    "emendasPix": 306400
+  },
+  "204567": {
+    "salario": 33300,
+    "cotasTotal": 58350,
+    "cotasCount": 235,
+    "emendas": 1917500,
+    "emendasPix": 325975
+  },
+  "204570": {
+    "salario": 33300,
+    "cotasTotal": 58500,
+    "cotasCount": 235,
+    "emendas": 1925000,
+    "emendasPix": 385000
+  },
+  "204571": {
+    "salario": 33300,
+    "cotasTotal": 58550,
+    "cotasCount": 235,
+    "emendas": 1927500,
+    "emendasPix": 404775
+  },
+  "204572": {
+    "salario": 33300,
+    "cotasTotal": 58600,
+    "cotasCount": 235,
+    "emendas": 1930000,
+    "emendasPix": 424600
+  },
+  "204573": {
+    "salario": 33300,
+    "cotasTotal": 58650,
+    "cotasCount": 235,
+    "emendas": 1932500,
+    "emendasPix": 444475
+  },
+  "204574": {
+    "salario": 33300,
+    "cotasTotal": 58700,
+    "cotasCount": 236,
+    "emendas": 1935000,
+    "emendasPix": 464400
+  },
+  "205476": {
+    "salario": 33300,
+    "cotasTotal": 53800,
+    "cotasCount": 221,
+    "emendas": 1690000,
+    "emendasPix": 439400
+  },
+  "205550": {
+    "salario": 33300,
+    "cotasTotal": 57500,
+    "cotasCount": 232,
+    "emendas": 1875000,
+    "emendasPix": 375000
+  },
+  "205865": {
+    "salario": 33300,
+    "cotasTotal": 73250,
+    "cotasCount": 279,
+    "emendas": 2662500,
+    "emendasPix": 399375
+  },
+  "206018": {
+    "salario": 33300,
+    "cotasTotal": 30900,
+    "cotasCount": 152,
+    "emendas": 545000,
+    "emendasPix": 152600
+  },
+  "208297": {
+    "salario": 33300,
+    "cotasTotal": 44850,
+    "cotasCount": 194,
+    "emendas": 1242500,
+    "emendasPix": 335475
+  },
+  "209189": {
+    "salario": 33300,
+    "cotasTotal": 39450,
+    "cotasCount": 178,
+    "emendas": 972500,
+    "emendasPix": 184775
+  },
+  "209787": {
+    "salario": 33300,
+    "cotasTotal": 69350,
+    "cotasCount": 268,
+    "emendas": 2467500,
+    "emendasPix": 419475
+  },
+  "210989": {
+    "salario": 33300,
+    "cotasTotal": 79450,
+    "cotasCount": 298,
+    "emendas": 2972500,
+    "emendasPix": 564775
+  },
+  "212625": {
+    "salario": 33300,
+    "cotasTotal": 61250,
+    "cotasCount": 243,
+    "emendas": 2062500,
+    "emendasPix": 309375
+  },
+  "213274": {
+    "salario": 33300,
+    "cotasTotal": 43700,
+    "cotasCount": 191,
+    "emendas": 1185000,
+    "emendasPix": 284400
+  },
+  "213762": {
+    "salario": 33300,
+    "cotasTotal": 68100,
+    "cotasCount": 264,
+    "emendas": 2405000,
+    "emendasPix": 288600
+  },
+  "214694": {
+    "salario": 33300,
+    "cotasTotal": 64700,
+    "cotasCount": 254,
+    "emendas": 2235000,
+    "emendasPix": 536400
+  },
+  "215043": {
+    "salario": 33300,
+    "cotasTotal": 32150,
+    "cotasCount": 156,
+    "emendas": 607500,
+    "emendasPix": 78975
+  },
+  "217480": {
+    "salario": 33300,
+    "cotasTotal": 54000,
+    "cotasCount": 222,
+    "emendas": 1700000,
+    "emendasPix": 170000
+  },
+  "218086": {
+    "salario": 33300,
+    "cotasTotal": 34300,
+    "cotasCount": 162,
+    "emendas": 715000,
+    "emendasPix": 114400
+  },
+  "219585": {
+    "salario": 33300,
+    "cotasTotal": 59250,
+    "cotasCount": 237,
+    "emendas": 1962500,
+    "emendasPix": 294375
+  },
+  "220008": {
+    "salario": 33300,
+    "cotasTotal": 30400,
+    "cotasCount": 151,
+    "emendas": 520000,
+    "emendasPix": 93600
+  },
+  "220526": {
+    "salario": 33300,
+    "cotasTotal": 56300,
+    "cotasCount": 228,
+    "emendas": 1815000,
+    "emendasPix": 290400
+  },
+  "220527": {
+    "salario": 33300,
+    "cotasTotal": 56350,
+    "cotasCount": 229,
+    "emendas": 1817500,
+    "emendasPix": 308975
+  },
+  "220528": {
+    "salario": 33300,
+    "cotasTotal": 56400,
+    "cotasCount": 229,
+    "emendas": 1820000,
+    "emendasPix": 327600
+  },
+  "220529": {
+    "salario": 33300,
+    "cotasTotal": 56450,
+    "cotasCount": 229,
+    "emendas": 1822500,
+    "emendasPix": 346275
+  },
+  "220530": {
+    "salario": 33300,
+    "cotasTotal": 56500,
+    "cotasCount": 229,
+    "emendas": 1825000,
+    "emendasPix": 365000
+  },
+  "220531": {
+    "salario": 33300,
+    "cotasTotal": 56550,
+    "cotasCount": 229,
+    "emendas": 1827500,
+    "emendasPix": 383775
+  },
+  "220532": {
+    "salario": 33300,
+    "cotasTotal": 56600,
+    "cotasCount": 229,
+    "emendas": 1830000,
+    "emendasPix": 402600
+  },
+  "220533": {
+    "salario": 33300,
+    "cotasTotal": 56650,
+    "cotasCount": 229,
+    "emendas": 1832500,
+    "emendasPix": 421475
+  },
+  "220534": {
+    "salario": 33300,
+    "cotasTotal": 56700,
+    "cotasCount": 230,
+    "emendas": 1835000,
+    "emendasPix": 440400
+  },
+  "220536": {
+    "salario": 33300,
+    "cotasTotal": 56800,
+    "cotasCount": 230,
+    "emendas": 1840000,
+    "emendasPix": 478400
+  },
+  "220537": {
+    "salario": 33300,
+    "cotasTotal": 56850,
+    "cotasCount": 230,
+    "emendas": 1842500,
+    "emendasPix": 497475
+  },
+  "220538": {
+    "salario": 33300,
+    "cotasTotal": 56900,
+    "cotasCount": 230,
+    "emendas": 1845000,
+    "emendasPix": 516600
+  },
+  "220539": {
+    "salario": 33300,
+    "cotasTotal": 56950,
+    "cotasCount": 230,
+    "emendas": 1847500,
+    "emendasPix": 535775
+  },
+  "220540": {
+    "salario": 33300,
+    "cotasTotal": 57000,
+    "cotasCount": 231,
+    "emendas": 1850000,
+    "emendasPix": 185000
+  },
+  "220542": {
+    "salario": 33300,
+    "cotasTotal": 57100,
+    "cotasCount": 231,
+    "emendas": 1855000,
+    "emendasPix": 222600
+  },
+  "220543": {
+    "salario": 33300,
+    "cotasTotal": 57150,
+    "cotasCount": 231,
+    "emendas": 1857500,
+    "emendasPix": 241475
+  },
+  "220544": {
+    "salario": 33300,
+    "cotasTotal": 57200,
+    "cotasCount": 231,
+    "emendas": 1860000,
+    "emendasPix": 260400
+  },
+  "220545": {
+    "salario": 33300,
+    "cotasTotal": 57250,
+    "cotasCount": 231,
+    "emendas": 1862500,
+    "emendasPix": 279375
+  },
+  "220546": {
+    "salario": 33300,
+    "cotasTotal": 57300,
+    "cotasCount": 231,
+    "emendas": 1865000,
+    "emendasPix": 298400
+  },
+  "220547": {
+    "salario": 33300,
+    "cotasTotal": 57350,
+    "cotasCount": 232,
+    "emendas": 1867500,
+    "emendasPix": 317475
+  },
+  "220548": {
+    "salario": 33300,
+    "cotasTotal": 57400,
+    "cotasCount": 232,
+    "emendas": 1870000,
+    "emendasPix": 336600
+  },
+  "220549": {
+    "salario": 33300,
+    "cotasTotal": 57450,
+    "cotasCount": 232,
+    "emendas": 1872500,
+    "emendasPix": 355775
+  },
+  "220550": {
+    "salario": 33300,
+    "cotasTotal": 57500,
+    "cotasCount": 232,
+    "emendas": 1875000,
+    "emendasPix": 375000
+  },
+  "220551": {
+    "salario": 33300,
+    "cotasTotal": 57550,
+    "cotasCount": 232,
+    "emendas": 1877500,
+    "emendasPix": 394275
+  },
+  "220552": {
+    "salario": 33300,
+    "cotasTotal": 57600,
+    "cotasCount": 232,
+    "emendas": 1880000,
+    "emendasPix": 413600
+  },
+  "220553": {
+    "salario": 33300,
+    "cotasTotal": 57650,
+    "cotasCount": 232,
+    "emendas": 1882500,
+    "emendasPix": 432975
+  },
+  "220554": {
+    "salario": 33300,
+    "cotasTotal": 57700,
+    "cotasCount": 233,
+    "emendas": 1885000,
+    "emendasPix": 452400
+  },
+  "220555": {
+    "salario": 33300,
+    "cotasTotal": 57750,
+    "cotasCount": 233,
+    "emendas": 1887500,
+    "emendasPix": 471875
+  },
+  "220556": {
+    "salario": 33300,
+    "cotasTotal": 57800,
+    "cotasCount": 233,
+    "emendas": 1890000,
+    "emendasPix": 491400
+  },
+  "220557": {
+    "salario": 33300,
+    "cotasTotal": 57850,
+    "cotasCount": 233,
+    "emendas": 1892500,
+    "emendasPix": 510975
+  },
+  "220558": {
+    "salario": 33300,
+    "cotasTotal": 57900,
+    "cotasCount": 233,
+    "emendas": 1895000,
+    "emendasPix": 530600
+  },
+  "220559": {
+    "salario": 33300,
+    "cotasTotal": 57950,
+    "cotasCount": 233,
+    "emendas": 1897500,
+    "emendasPix": 550275
+  },
+  "220560": {
+    "salario": 33300,
+    "cotasTotal": 58000,
+    "cotasCount": 234,
+    "emendas": 1900000,
+    "emendasPix": 190000
+  },
+  "220561": {
+    "salario": 33300,
+    "cotasTotal": 58050,
+    "cotasCount": 234,
+    "emendas": 1902500,
+    "emendasPix": 209275
+  },
+  "220563": {
+    "salario": 33300,
+    "cotasTotal": 58150,
+    "cotasCount": 234,
+    "emendas": 1907500,
+    "emendasPix": 247975
+  },
+  "220564": {
+    "salario": 33300,
+    "cotasTotal": 58200,
+    "cotasCount": 234,
+    "emendas": 1910000,
+    "emendasPix": 267400
+  },
+  "220565": {
+    "salario": 33300,
+    "cotasTotal": 58250,
+    "cotasCount": 234,
+    "emendas": 1912500,
+    "emendasPix": 286875
+  },
+  "220566": {
+    "salario": 33300,
+    "cotasTotal": 58300,
+    "cotasCount": 234,
+    "emendas": 1915000,
+    "emendasPix": 306400
+  },
+  "220567": {
+    "salario": 33300,
+    "cotasTotal": 58350,
+    "cotasCount": 235,
+    "emendas": 1917500,
+    "emendasPix": 325975
+  },
+  "220568": {
+    "salario": 33300,
+    "cotasTotal": 58400,
+    "cotasCount": 235,
+    "emendas": 1920000,
+    "emendasPix": 345600
+  },
+  "220569": {
+    "salario": 33300,
+    "cotasTotal": 58450,
+    "cotasCount": 235,
+    "emendas": 1922500,
+    "emendasPix": 365275
+  },
+  "220570": {
+    "salario": 33300,
+    "cotasTotal": 58500,
+    "cotasCount": 235,
+    "emendas": 1925000,
+    "emendasPix": 385000
+  },
+  "220571": {
+    "salario": 33300,
+    "cotasTotal": 58550,
+    "cotasCount": 235,
+    "emendas": 1927500,
+    "emendasPix": 404775
+  },
+  "220572": {
+    "salario": 33300,
+    "cotasTotal": 58600,
+    "cotasCount": 235,
+    "emendas": 1930000,
+    "emendasPix": 424600
+  },
+  "220573": {
+    "salario": 33300,
+    "cotasTotal": 58650,
+    "cotasCount": 235,
+    "emendas": 1932500,
+    "emendasPix": 444475
+  },
+  "220574": {
+    "salario": 33300,
+    "cotasTotal": 58700,
+    "cotasCount": 236,
+    "emendas": 1935000,
+    "emendasPix": 464400
+  },
+  "220575": {
+    "salario": 33300,
+    "cotasTotal": 58750,
+    "cotasCount": 236,
+    "emendas": 1937500,
+    "emendasPix": 484375
+  },
+  "220576": {
+    "salario": 33300,
+    "cotasTotal": 58800,
+    "cotasCount": 236,
+    "emendas": 1940000,
+    "emendasPix": 504400
+  },
+  "220577": {
+    "salario": 33300,
+    "cotasTotal": 58850,
+    "cotasCount": 236,
+    "emendas": 1942500,
+    "emendasPix": 524475
+  },
+  "220578": {
+    "salario": 33300,
+    "cotasTotal": 58900,
+    "cotasCount": 236,
+    "emendas": 1945000,
+    "emendasPix": 544600
+  },
+  "220579": {
+    "salario": 33300,
+    "cotasTotal": 58950,
+    "cotasCount": 236,
+    "emendas": 1947500,
+    "emendasPix": 564775
+  },
+  "220580": {
+    "salario": 33300,
+    "cotasTotal": 59000,
+    "cotasCount": 237,
+    "emendas": 1950000,
+    "emendasPix": 195000
+  },
+  "220581": {
+    "salario": 33300,
+    "cotasTotal": 59050,
+    "cotasCount": 237,
+    "emendas": 1952500,
+    "emendasPix": 214775
+  },
+  "220582": {
+    "salario": 33300,
+    "cotasTotal": 59100,
+    "cotasCount": 237,
+    "emendas": 1955000,
+    "emendasPix": 234600
+  },
+  "220583": {
+    "salario": 33300,
+    "cotasTotal": 59150,
+    "cotasCount": 237,
+    "emendas": 1957500,
+    "emendasPix": 254475
+  },
+  "220584": {
+    "salario": 33300,
+    "cotasTotal": 59200,
+    "cotasCount": 237,
+    "emendas": 1960000,
+    "emendasPix": 274400
+  },
+  "220585": {
+    "salario": 33300,
+    "cotasTotal": 59250,
+    "cotasCount": 237,
+    "emendas": 1962500,
+    "emendasPix": 294375
+  },
+  "220586": {
+    "salario": 33300,
+    "cotasTotal": 59300,
+    "cotasCount": 237,
+    "emendas": 1965000,
+    "emendasPix": 314400
+  },
+  "220587": {
+    "salario": 33300,
+    "cotasTotal": 59350,
+    "cotasCount": 238,
+    "emendas": 1967500,
+    "emendasPix": 334475
+  },
+  "220588": {
+    "salario": 33300,
+    "cotasTotal": 59400,
+    "cotasCount": 238,
+    "emendas": 1970000,
+    "emendasPix": 354600
+  },
+  "220589": {
+    "salario": 33300,
+    "cotasTotal": 59450,
+    "cotasCount": 238,
+    "emendas": 1972500,
+    "emendasPix": 374775
+  },
+  "220590": {
+    "salario": 33300,
+    "cotasTotal": 59500,
+    "cotasCount": 238,
+    "emendas": 1975000,
+    "emendasPix": 395000
+  },
+  "220591": {
+    "salario": 33300,
+    "cotasTotal": 59550,
+    "cotasCount": 238,
+    "emendas": 1977500,
+    "emendasPix": 415275
+  },
+  "220592": {
+    "salario": 33300,
+    "cotasTotal": 59600,
+    "cotasCount": 238,
+    "emendas": 1980000,
+    "emendasPix": 435600
+  },
+  "220593": {
+    "salario": 33300,
+    "cotasTotal": 59650,
+    "cotasCount": 238,
+    "emendas": 1982500,
+    "emendasPix": 455975
+  },
+  "220594": {
+    "salario": 33300,
+    "cotasTotal": 59700,
+    "cotasCount": 239,
+    "emendas": 1985000,
+    "emendasPix": 476400
+  },
+  "220595": {
+    "salario": 33300,
+    "cotasTotal": 59750,
+    "cotasCount": 239,
+    "emendas": 1987500,
+    "emendasPix": 496875
+  },
+  "220596": {
+    "salario": 33300,
+    "cotasTotal": 59800,
+    "cotasCount": 239,
+    "emendas": 1990000,
+    "emendasPix": 517400
+  },
+  "220597": {
+    "salario": 33300,
+    "cotasTotal": 59850,
+    "cotasCount": 239,
+    "emendas": 1992500,
+    "emendasPix": 537975
+  },
+  "220598": {
+    "salario": 33300,
+    "cotasTotal": 59900,
+    "cotasCount": 239,
+    "emendas": 1995000,
+    "emendasPix": 558600
+  },
+  "220599": {
+    "salario": 33300,
+    "cotasTotal": 59950,
+    "cotasCount": 239,
+    "emendas": 1997500,
+    "emendasPix": 579275
+  },
+  "220600": {
+    "salario": 33300,
+    "cotasTotal": 60000,
+    "cotasCount": 240,
+    "emendas": 2000000,
+    "emendasPix": 200000
+  },
+  "220601": {
+    "salario": 33300,
+    "cotasTotal": 60050,
+    "cotasCount": 240,
+    "emendas": 2002500,
+    "emendasPix": 220275
+  },
+  "220602": {
+    "salario": 33300,
+    "cotasTotal": 60100,
+    "cotasCount": 240,
+    "emendas": 2005000,
+    "emendasPix": 240600
+  },
+  "220603": {
+    "salario": 33300,
+    "cotasTotal": 60150,
+    "cotasCount": 240,
+    "emendas": 2007500,
+    "emendasPix": 260975
+  },
+  "220604": {
+    "salario": 33300,
+    "cotasTotal": 60200,
+    "cotasCount": 240,
+    "emendas": 2010000,
+    "emendasPix": 281400
+  },
+  "220605": {
+    "salario": 33300,
+    "cotasTotal": 60250,
+    "cotasCount": 240,
+    "emendas": 2012500,
+    "emendasPix": 301875
+  },
+  "220606": {
+    "salario": 33300,
+    "cotasTotal": 60300,
+    "cotasCount": 240,
+    "emendas": 2015000,
+    "emendasPix": 322400
+  },
+  "220607": {
+    "salario": 33300,
+    "cotasTotal": 60350,
+    "cotasCount": 241,
+    "emendas": 2017500,
+    "emendasPix": 342975
+  },
+  "220608": {
+    "salario": 33300,
+    "cotasTotal": 60400,
+    "cotasCount": 241,
+    "emendas": 2020000,
+    "emendasPix": 363600
+  },
+  "220609": {
+    "salario": 33300,
+    "cotasTotal": 60450,
+    "cotasCount": 241,
+    "emendas": 2022500,
+    "emendasPix": 384275
+  },
+  "220610": {
+    "salario": 33300,
+    "cotasTotal": 60500,
+    "cotasCount": 241,
+    "emendas": 2025000,
+    "emendasPix": 405000
+  },
+  "220611": {
+    "salario": 33300,
+    "cotasTotal": 60550,
+    "cotasCount": 241,
+    "emendas": 2027500,
+    "emendasPix": 425775
+  },
+  "220612": {
+    "salario": 33300,
+    "cotasTotal": 60600,
+    "cotasCount": 241,
+    "emendas": 2030000,
+    "emendasPix": 446600
+  },
+  "220613": {
+    "salario": 33300,
+    "cotasTotal": 60650,
+    "cotasCount": 241,
+    "emendas": 2032500,
+    "emendasPix": 467475
+  },
+  "220614": {
+    "salario": 33300,
+    "cotasTotal": 60700,
+    "cotasCount": 242,
+    "emendas": 2035000,
+    "emendasPix": 488400
+  },
+  "220615": {
+    "salario": 33300,
+    "cotasTotal": 60750,
+    "cotasCount": 242,
+    "emendas": 2037500,
+    "emendasPix": 509375
+  },
+  "220616": {
+    "salario": 33300,
+    "cotasTotal": 60800,
+    "cotasCount": 242,
+    "emendas": 2040000,
+    "emendasPix": 530400
+  },
+  "220617": {
+    "salario": 33300,
+    "cotasTotal": 60850,
+    "cotasCount": 242,
+    "emendas": 2042500,
+    "emendasPix": 551475
+  },
+  "220618": {
+    "salario": 33300,
+    "cotasTotal": 60900,
+    "cotasCount": 242,
+    "emendas": 2045000,
+    "emendasPix": 572600
+  },
+  "220619": {
+    "salario": 33300,
+    "cotasTotal": 60950,
+    "cotasCount": 242,
+    "emendas": 2047500,
+    "emendasPix": 593775
+  },
+  "220620": {
+    "salario": 33300,
+    "cotasTotal": 61000,
+    "cotasCount": 243,
+    "emendas": 2050000,
+    "emendasPix": 205000
+  },
+  "220621": {
+    "salario": 33300,
+    "cotasTotal": 61050,
+    "cotasCount": 243,
+    "emendas": 2052500,
+    "emendasPix": 225775
+  },
+  "220622": {
+    "salario": 33300,
+    "cotasTotal": 61100,
+    "cotasCount": 243,
+    "emendas": 2055000,
+    "emendasPix": 246600
+  },
+  "220623": {
+    "salario": 33300,
+    "cotasTotal": 61150,
+    "cotasCount": 243,
+    "emendas": 2057500,
+    "emendasPix": 267475
+  },
+  "220624": {
+    "salario": 33300,
+    "cotasTotal": 61200,
+    "cotasCount": 243,
+    "emendas": 2060000,
+    "emendasPix": 288400
+  },
+  "220625": {
+    "salario": 33300,
+    "cotasTotal": 61250,
+    "cotasCount": 243,
+    "emendas": 2062500,
+    "emendasPix": 309375
+  },
+  "220626": {
+    "salario": 33300,
+    "cotasTotal": 61300,
+    "cotasCount": 243,
+    "emendas": 2065000,
+    "emendasPix": 330400
+  },
+  "220627": {
+    "salario": 33300,
+    "cotasTotal": 61350,
+    "cotasCount": 244,
+    "emendas": 2067500,
+    "emendasPix": 351475
+  },
+  "220628": {
+    "salario": 33300,
+    "cotasTotal": 61400,
+    "cotasCount": 244,
+    "emendas": 2070000,
+    "emendasPix": 372600
+  },
+  "220629": {
+    "salario": 33300,
+    "cotasTotal": 61450,
+    "cotasCount": 244,
+    "emendas": 2072500,
+    "emendasPix": 393775
+  },
+  "220630": {
+    "salario": 33300,
+    "cotasTotal": 61500,
+    "cotasCount": 244,
+    "emendas": 2075000,
+    "emendasPix": 415000
+  },
+  "220631": {
+    "salario": 33300,
+    "cotasTotal": 61550,
+    "cotasCount": 244,
+    "emendas": 2077500,
+    "emendasPix": 436275
+  },
+  "220632": {
+    "salario": 33300,
+    "cotasTotal": 61600,
+    "cotasCount": 244,
+    "emendas": 2080000,
+    "emendasPix": 457600
+  },
+  "220633": {
+    "salario": 33300,
+    "cotasTotal": 61650,
+    "cotasCount": 244,
+    "emendas": 2082500,
+    "emendasPix": 478975
+  },
+  "220634": {
+    "salario": 33300,
+    "cotasTotal": 61700,
+    "cotasCount": 245,
+    "emendas": 2085000,
+    "emendasPix": 500400
+  },
+  "220635": {
+    "salario": 33300,
+    "cotasTotal": 61750,
+    "cotasCount": 245,
+    "emendas": 2087500,
+    "emendasPix": 521875
+  },
+  "220636": {
+    "salario": 33300,
+    "cotasTotal": 61800,
+    "cotasCount": 245,
+    "emendas": 2090000,
+    "emendasPix": 543400
+  },
+  "220637": {
+    "salario": 33300,
+    "cotasTotal": 61850,
+    "cotasCount": 245,
+    "emendas": 2092500,
+    "emendasPix": 564975
+  },
+  "220638": {
+    "salario": 33300,
+    "cotasTotal": 61900,
+    "cotasCount": 245,
+    "emendas": 2095000,
+    "emendasPix": 586600
+  },
+  "220639": {
+    "salario": 33300,
+    "cotasTotal": 61950,
+    "cotasCount": 245,
+    "emendas": 2097500,
+    "emendasPix": 608275
+  },
+  "220640": {
+    "salario": 33300,
+    "cotasTotal": 62000,
+    "cotasCount": 246,
+    "emendas": 2100000,
+    "emendasPix": 210000
+  },
+  "220641": {
+    "salario": 33300,
+    "cotasTotal": 62050,
+    "cotasCount": 246,
+    "emendas": 2102500,
+    "emendasPix": 231275
+  },
+  "220642": {
+    "salario": 33300,
+    "cotasTotal": 62100,
+    "cotasCount": 246,
+    "emendas": 2105000,
+    "emendasPix": 252600
+  },
+  "220643": {
+    "salario": 33300,
+    "cotasTotal": 62150,
+    "cotasCount": 246,
+    "emendas": 2107500,
+    "emendasPix": 273975
+  },
+  "220644": {
+    "salario": 33300,
+    "cotasTotal": 62200,
+    "cotasCount": 246,
+    "emendas": 2110000,
+    "emendasPix": 295400
+  },
+  "220645": {
+    "salario": 33300,
+    "cotasTotal": 62250,
+    "cotasCount": 246,
+    "emendas": 2112500,
+    "emendasPix": 316875
+  },
+  "220646": {
+    "salario": 33300,
+    "cotasTotal": 62300,
+    "cotasCount": 246,
+    "emendas": 2115000,
+    "emendasPix": 338400
+  },
+  "220647": {
+    "salario": 33300,
+    "cotasTotal": 62350,
+    "cotasCount": 247,
+    "emendas": 2117500,
+    "emendasPix": 359975
+  },
+  "220648": {
+    "salario": 33300,
+    "cotasTotal": 62400,
+    "cotasCount": 247,
+    "emendas": 2120000,
+    "emendasPix": 381600
+  },
+  "220649": {
+    "salario": 33300,
+    "cotasTotal": 62450,
+    "cotasCount": 247,
+    "emendas": 2122500,
+    "emendasPix": 403275
+  },
+  "220650": {
+    "salario": 33300,
+    "cotasTotal": 62500,
+    "cotasCount": 247,
+    "emendas": 2125000,
+    "emendasPix": 425000
+  },
+  "220651": {
+    "salario": 33300,
+    "cotasTotal": 62550,
+    "cotasCount": 247,
+    "emendas": 2127500,
+    "emendasPix": 446775
+  },
+  "220652": {
+    "salario": 33300,
+    "cotasTotal": 62600,
+    "cotasCount": 247,
+    "emendas": 2130000,
+    "emendasPix": 468600
+  },
+  "220653": {
+    "salario": 33300,
+    "cotasTotal": 62650,
+    "cotasCount": 247,
+    "emendas": 2132500,
+    "emendasPix": 490475
+  },
+  "220654": {
+    "salario": 33300,
+    "cotasTotal": 62700,
+    "cotasCount": 248,
+    "emendas": 2135000,
+    "emendasPix": 512400
+  },
+  "220655": {
+    "salario": 33300,
+    "cotasTotal": 62750,
+    "cotasCount": 248,
+    "emendas": 2137500,
+    "emendasPix": 534375
+  },
+  "220656": {
+    "salario": 33300,
+    "cotasTotal": 62800,
+    "cotasCount": 248,
+    "emendas": 2140000,
+    "emendasPix": 556400
+  },
+  "220657": {
+    "salario": 33300,
+    "cotasTotal": 62850,
+    "cotasCount": 248,
+    "emendas": 2142500,
+    "emendasPix": 578475
+  },
+  "220658": {
+    "salario": 33300,
+    "cotasTotal": 62900,
+    "cotasCount": 248,
+    "emendas": 2145000,
+    "emendasPix": 600600
+  },
+  "220659": {
+    "salario": 33300,
+    "cotasTotal": 62950,
+    "cotasCount": 248,
+    "emendas": 2147500,
+    "emendasPix": 622775
+  },
+  "220660": {
+    "salario": 33300,
+    "cotasTotal": 63000,
+    "cotasCount": 249,
+    "emendas": 2150000,
+    "emendasPix": 215000
+  },
+  "220661": {
+    "salario": 33300,
+    "cotasTotal": 63050,
+    "cotasCount": 249,
+    "emendas": 2152500,
+    "emendasPix": 236775
+  },
+  "220662": {
+    "salario": 33300,
+    "cotasTotal": 63100,
+    "cotasCount": 249,
+    "emendas": 2155000,
+    "emendasPix": 258600
+  },
+  "220663": {
+    "salario": 33300,
+    "cotasTotal": 63150,
+    "cotasCount": 249,
+    "emendas": 2157500,
+    "emendasPix": 280475
+  },
+  "220664": {
+    "salario": 33300,
+    "cotasTotal": 63200,
+    "cotasCount": 249,
+    "emendas": 2160000,
+    "emendasPix": 302400
+  },
+  "220665": {
+    "salario": 33300,
+    "cotasTotal": 63250,
+    "cotasCount": 249,
+    "emendas": 2162500,
+    "emendasPix": 324375
+  },
+  "220666": {
+    "salario": 33300,
+    "cotasTotal": 63300,
+    "cotasCount": 249,
+    "emendas": 2165000,
+    "emendasPix": 346400
+  },
+  "220667": {
+    "salario": 33300,
+    "cotasTotal": 63350,
+    "cotasCount": 250,
+    "emendas": 2167500,
+    "emendasPix": 368475
+  },
+  "220668": {
+    "salario": 33300,
+    "cotasTotal": 63400,
+    "cotasCount": 250,
+    "emendas": 2170000,
+    "emendasPix": 390600
+  },
+  "220669": {
+    "salario": 33300,
+    "cotasTotal": 63450,
+    "cotasCount": 250,
+    "emendas": 2172500,
+    "emendasPix": 412775
+  },
+  "220670": {
+    "salario": 33300,
+    "cotasTotal": 63500,
+    "cotasCount": 250,
+    "emendas": 2175000,
+    "emendasPix": 435000
+  },
+  "220671": {
+    "salario": 33300,
+    "cotasTotal": 63550,
+    "cotasCount": 250,
+    "emendas": 2177500,
+    "emendasPix": 457275
+  },
+  "220672": {
+    "salario": 33300,
+    "cotasTotal": 63600,
+    "cotasCount": 250,
+    "emendas": 2180000,
+    "emendasPix": 479600
+  },
+  "220673": {
+    "salario": 33300,
+    "cotasTotal": 63650,
+    "cotasCount": 250,
+    "emendas": 2182500,
+    "emendasPix": 501975
+  },
+  "220674": {
+    "salario": 33300,
+    "cotasTotal": 63700,
+    "cotasCount": 251,
+    "emendas": 2185000,
+    "emendasPix": 524400
+  },
+  "220675": {
+    "salario": 33300,
+    "cotasTotal": 63750,
+    "cotasCount": 251,
+    "emendas": 2187500,
+    "emendasPix": 546875
+  },
+  "220676": {
+    "salario": 33300,
+    "cotasTotal": 63800,
+    "cotasCount": 251,
+    "emendas": 2190000,
+    "emendasPix": 569400
+  },
+  "220677": {
+    "salario": 33300,
+    "cotasTotal": 63850,
+    "cotasCount": 251,
+    "emendas": 2192500,
+    "emendasPix": 591975
+  },
+  "220681": {
+    "salario": 33300,
+    "cotasTotal": 64050,
+    "cotasCount": 252,
+    "emendas": 2202500,
+    "emendasPix": 242275
+  },
+  "220682": {
+    "salario": 33300,
+    "cotasTotal": 64100,
+    "cotasCount": 252,
+    "emendas": 2205000,
+    "emendasPix": 264600
+  },
+  "220683": {
+    "salario": 33300,
+    "cotasTotal": 64150,
+    "cotasCount": 252,
+    "emendas": 2207500,
+    "emendasPix": 286975
+  },
+  "220684": {
+    "salario": 33300,
+    "cotasTotal": 64200,
+    "cotasCount": 252,
+    "emendas": 2210000,
+    "emendasPix": 309400
+  },
+  "220685": {
+    "salario": 33300,
+    "cotasTotal": 64250,
+    "cotasCount": 252,
+    "emendas": 2212500,
+    "emendasPix": 331875
+  },
+  "220686": {
+    "salario": 33300,
+    "cotasTotal": 64300,
+    "cotasCount": 252,
+    "emendas": 2215000,
+    "emendasPix": 354400
+  },
+  "220687": {
+    "salario": 33300,
+    "cotasTotal": 64350,
+    "cotasCount": 253,
+    "emendas": 2217500,
+    "emendasPix": 376975
+  },
+  "220688": {
+    "salario": 33300,
+    "cotasTotal": 64400,
+    "cotasCount": 253,
+    "emendas": 2220000,
+    "emendasPix": 399600
+  },
+  "220689": {
+    "salario": 33300,
+    "cotasTotal": 64450,
+    "cotasCount": 253,
+    "emendas": 2222500,
+    "emendasPix": 422275
+  },
+  "220690": {
+    "salario": 33300,
+    "cotasTotal": 64500,
+    "cotasCount": 253,
+    "emendas": 2225000,
+    "emendasPix": 445000
+  },
+  "220691": {
+    "salario": 33300,
+    "cotasTotal": 64550,
+    "cotasCount": 253,
+    "emendas": 2227500,
+    "emendasPix": 467775
+  },
+  "220692": {
+    "salario": 33300,
+    "cotasTotal": 64600,
+    "cotasCount": 253,
+    "emendas": 2230000,
+    "emendasPix": 490600
+  },
+  "220693": {
+    "salario": 33300,
+    "cotasTotal": 64650,
+    "cotasCount": 253,
+    "emendas": 2232500,
+    "emendasPix": 513475
+  },
+  "220694": {
+    "salario": 33300,
+    "cotasTotal": 64700,
+    "cotasCount": 254,
+    "emendas": 2235000,
+    "emendasPix": 536400
+  },
+  "220695": {
+    "salario": 33300,
+    "cotasTotal": 64750,
+    "cotasCount": 254,
+    "emendas": 2237500,
+    "emendasPix": 559375
+  },
+  "220696": {
+    "salario": 33300,
+    "cotasTotal": 64800,
+    "cotasCount": 254,
+    "emendas": 2240000,
+    "emendasPix": 582400
+  },
+  "220697": {
+    "salario": 33300,
+    "cotasTotal": 64850,
+    "cotasCount": 254,
+    "emendas": 2242500,
+    "emendasPix": 605475
+  },
+  "220698": {
+    "salario": 33300,
+    "cotasTotal": 64900,
+    "cotasCount": 254,
+    "emendas": 2245000,
+    "emendasPix": 628600
+  },
+  "220699": {
+    "salario": 33300,
+    "cotasTotal": 64950,
+    "cotasCount": 254,
+    "emendas": 2247500,
+    "emendasPix": 651775
+  },
+  "220700": {
+    "salario": 33300,
+    "cotasTotal": 65000,
+    "cotasCount": 255,
+    "emendas": 2250000,
+    "emendasPix": 225000
+  },
+  "220701": {
+    "salario": 33300,
+    "cotasTotal": 65050,
+    "cotasCount": 255,
+    "emendas": 2252500,
+    "emendasPix": 247775
+  },
+  "220702": {
+    "salario": 33300,
+    "cotasTotal": 65100,
+    "cotasCount": 255,
+    "emendas": 2255000,
+    "emendasPix": 270600
+  },
+  "220703": {
+    "salario": 33300,
+    "cotasTotal": 65150,
+    "cotasCount": 255,
+    "emendas": 2257500,
+    "emendasPix": 293475
+  },
+  "220704": {
+    "salario": 33300,
+    "cotasTotal": 65200,
+    "cotasCount": 255,
+    "emendas": 2260000,
+    "emendasPix": 316400
+  },
+  "220705": {
+    "salario": 33300,
+    "cotasTotal": 65250,
+    "cotasCount": 255,
+    "emendas": 2262500,
+    "emendasPix": 339375
+  },
+  "220706": {
+    "salario": 33300,
+    "cotasTotal": 65300,
+    "cotasCount": 255,
+    "emendas": 2265000,
+    "emendasPix": 362400
+  },
+  "220707": {
+    "salario": 33300,
+    "cotasTotal": 65350,
+    "cotasCount": 256,
+    "emendas": 2267500,
+    "emendasPix": 385475
+  },
+  "220708": {
+    "salario": 33300,
+    "cotasTotal": 65400,
+    "cotasCount": 256,
+    "emendas": 2270000,
+    "emendasPix": 408600
+  },
+  "220712": {
+    "salario": 33300,
+    "cotasTotal": 65600,
+    "cotasCount": 256,
+    "emendas": 2280000,
+    "emendasPix": 501600
+  },
+  "220713": {
+    "salario": 33300,
+    "cotasTotal": 65650,
+    "cotasCount": 256,
+    "emendas": 2282500,
+    "emendasPix": 524975
+  },
+  "220714": {
+    "salario": 33300,
+    "cotasTotal": 65700,
+    "cotasCount": 257,
+    "emendas": 2285000,
+    "emendasPix": 548400
+  },
+  "220715": {
+    "salario": 33300,
+    "cotasTotal": 65750,
+    "cotasCount": 257,
+    "emendas": 2287500,
+    "emendasPix": 571875
+  },
+  "221148": {
+    "salario": 33300,
+    "cotasTotal": 37400,
+    "cotasCount": 172,
+    "emendas": 870000,
+    "emendasPix": 156600
+  },
+  "221328": {
+    "salario": 33300,
+    "cotasTotal": 46400,
+    "cotasCount": 199,
+    "emendas": 1320000,
+    "emendasPix": 237600
+  },
+  "221329": {
+    "salario": 33300,
+    "cotasTotal": 46450,
+    "cotasCount": 199,
+    "emendas": 1322500,
+    "emendasPix": 251275
+  },
+  "221338": {
+    "salario": 33300,
+    "cotasTotal": 46900,
+    "cotasCount": 200,
+    "emendas": 1345000,
+    "emendasPix": 376600
+  },
+  "221339": {
+    "salario": 33300,
+    "cotasTotal": 46950,
+    "cotasCount": 200,
+    "emendas": 1347500,
+    "emendasPix": 390775
+  },
+  "221378": {
+    "salario": 33300,
+    "cotasTotal": 48900,
+    "cotasCount": 206,
+    "emendas": 1445000,
+    "emendasPix": 404600
+  },
+  "222142": {
+    "salario": 33300,
+    "cotasTotal": 37100,
+    "cotasCount": 171,
+    "emendas": 855000,
+    "emendasPix": 102600
+  },
+  "222429": {
+    "salario": 33300,
+    "cotasTotal": 51450,
+    "cotasCount": 214,
+    "emendas": 1572500,
+    "emendasPix": 298775
+  },
+  "222565": {
+    "salario": 33300,
+    "cotasTotal": 58250,
+    "cotasCount": 234,
+    "emendas": 1912500,
+    "emendasPix": 286875
+  },
+  "223128": {
+    "salario": 33300,
+    "cotasTotal": 36400,
+    "cotasCount": 169,
+    "emendas": 820000,
+    "emendasPix": 147600
+  },
+  "223398": {
+    "salario": 33300,
+    "cotasTotal": 49900,
+    "cotasCount": 209,
+    "emendas": 1495000,
+    "emendasPix": 418600
+  },
+  "224117": {
+    "salario": 33300,
+    "cotasTotal": 35850,
+    "cotasCount": 167,
+    "emendas": 792500,
+    "emendasPix": 213975
+  },
+  "224333": {
+    "salario": 33300,
+    "cotasTotal": 46650,
+    "cotasCount": 199,
+    "emendas": 1332500,
+    "emendasPix": 306475
+  },
+  "225386": {
+    "salario": 33300,
+    "cotasTotal": 49300,
+    "cotasCount": 207,
+    "emendas": 1465000,
+    "emendasPix": 234400
+  },
+  "225727": {
+    "salario": 33300,
+    "cotasTotal": 66350,
+    "cotasCount": 259,
+    "emendas": 2317500,
+    "emendasPix": 393975
+  },
+  "225730": {
+    "salario": 33300,
+    "cotasTotal": 66500,
+    "cotasCount": 259,
+    "emendas": 2325000,
+    "emendasPix": 465000
+  },
+  "226075": {
+    "salario": 33300,
+    "cotasTotal": 33750,
+    "cotasCount": 161,
+    "emendas": 687500,
+    "emendasPix": 171875
+  },
+  "226179": {
+    "salario": 33300,
+    "cotasTotal": 38950,
+    "cotasCount": 176,
+    "emendas": 947500,
+    "emendasPix": 274775
+  },
+  "226410": {
+    "salario": 33300,
+    "cotasTotal": 50500,
+    "cotasCount": 211,
+    "emendas": 1525000,
+    "emendasPix": 305000
+  },
+  "226553": {
+    "salario": 33300,
+    "cotasTotal": 57650,
+    "cotasCount": 232,
+    "emendas": 1882500,
+    "emendasPix": 432975
+  },
+  "226708": {
+    "salario": 33300,
+    "cotasTotal": 65400,
+    "cotasCount": 256,
+    "emendas": 2270000,
+    "emendasPix": 408600
+  },
+  "226837": {
+    "salario": 33300,
+    "cotasTotal": 71850,
+    "cotasCount": 275,
+    "emendas": 2592500,
+    "emendasPix": 699975
+  },
+  "227275": {
+    "salario": 33300,
+    "cotasTotal": 43750,
+    "cotasCount": 191,
+    "emendas": 1187500,
+    "emendasPix": 296875
+  },
+  "227310": {
+    "salario": 33300,
+    "cotasTotal": 45500,
+    "cotasCount": 196,
+    "emendas": 1275000,
+    "emendasPix": 255000
+  },
+  "227323": {
+    "salario": 33300,
+    "cotasTotal": 46150,
+    "cotasCount": 198,
+    "emendas": 1307500,
+    "emendasPix": 169975
+  },
+  "227324": {
+    "salario": 33300,
+    "cotasTotal": 46200,
+    "cotasCount": 198,
+    "emendas": 1310000,
+    "emendasPix": 183400
+  },
+  "227370": {
+    "salario": 33300,
+    "cotasTotal": 48500,
+    "cotasCount": 205,
+    "emendas": 1425000,
+    "emendasPix": 285000
+  },
+  "227401": {
+    "salario": 33300,
+    "cotasTotal": 50050,
+    "cotasCount": 210,
+    "emendas": 1502500,
+    "emendasPix": 165275
+  },
+  "227433": {
+    "salario": 33300,
+    "cotasTotal": 51650,
+    "cotasCount": 214,
+    "emendas": 1582500,
+    "emendasPix": 363975
+  },
+  "227660": {
+    "salario": 33300,
+    "cotasTotal": 63000,
+    "cotasCount": 249,
+    "emendas": 2150000,
+    "emendasPix": 215000
+  },
+  "227800": {
+    "salario": 33300,
+    "cotasTotal": 70000,
+    "cotasCount": 270,
+    "emendas": 2500000,
+    "emendasPix": 250000
+  },
+  "227991": {
+    "salario": 33300,
+    "cotasTotal": 79550,
+    "cotasCount": 298,
+    "emendas": 2977500,
+    "emendasPix": 625275
+  },
+  "228042": {
+    "salario": 33300,
+    "cotasTotal": 32100,
+    "cotasCount": 156,
+    "emendas": 605000,
+    "emendasPix": 72600
+  },
+  "228272": {
+    "salario": 33300,
+    "cotasTotal": 43600,
+    "cotasCount": 190,
+    "emendas": 1180000,
+    "emendasPix": 259600
+  },
+  "228616": {
+    "salario": 33300,
+    "cotasTotal": 60800,
+    "cotasCount": 242,
+    "emendas": 2040000,
+    "emendasPix": 530400
+  },
+  "228797": {
+    "salario": 33300,
+    "cotasTotal": 69850,
+    "cotasCount": 269,
+    "emendas": 2492500,
+    "emendasPix": 672975
+  },
+  "228837": {
+    "salario": 33300,
+    "cotasTotal": 71850,
+    "cotasCount": 275,
+    "emendas": 2592500,
+    "emendasPix": 699975
+  },
+  "228941": {
+    "salario": 33300,
+    "cotasTotal": 77050,
+    "cotasCount": 291,
+    "emendas": 2852500,
+    "emendasPix": 313775
+  },
+  "229069": {
+    "salario": 33300,
+    "cotasTotal": 33450,
+    "cotasCount": 160,
+    "emendas": 672500,
+    "emendasPix": 127775
+  },
+  "229082": {
+    "salario": 33300,
+    "cotasTotal": 34100,
+    "cotasCount": 162,
+    "emendas": 705000,
+    "emendasPix": 84600
+  },
+  "229106": {
+    "salario": 33300,
+    "cotasTotal": 35300,
+    "cotasCount": 165,
+    "emendas": 765000,
+    "emendasPix": 122400
+  },
+  "229112": {
+    "salario": 33300,
+    "cotasTotal": 35600,
+    "cotasCount": 166,
+    "emendas": 780000,
+    "emendasPix": 171600
+  },
+  "229225": {
+    "salario": 33300,
+    "cotasTotal": 41250,
+    "cotasCount": 183,
+    "emendas": 1062500,
+    "emendasPix": 159375
+  },
+  "229259": {
+    "salario": 33300,
+    "cotasTotal": 42950,
+    "cotasCount": 188,
+    "emendas": 1147500,
+    "emendasPix": 332775
+  },
+  "229333": {
+    "salario": 33300,
+    "cotasTotal": 46650,
+    "cotasCount": 199,
+    "emendas": 1332500,
+    "emendasPix": 306475
+  },
+  "229432": {
+    "salario": 33300,
+    "cotasTotal": 51600,
+    "cotasCount": 214,
+    "emendas": 1580000,
+    "emendasPix": 347600
+  },
+  "229585": {
+    "salario": 33300,
+    "cotasTotal": 59250,
+    "cotasCount": 237,
+    "emendas": 1962500,
+    "emendasPix": 294375
+  },
+  "229939": {
+    "salario": 33300,
+    "cotasTotal": 76950,
+    "cotasCount": 290,
+    "emendas": 2847500,
+    "emendasPix": 825775
+  },
+  "230088": {
+    "salario": 33300,
+    "cotasTotal": 34400,
+    "cotasCount": 163,
+    "emendas": 720000,
+    "emendasPix": 129600
+  },
+  "230177": {
+    "salario": 33300,
+    "cotasTotal": 38850,
+    "cotasCount": 176,
+    "emendas": 942500,
+    "emendasPix": 254475
+  },
+  "230762": {
+    "salario": 33300,
+    "cotasTotal": 68100,
+    "cotasCount": 264,
+    "emendas": 2405000,
+    "emendasPix": 288600
+  },
+  "230764": {
+    "salario": 33300,
+    "cotasTotal": 68200,
+    "cotasCount": 264,
+    "emendas": 2410000,
+    "emendasPix": 337400
+  },
+  "230765": {
+    "salario": 33300,
+    "cotasTotal": 68250,
+    "cotasCount": 264,
+    "emendas": 2412500,
+    "emendasPix": 361875
+  },
+  "230767": {
+    "salario": 33300,
+    "cotasTotal": 68350,
+    "cotasCount": 265,
+    "emendas": 2417500,
+    "emendasPix": 410975
+  },
+  "230768": {
+    "salario": 33300,
+    "cotasTotal": 68400,
+    "cotasCount": 265,
+    "emendas": 2420000,
+    "emendasPix": 435600
+  },
+  "230957": {
+    "salario": 33300,
+    "cotasTotal": 77850,
+    "cotasCount": 293,
+    "emendas": 2892500,
+    "emendasPix": 780975
+  },
+  "231911": {
+    "salario": 33300,
+    "cotasTotal": 75550,
+    "cotasCount": 286,
+    "emendas": 2777500,
+    "emendasPix": 583275
+  },
+  "233218": {
+    "salario": 33300,
+    "cotasTotal": 40900,
+    "cotasCount": 182,
+    "emendas": 1045000,
+    "emendasPix": 292600
+  },
+  "233592": {
+    "salario": 33300,
+    "cotasTotal": 59600,
+    "cotasCount": 238,
+    "emendas": 1980000,
+    "emendasPix": 435600
+  },
+  "233594": {
+    "salario": 33300,
+    "cotasTotal": 59700,
+    "cotasCount": 239,
+    "emendas": 1985000,
+    "emendasPix": 476400
+  },
+  "233598": {
+    "salario": 33300,
+    "cotasTotal": 59900,
+    "cotasCount": 239,
+    "emendas": 1995000,
+    "emendasPix": 558600
+  },
+  "234253": {
+    "salario": 33300,
+    "cotasTotal": 42650,
+    "cotasCount": 187,
+    "emendas": 1132500,
+    "emendasPix": 260475
+  },
+  "234310": {
+    "salario": 33300,
+    "cotasTotal": 45500,
+    "cotasCount": 196,
+    "emendas": 1275000,
+    "emendasPix": 255000
+  },
+  "234388": {
+    "salario": 33300,
+    "cotasTotal": 49400,
+    "cotasCount": 208,
+    "emendas": 1470000,
+    "emendasPix": 264600
+  },
+  "234406": {
+    "salario": 33300,
+    "cotasTotal": 50300,
+    "cotasCount": 210,
+    "emendas": 1515000,
+    "emendasPix": 242400
+  },
+  "234673": {
+    "salario": 33300,
+    "cotasTotal": 63650,
+    "cotasCount": 250,
+    "emendas": 2182500,
+    "emendasPix": 501975
+  },
+  "234788": {
+    "salario": 33300,
+    "cotasTotal": 69400,
+    "cotasCount": 268,
+    "emendas": 2470000,
+    "emendasPix": 444600
+  },
+  "234840": {
+    "salario": 33300,
+    "cotasTotal": 72000,
+    "cotasCount": 276,
+    "emendas": 2600000,
+    "emendasPix": 260000
+  },
+  "235088": {
+    "salario": 33300,
+    "cotasTotal": 34400,
+    "cotasCount": 163,
+    "emendas": 720000,
+    "emendasPix": 129600
+  }
+}

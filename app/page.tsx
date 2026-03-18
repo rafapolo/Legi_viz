@@ -9,7 +9,7 @@ import type { Parlamentar } from '@/lib/parliamentarians'
 import {
   Sun, Moon, Menu, X, Search, User, Info,
   Users, MapPin, Tag, TrendingUp, BarChart2, ChevronDown,
-  Filter
+  Filter, ChevronLeft, ChevronRight, DollarSign
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -24,20 +24,19 @@ type Collection = {
   createdAt: number
 }
 
-type SortMode = 'nome' | 'partido' | 'uf' | 'alinhamento' | 'patrimonio' | 'mandatos'
+type SortMode = 'nome' | 'partido' | 'uf' | 'patrimonio' | 'mandatos'
 
 const CLUSTER_OPTIONS: { mode: ClusterMode; label: string; icon: React.ReactNode; desc: string }[] = [
   { mode: 'partido',    label: 'Partido',      icon: <Users size={13} />,       desc: 'Agrupa pelos 18 partidos' },
   { mode: 'uf',         label: 'Estado',       icon: <MapPin size={13} />,      desc: 'Distribuição geográfica' },
   { mode: 'tema',       label: 'Tema',         icon: <Tag size={13} />,         desc: '8 macro temas legislativos' },
-  { mode: 'alinhamento',label: 'Alinhamento',  icon: <TrendingUp size={13} />,  desc: 'Alinhamento com o governo' },
   { mode: 'tipo',       label: 'Casa',         icon: <BarChart2 size={13} />,   desc: 'Câmara vs Senado' },
   { mode: 'bancada',    label: 'Bancada',      icon: <Users size={13} />,       desc: 'Frentes parlamentares' },
   { mode: 'genero',     label: 'Gênero',       icon: <Users size={13} />,       desc: 'Homem Cis · Mulher Cis · Mulher Trans · Não-binárie' },
   { mode: 'faixaEtaria',label: 'Mandatos',     icon: <Users size={13} />,       desc: 'Tempo no poder' },
   { mode: 'raca',       label: 'Raça',         icon: <Users size={13} />,       desc: 'Autodeclaração racial' },
   { mode: 'patrimonio', label: 'Patrimônio',   icon: <TrendingUp size={13} />,  desc: 'Os mais ricos do Congresso' },
-  { mode: 'projetos',  label: 'Projetos',     icon: <BarChart2 size={13} />,   desc: 'Quem mais aprovou projetos' },
+  { mode: 'cotas',      label: 'Cotas',        icon: <DollarSign size={13} />,  desc: 'Despesas da Cota Parlamentar' },
 ]
 
 
@@ -186,6 +185,7 @@ export default function Home() {
   const [view, setView] = useState<View>('graph')
   const [animationsEnabled, setAnimationsEnabled] = useState(true)
   const [selectedParliamentarian, setSelectedParliamentarian] = useState<Parlamentar | null>(null)
+  const [cardIndex, setCardIndex] = useState(0)
   const [isDark, setIsDark] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -338,6 +338,7 @@ export default function Home() {
         const p = parlamentares.find(x => x.id === openProfileId)
         if (p) {
           setSelectedParliamentarian(p)
+          setCardIndex(0)
           setView('profile')
         }
       }
@@ -385,10 +386,11 @@ export default function Home() {
 
   const handleSelectParliamentarian = useCallback((p: Parlamentar) => {
     setSelectedParliamentarian(p)
+    setCardIndex(0)
     setView('profile')
   }, [])
 
-  const handleBack = useCallback(() => { setView('graph'); setSelectedParliamentarian(null) }, [])
+  const handleBack = useCallback(() => { setView('graph'); setSelectedParliamentarian(null); setCardIndex(0) }, [])
   // Track if we're returning from profile (to preserve cluster positions)
   const returningFromProfileRef = useRef(false)
   const [preserveGraphPositions, setPreserveGraphPositions] = useState(false)
@@ -397,6 +399,7 @@ export default function Home() {
     setPreserveGraphPositions(true)
     setView('graph')
     setSelectedParliamentarian(null)
+    setCardIndex(0)
     setTimeout(() => { 
       returningFromProfileRef.current = false
       // Keep preserve for slightly longer to ensure graph render happens
@@ -467,7 +470,6 @@ export default function Home() {
         if (dashSort === 'nome')       return a.nomeUrna.localeCompare(b.nomeUrna)
         if (dashSort === 'partido')    return a.partido.localeCompare(b.partido)
         if (dashSort === 'uf')         return a.uf.localeCompare(b.uf)
-        if (dashSort === 'alinhamento') return b.alinhamento - a.alinhamento
         if (dashSort === 'patrimonio')  return b.patrimonio - a.patrimonio
         if (dashSort === 'mandatos')    return b.mandatos - a.mandatos
         return 0
@@ -487,7 +489,7 @@ export default function Home() {
 
     const SORT_OPTS: {v: SortMode; l: string}[] = [
       {v:'nome',l:'A–Z'},{v:'partido',l:'Partido'},{v:'uf',l:'Estado'},
-      {v:'alinhamento',l:'Alinhamento'},{v:'patrimonio',l:'Patrimônio'},{v:'mandatos',l:'Mandatos'},
+      {v:'patrimonio',l:'Patrimônio'},{v:'mandatos',l:'Mandatos'},
     ]
 
     // Collection helper — toggle single member
@@ -601,7 +603,7 @@ export default function Home() {
                     VIVID={VIVID}
                     collections={collections}
                     onRemove={()=>unsaveParliamentarian(p.id)}
-                    onOpen={()=>{ setSelectedParliamentarian(p); setView('profile') }}
+                    onOpen={()=>{ setSelectedParliamentarian(p); setCardIndex(0); setView('profile') }}
                     onToggleMember={toggleMember}
                   />
                 ))}
@@ -1142,7 +1144,7 @@ export default function Home() {
 
               {/* Faixa Etaria */}
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-mono" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>Idade</span>
+                <span className="text-xs font-mono" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>Mandatos</span>
                 <select
                   value={filterFaixaEtaria}
                   onChange={e => setFilterFaixaEtaria(e.target.value)}
@@ -1358,6 +1360,30 @@ export default function Home() {
             style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', backgroundColor: 'rgba(0,0,0,0.45)' }}
             onClick={handleBackFromProfile}
           />
+          {/* Navigation arrows - outside card, centered vertically */}
+          <div className="fixed z-50 flex items-center justify-between" style={{ 
+            top: '50%', left: '50%', 
+            transform: 'translate(-50%, -50%)',
+            width: 'min(500px, calc(100vw - 32px))',
+            pointerEvents: 'none',
+          }}>
+            <button
+              onClick={() => setCardIndex(i => Math.max(0, i - 1))}
+              disabled={cardIndex === 0}
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-colors pointer-events-auto disabled:opacity-30"
+              style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)', color: isDark ? '#fff' : '#000' }}
+            >
+              <ChevronLeft size={28} />
+            </button>
+            <button
+              onClick={() => setCardIndex(i => Math.min(8, i + 1))}
+              disabled={cardIndex === 8}
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-colors pointer-events-auto disabled:opacity-30"
+              style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)', color: isDark ? '#fff' : '#000' }}
+            >
+              <ChevronRight size={28} />
+            </button>
+          </div>
           {/* card */}
           <div
             className="fixed z-50"
@@ -1365,7 +1391,7 @@ export default function Home() {
               top: '50%', left: '50%',
               transform: 'translate(-50%, -50%)',
               width: 'min(420px, calc(100vw - 32px))',
-              maxHeight: 'calc(100vh - 48px)',
+              height: '560px',
               borderRadius: 24,
               overflow: 'hidden',
               boxShadow: '0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06)',
@@ -1378,6 +1404,9 @@ export default function Home() {
               onBack={handleBackFromProfile}
               isDark={isDark}
               onToggleTheme={toggleTheme}
+              showNavigation={true}
+              cardIndex={cardIndex}
+              onCardChange={setCardIndex}
               onSaveToggle={(id, saved) => {
                 setSavedIds(prev => saved ? (prev.includes(id)?prev:[...prev,id]) : prev.filter(x=>x!==id))
               }}

@@ -25,7 +25,7 @@ import {
   type Bancada,
 } from '@/lib/parliamentarians'
 
-export type ClusterMode = 'partido' | 'uf' | 'tema' | 'alinhamento' | 'tipo' | 'genero' | 'faixaEtaria' | 'raca' | 'bancada' | 'patrimonio' | 'projetos'
+export type ClusterMode = 'partido' | 'uf' | 'tema' | 'tipo' | 'genero' | 'faixaEtaria' | 'raca' | 'bancada' | 'patrimonio' | 'cotas'
 
 export const PARTY_COLORS: Record<string, string> = {
   PL:            '#22C55E',
@@ -80,7 +80,39 @@ const TEMA_COLORS: Record<string, string> = {
 
 const TEMAS_FULL = ['Saude', 'Seguranca', 'Agro', 'Educacao', 'Economia', 'Meio Ambiente', 'Infraestrutura', 'Direitos']
 
-const PATRIMONIO_COLORS = ['#38BDF8','#818CF8','#F97316','#EF4444','#DC2626'] as const
+const PATRIMONIO_COLORS = ['#94A3B8','#38BDF8','#818CF8','#F97316','#EF4444','#DC2626'] as const
+
+// Blend colors from multiple bancadas for Venn diagram
+function blendBancadaColors(bancadas: string[]): string {
+  if (bancadas.length === 0) return '#94A3B8' // Gray for none
+  if (bancadas.length === 1) return BANCADA_COLORS[bancadas[0] as keyof typeof BANCADA_COLORS] || '#94A3B8'
+  
+  // Blend colors
+  const colors = bancadas.map(b => BANCADA_COLORS[b as keyof typeof BANCADA_COLORS] || '#94A3B8')
+  
+  // Parse and blend RGB values
+  const rgbValues = colors.map(c => {
+    const hex = c.replace('#', '')
+    return {
+      r: parseInt(hex.substring(0, 2), 16),
+      g: parseInt(hex.substring(2, 4), 16),
+      b: parseInt(hex.substring(4, 6), 16),
+    }
+  })
+  
+  const blended = rgbValues.reduce((acc, rgb) => ({
+    r: acc.r + rgb.r,
+    g: acc.g + rgb.g,
+    b: acc.b + rgb.b,
+  }), { r: 0, g: 0, b: 0 })
+  
+  const count = rgbValues.length
+  const r = Math.round(blended.r / count)
+  const g = Math.round(blended.g / count)
+  const b = Math.round(blended.b / count)
+  
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
 
 // Generate consistent color from party name (always returns hex)
 function partyColor(p: string): string {
@@ -117,15 +149,23 @@ function getNodeColor(node: Parlamentar, mode: ClusterMode): string {
     return PAL[node.faixaEtaria] || '#64748B'
   }
   if (mode === 'raca')       return RACA_COLORS[node.raca] || '#64748B'
-  if (mode === 'bancada')    return BANCADA_COLORS[node.bancada] || '#64748B'
+  if (mode === 'bancada') {
+    const bancadas = (node as any).bancadas || [node.bancada]
+    const valid = bancadas.filter((b: string) => b && b !== 'Nenhuma')
+    const primary = valid[0] || 'Nenhuma'
+    return BANCADA_COLORS[primary as keyof typeof BANCADA_COLORS] || '#94A3B8'
+  }
   if (mode === 'patrimonio') return PATRIMONIO_COLORS[PATRIMONIO_LABELS.indexOf(patrimonioLabel(node.patrimonio) as typeof PATRIMONIO_LABELS[number])] || '#64748B'
-  if (mode === 'projetos') {
-    const ap = (node as any).projetosAprovados ?? 0
-    if (ap >= 20) return '#22C55E'
-    if (ap >= 10) return '#3B82F6'
-    if (ap >= 5)  return '#FACC15'
-    if (ap >= 1)  return '#F97316'
-    return '#64748B'
+  if (mode === 'cotas') {
+    const cotas = (node as any).cotas ?? 0
+    const cotasTotal = (node as any).cotasTotal ?? 0
+    // Consider both number of records AND total amount
+    const hasDespesas = cotas > 0 || cotasTotal > 0
+    if (!hasDespesas) return '#22C55E'  // Green - no expenses
+    if (cotas >= 600) return '#EF4444'  // Red - most
+    if (cotas >= 400) return '#F97316'  // Orange
+    if (cotas >= 200) return '#FACC15'  // Yellow
+    return '#22C55E'  // Green - least
   }
   const t = node.alinhamento / 100
   const r = Math.round(239 + (34 - 239) * t)
@@ -143,18 +183,32 @@ function getClusterKey(node: Parlamentar, mode: ClusterMode): string {
   if (mode === 'uf')          return node.uf
   if (mode === 'tema')        return node.macroTema
   if (mode === 'tipo')        return node.tipo === 'SENADOR' ? 'Senadores' : 'Deputados'
-  if (mode === 'genero')      return node.genero
+  if (mode === 'genero') {
+    const g = node.genero
+    if (g === 'Homem') return 'Homem Cis'
+    if (g === 'Mulher') return 'Mulher Cis'
+    if (g === 'Trans') return 'Mulher Trans'
+    if (g === 'NaoBinarie') return 'Não-binárie'
+    return g
+  }
   if (mode === 'faixaEtaria') return node.faixaEtaria
   if (mode === 'raca')        return node.raca
-  if (mode === 'bancada')     return node.bancada
+  if (mode === 'bancada') {
+    const bancadas = (node as any).bancadas || [node.bancada]
+    const valid = bancadas.filter((b: string) => b && b !== 'Nenhuma')
+    return valid[0] || 'Nenhuma'
+  }
   if (mode === 'patrimonio')  return patrimonioLabel(node.patrimonio)
-  if (mode === 'projetos') {
-    const ap = (node as any).projetosAprovados ?? 0
-    if (ap >= 20) return '20+ aprovados'
-    if (ap >= 10) return '10-19 aprovados'
-    if (ap >= 5)  return '5-9 aprovados'
-    if (ap >= 1)  return '1-4 aprovados'
-    return 'Nenhum aprovado'
+  if (mode === 'cotas') {
+    const cotas = (node as any).cotas ?? 0
+    const cotasTotal = (node as any).cotasTotal ?? 0
+    // Consider both number of records AND total amount
+    const hasDespesas = cotas > 0 || cotasTotal > 0
+    if (!hasDespesas) return 'Sem despesas'
+    if (cotas >= 600) return '600+ despesas'
+    if (cotas >= 400) return '400-599'
+    if (cotas >= 200) return '200-399'
+    return '1-199'
   }
   const bucket = Math.floor(node.alinhamento / 25)
   const labels = ['Oposicao (0-24%)', 'Neutro (25-49%)', 'Alinhado (50-74%)', 'Governo (75-100%)']
@@ -213,50 +267,40 @@ function computeClusterCenters(
   } else if (mode === 'tipo') {
     map.set('Senadores', { x: W * 0.25, y: H / 2 })
     map.set('Deputados', { x: W * 0.72, y: H / 2 })
-  } else if (mode === 'alinhamento') {
-    // Wave layout — centers are just fallbacks; actual positions in applyTargets
-    const labels = ['Oposicao (0-24%)', 'Neutro (25-49%)', 'Alinhado (50-74%)', 'Governo (75-100%)']
-    labels.forEach((l, i) => {
-      map.set(l, { x: pad + (i / (labels.length - 1)) * (W - pad * 2), y: H / 2 })
-    })
   } else if (mode === 'genero') {
     const isMob = W < 600
     const positions = [
-      { key: 'Homem',      x: W * 0.18, y: H / 2, label: 'Homem Cis' },
-      { key: 'Mulher',     x: W * 0.42, y: H / 2, label: 'Mulher Cis' },
-      { key: 'Trans',      x: W * 0.66, y: H / 2, label: 'Mulher Trans' },
-      { key: 'NaoBinarie', x: W * 0.88, y: H / 2, label: 'Não-binárie' },
+      { key: 'Homem Cis',      x: W * 0.18, y: H / 2 },
+      { key: 'Mulher Cis',     x: W * 0.42, y: H / 2 },
+      { key: 'Mulher Trans',  x: W * 0.66, y: H / 2 },
+      { key: 'Não-binárie',    x: W * 0.88, y: H / 2 },
     ]
     if (isMob) {
       // mobile: 2x2 grid
-      positions[0] = { key: 'Homem',      x: W * 0.28, y: H * 0.35, label: 'Homem Cis' }
-      positions[1] = { key: 'Mulher',     x: W * 0.72, y: H * 0.35, label: 'Mulher Cis' }
-      positions[2] = { key: 'Trans',      x: W * 0.28, y: H * 0.65, label: 'Mulher Trans' }
-      positions[3] = { key: 'NaoBinarie', x: W * 0.72, y: H * 0.65, label: 'Não-binárie' }
+      positions[0] = { key: 'Homem Cis',      x: W * 0.28, y: H * 0.35 }
+      positions[1] = { key: 'Mulher Cis',     x: W * 0.72, y: H * 0.35 }
+      positions[2] = { key: 'Mulher Trans',  x: W * 0.28, y: H * 0.65 }
+      positions[3] = { key: 'Não-binárie',    x: W * 0.72, y: H * 0.65 }
     }
     positions.forEach(p => map.set(p.key, { x: p.x, y: p.y }))
-    // Store display labels for legend
-    ;(map as any)._generoLabels = {
-      'Homem': 'Homem Cis',
-      'Mulher': 'Mulher Cis',
-      'Trans': 'Mulher Trans',
-      'NaoBinarie': 'Não-binárie'
-    }
   } else if (mode === 'faixaEtaria') {
     FAIXAS_ETARIAS.forEach((k, i) => {
       map.set(k, { x: pad + (i / (FAIXAS_ETARIAS.length - 1)) * (W - pad * 2), y: H / 2 })
     })
   } else if (mode === 'raca') {
-    const r = Math.min(W, H) * (isMobile ? 0.24 : 0.30)
+    // Much larger radius to prevent cluster overlap - Branco is very large (~340), Pardo (~220), Preto (~60)
+    const r = Math.min(W, H) * (isMobile ? 0.42 : 0.48)
     RACAS.forEach((k, i) => {
       const angle = (i / RACAS.length) * Math.PI * 2 - Math.PI / 2
       map.set(k, { x: W / 2 + Math.cos(angle) * r, y: H / 2 + Math.sin(angle) * r })
     })
   } else if (mode === 'bancada') {
-    const cols = isMobile ? 2 : 4
+    // Grid layout for each bancada including "Nenhuma"
+    const cols = 3
     const rows = Math.ceil(BANCADAS.length / cols)
     const cw = (W - pad * 2) / cols
     const ch = (H - pad * 2) / rows
+    
     BANCADAS.forEach((k, i) => {
       map.set(k, { x: pad + (i % cols) * cw + cw / 2, y: pad + Math.floor(i / cols) * ch + ch / 2 })
     })
@@ -264,24 +308,32 @@ function computeClusterCenters(
     PATRIMONIO_LABELS.forEach((k, i) => {
       map.set(k, { x: pad + (i / (PATRIMONIO_LABELS.length - 1)) * (W - pad * 2), y: H / 2 })
     })
-  } else if (mode === 'projetos') {
-    const keys = ['20+ aprovados', '10-19 aprovados', '5-9 aprovados', '1-4 aprovados', 'Nenhum aprovado']
+  } else if (mode === 'cotas') {
+    // Horizontal bar layout
+    const keys = ['600+ despesas', '400-599', '200-399', '1-199', 'Sem despesas']
     keys.forEach((k, i) => {
       map.set(k, { x: pad + (i / (keys.length - 1)) * (W - pad * 2), y: H / 2 })
     })
   }
 
   // Repulsion pass — guarantees minimum gap between cluster bounding circles
-  if (counts) repelClusters(map, counts, W, H)
+  // Skip repulsion for UF, raca, and genero modes to preserve layout shapes
+  if (counts && mode !== 'uf' && mode !== 'raca' && mode !== 'genero') repelClusters(map, counts, W, H, mode)
 
   return map
 }
 
 /** Approximate radius that a cluster of `count` nodes will occupy */
-function clusterRadius(count: number): number {
-  if (count <= 1) return 10
-  const spacing = Math.max(12, Math.min(22, Math.sqrt(count) * 1.8))
-  return Math.ceil(Math.sqrt(count / Math.PI)) * spacing + spacing
+function clusterRadius(count: number, mode?: ClusterMode): number {
+  if (count <= 1) return 16
+  const isUF = mode === 'uf'
+  const isRacaMode = mode === 'raca'
+  const isGenero = mode === 'genero'
+  // Use same spacing as buildClusterPositions
+  const spacing = isUF ? 12 : isRacaMode ? 20 : isGenero ? 18 : 16
+  // Circle packing: area = count * spacing^2, radius = sqrt(area/PI)
+  const area = count * spacing * spacing
+  return Math.sqrt(area / Math.PI) + spacing * 1.5
 }
 
 /** Iterative spring-repulsion — pushes overlapping cluster centers apart */
@@ -290,7 +342,8 @@ function repelClusters(
   counts:  Map<string, number>,
   W: number,
   H: number,
-  MIN_GAP = 14,
+  mode?: ClusterMode,
+  MIN_GAP = 30,
   ITERS   = 80,
 ): void {
   const keys = [...centers.keys()]
@@ -301,8 +354,8 @@ function repelClusters(
       for (let b = a + 1; b < keys.length; b++) {
         const ca = centers.get(keys[a])!
         const cb = centers.get(keys[b])!
-        const ra = clusterRadius(counts.get(keys[a]) ?? 1)
-        const rb = clusterRadius(counts.get(keys[b]) ?? 1)
+        const ra = clusterRadius(counts.get(keys[a]) ?? 1, mode)
+        const rb = clusterRadius(counts.get(keys[b]) ?? 1, mode)
         const minDist = ra + rb + MIN_GAP
         const dx = cb.x - ca.x, dy = cb.y - ca.y
         const dist = Math.sqrt(dx * dx + dy * dy) || 0.001
@@ -319,7 +372,7 @@ function repelClusters(
     const PAD = 55
     for (const key of keys) {
       const c = centers.get(key)!
-      const r = clusterRadius(counts.get(key) ?? 1)
+      const r = clusterRadius(counts.get(key) ?? 1, mode)
       c.x = Math.max(PAD + r, Math.min(W - PAD - r, c.x))
       c.y = Math.max(PAD + r, Math.min(H - PAD - r, c.y))
     }
@@ -327,12 +380,24 @@ function repelClusters(
   }
 }
 
-function buildClusterPositions(count: number, cx: number, cy: number): {x: number, y: number}[] {
+function buildClusterPositions(count: number, cx: number, cy: number, mode?: ClusterMode): {x: number, y: number}[] {
   const positions: {x: number, y: number}[] = []
   if (count === 0) return positions
   if (count === 1) return [{ x: cx, y: cy }]
-  // Increased spacing for better visibility - no overlaps
-  const spacing = Math.max(12, Math.min(22, Math.sqrt(count) * 1.8))
+  // UF and raca modes need different spacing handling
+  const isUF = mode === 'uf'
+  // Max 5px margin between pixels: 8px pixel + 5px margin each side = 13px center-to-center
+  // Use 14-20px for slight breathing room
+  // For raca and genero modes with clusters, use more spacing
+  const isGenero = mode === 'genero'
+  const isRacaMode = mode === 'raca'
+  const spacing = isUF 
+    ? 12 
+    : isRacaMode
+      ? Math.max(18, Math.min(24, Math.sqrt(count) * 1.4))
+      : isGenero
+        ? Math.max(16, Math.min(20, Math.sqrt(count) * 1.3))
+        : Math.max(14, Math.min(18, Math.sqrt(count) * 1.2))
   let placed = 0
   for (let ring = 0; placed < count; ring++) {
     if (ring === 0) { positions.push({ x: cx, y: cy }); placed++; continue }
@@ -446,10 +511,11 @@ export function NetworkGraph({
   const [hovered, setHovered] = useState<number | null>(null)
   const [clickedNode, setClickedNode] = useState<number | null>(null)
   const [isReady, setIsReady] = useState(false)
-  const [legendItems, setLegendItems] = useState<{label: string, color: string}[]>([])
+  const [legendItems, setLegendItems] = useState<{label: string, color: string, key: string}[]>([])
   const [filteredCount, setFilteredCount] = useState(594)
   const [legendOpen, setLegendOpen] = useState(false)
   const [showPinchHint, setShowPinchHint] = useState(false)
+  const [selectedCluster, setSelectedCluster] = useState<string | null>(null)
   const hasInteractedRef = useRef(false)
   const animEnabledRef = useRef(animationsEnabled)
   useEffect(() => { animEnabledRef.current = animationsEnabled }, [animationsEnabled])
@@ -551,30 +617,8 @@ export function NetworkGraph({
       groups.set(key, g)
     })
 
-    // WAVE: In 'alinhamento' mode, nodes form a sine wave across the screen
-    if (mode === 'alinhamento') {
-      const wPad = isMobile ? 50 : 90
-      const amp = H * (isMobile ? 0.22 : 0.28)
-      const waves = 1.5
-      // Sort by alinhamento so wave is smooth
-      const sorted = [...nodes].sort((a, b) => a.alinhamento - b.alinhamento)
-      // Distribute evenly across the wave (no gaps!)
-      sorted.forEach((n, i) => {
-        const t = i / (sorted.length - 1 || 1) // Evenly distributed 0-1
-        const x = wPad + t * (W - wPad * 2)
-        const y = H / 2 + amp * Math.sin(t * Math.PI * waves * 2)
-        // Offset based on alignment value to show variation
-        const alignOffset = (n.alinhamento / 100 - 0.5) * amp * 0.3
-        // Deterministic offset based on node index
-        const offset = ((i % 3) - 1) * 5
-        const hash = (n.idNumerico * 7919) % 1000 / 1000
-        n.targetX = x + (hash - 0.5) * 8
-        n.targetY = y + offset + alignOffset + ((hash * 17) % 100 - 50) / 100 * 6
-        n.initColor = n.currentColor
-        n.targetColor = getNodeColor(n, mode)
-      })
     // FIX: In 'tipo' mode, position nodes precisely as dome shapes
-    } else if (mode === 'tipo') {
+    if (mode === 'tipo') {
       const domes = domesLayout(W, H)
       const senPositions  = domes.filter((d: {x:number;y:number;region:string;color:string}) => d.region === 'senado')
       const camPositions  = domes.filter((d: {x:number;y:number;region:string;color:string}) => d.region === 'camara')
@@ -592,10 +636,39 @@ export function NetworkGraph({
           ci++
         }
       })
+    } else if (mode === 'cotas') {
+      // Horizontal bar layout - sorted by expenses
+      const byCota = new Map<string, NetworkNode[]>()
+      nodes.forEach(n => {
+        const cotas = (n as any).cotas ?? 0
+        const cotasTotal = (n as any).cotasTotal ?? 0
+        // Consider both number of records AND total amount
+        const hasDespesas = cotas > 0 || cotasTotal > 0
+        let key: string
+        if (!hasDespesas) key = 'Sem despesas'
+        else if (cotas >= 600) key = '600+ despesas'
+        else if (cotas >= 400) key = '400-599'
+        else if (cotas >= 200) key = '200-399'
+        else key = '1-199'
+        
+        if (!byCota.has(key)) byCota.set(key, [])
+        byCota.get(key)!.push(n)
+      })
+      
+      byCota.forEach((gnodes, key) => {
+        const center = centers.get(key) || { x: W / 2, y: H / 2 }
+        const positions = buildClusterPositions(gnodes.length, center.x, center.y, mode)
+        gnodes.forEach((n, i) => {
+          n.targetX = positions[i]?.x ?? center.x
+          n.targetY = positions[i]?.y ?? center.y
+          n.initColor = n.currentColor
+          n.targetColor = getNodeColor(n, mode)
+        })
+      })
     } else {
       groups.forEach((gnodes, key) => {
         const center = centers.get(key) || { x: W / 2, y: H / 2 }
-        const positions = buildClusterPositions(gnodes.length, center.x, center.y)
+        const positions = buildClusterPositions(gnodes.length, center.x, center.y, mode)
         gnodes.forEach((n, i) => {
           n.targetX = positions[i]?.x ?? center.x
           n.targetY = positions[i]?.y ?? center.y
@@ -606,51 +679,40 @@ export function NetworkGraph({
     }
 
     // 4. Legend
-    const items: {label: string, color: string}[] = []
+    const items: {label: string, color: string, key: string}[] = []
     if (mode === 'partido') {
       // Show ALL parties with at least 1 member
       const countsMap = counts ?? new Map<string, number>()
       const sorted = [...countsMap.entries()].sort((a, b) => b[1] - a[1])
-      sorted.forEach(([p, count]) => items.push({ label: `${p} (${count})`, color: partyColor(p) }))
+      sorted.forEach(([p, count]) => items.push({ label: `${p} (${count})`, color: partyColor(p), key: p }))
     } else if (mode === 'uf') {
-      UFS.forEach(u => items.push({ label: u, color: UF_COLORS[u] || '#888' }))
+      UFS.forEach(u => items.push({ label: u, color: UF_COLORS[u] || '#888', key: u }))
     } else if (mode === 'tema') {
-      TEMAS_FULL.forEach(t => items.push({ label: t, color: TEMA_COLORS[t] || '#888' }))
+      TEMAS_FULL.forEach(t => items.push({ label: t, color: TEMA_COLORS[t] || '#888', key: t }))
     } else if (mode === 'tipo') {
-      items.push({ label: 'Deputados Federais', color: '#818CF8' })
-      items.push({ label: 'Senadores', color: '#34D399' })
-    } else if (mode === 'alinhamento') {
-      items.push({ label: 'Oposição (0-24%)', color: '#EF4444' })
-      items.push({ label: 'Neutro (25-49%)', color: '#FACC15' })
-      items.push({ label: 'Alinhado (50-74%)', color: '#86EFAC' })
-      items.push({ label: 'Governo (75-100%)', color: '#22C55E' })
+      items.push({ label: 'Deputados Federais', color: '#818CF8', key: 'Deputados' })
+      items.push({ label: 'Senadores', color: '#34D399', key: 'Senadores' })
     } else if (mode === 'genero') {
-      const labels: Record<string, string> = {
-        'Homem': 'Homem Cis',
-        'Mulher': 'Mulher Cis',
-        'Trans': 'Mulher Trans',
-        'NaoBinarie': 'Não-binárie'
-      }
-      items.push({ label: 'Homem Cis',      color: GENERO_COLORS['Homem'] })
-      items.push({ label: 'Mulher Cis',     color: GENERO_COLORS['Mulher'] })
-      items.push({ label: 'Mulher Trans',  color: GENERO_COLORS['Trans'] })
-      items.push({ label: 'Não-binárie',   color: GENERO_COLORS['NaoBinarie'] })
+      items.push({ label: 'Homem Cis',      color: GENERO_COLORS['Homem'], key: 'Homem Cis' })
+      items.push({ label: 'Mulher Cis',     color: GENERO_COLORS['Mulher'], key: 'Mulher Cis' })
+      items.push({ label: 'Mulher Trans',  color: GENERO_COLORS['Trans'], key: 'Mulher Trans' })
+      items.push({ label: 'Não-binárie',   color: GENERO_COLORS['NaoBinarie'], key: 'Não-binárie' })
     } else if (mode === 'faixaEtaria') {
       const PAL: Record<string,string> = {'1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9'}
-      FAIXAS_ETARIAS.forEach(f => items.push({ label: f, color: PAL[f] || '#888' }))
+      FAIXAS_ETARIAS.forEach(f => items.push({ label: f, color: PAL[f] || '#888', key: f }))
     } else if (mode === 'raca') {
-      RACAS.forEach(r => items.push({ label: r, color: RACA_COLORS[r] || '#888' }))
+      RACAS.forEach(r => items.push({ label: r, color: RACA_COLORS[r] || '#888', key: r }))
     } else if (mode === 'bancada') {
-      BANCADAS.forEach(b => items.push({ label: b, color: BANCADA_COLORS[b] || '#888' }))
+      BANCADAS.forEach(b => items.push({ label: b, color: BANCADA_COLORS[b] || '#888', key: b }))
     } else if (mode === 'patrimonio') {
-      PATRIMONIO_LABELS.forEach((l, i) => items.push({ label: l, color: PATRIMONIO_COLORS[i] }))
-    } else if (mode === 'projetos') {
+      PATRIMONIO_LABELS.forEach((l, i) => items.push({ label: l, color: PATRIMONIO_COLORS[i], key: l }))
+    } else if (mode === 'cotas') {
       [
-        { label: '20+ aprovados', color: '#22C55E' },
-        { label: '10-19 aprovados', color: '#3B82F6' },
-        { label: '5-9 aprovados', color: '#FACC15' },
-        { label: '1-4 aprovados', color: '#F97316' },
-        { label: 'Nenhum aprovado', color: '#64748B' },
+        { label: '600+ despesas', color: '#EF4444', key: '600+ despesas' },
+        { label: '400-599', color: '#F97316', key: '400-599' },
+        { label: '200-399', color: '#FACC15', key: '200-399' },
+        { label: '1-199', color: '#22C55E', key: '1-199' },
+        { label: 'Sem despesas', color: '#64748B', key: 'Sem despesas' },
       ].forEach(i => items.push(i))
     }
     setLegendItems(items)
@@ -717,12 +779,12 @@ export function NetworkGraph({
       const isHov = hov === i
       const isFiltered = !filteredIds.has(n.id)
 
-      const pStrength = 0.012
-      const drawX = n.x + (mx - W / 2) * pStrength * n.z
-      const drawY = n.y + (my - H / 2) * pStrength * n.z
+      // No parallax effect - pixels stay fixed
+      const drawX = n.x
+      const drawY = n.y
 
       ctx.globalAlpha = isFiltered ? 0 : isHov ? 1 : (phase === 'congress' ? 0.92 : 0.85)
-      const size = isHov ? nodeSize * 1.7 : nodeSize * (0.85 + n.z * 0.15)
+      const size = isHov ? nodeSize * 1.4 : nodeSize
       const half = size / 2
       const radius = size * 0.22
 
@@ -810,7 +872,17 @@ export function NetworkGraph({
           if (clusterMode === 'uf') return UF_COLORS[label] || '#94A3B8'
           if (clusterMode === 'tema') return TEMA_COLORS[label] || '#94A3B8'
           if (clusterMode === 'tipo') return label === 'Senadores' ? '#34D399' : '#818CF8'
-          if (clusterMode === 'genero') return GENERO_COLORS[label as Genero] || '#94A3B8'
+          if (clusterMode === 'genero') {
+            // Map display labels back to internal values for color lookup
+            const generoMap: Record<string, Genero> = {
+              'Homem Cis': 'Homem',
+              'Mulher Cis': 'Mulher',
+              'Mulher Trans': 'Trans',
+              'Não-binárie': 'NaoBinarie'
+            }
+            const generoKey = generoMap[label] || label as Genero
+            return GENERO_COLORS[generoKey] || '#94A3B8'
+          }
           if (clusterMode === 'faixaEtaria') {
             const PAL: Record<string,string> = {'1 mandato':'#38BDF8','2-3 mandatos':'#818CF8','4-5 mandatos':'#A78BFA','6+ mandatos':'#E879F9'}
             return PAL[label] || '#94A3B8'
@@ -856,9 +928,8 @@ export function NetworkGraph({
     const tooltipNode = clickedNode !== null ? clickedNode : hov
     if (tooltipNode !== null && nodes[tooltipNode] && filteredIds.has(nodes[tooltipNode].id)) {
       const n = nodes[tooltipNode]
-      const pStrength = 0.012
-      const screenX = (n.x + (mx - W / 2) * pStrength * n.z) * scale + tx
-      const screenY = (n.y + (my - H / 2) * pStrength * n.z) * scale + ty
+      const screenX = n.x * scale + tx
+      const screenY = n.y * scale + ty
 
       ctx.save()
       ctx.scale(dpr, dpr)
@@ -1045,7 +1116,7 @@ export function NetworkGraph({
       return {
         ...p, idx: i,
         x: pos.x, y: pos.y,
-        z: 0.5 + Math.random() * 1.5,
+        z: 1, // No variation in z for consistent positioning
         targetX: pos.x, targetY: pos.y,
         initColor: pos.color, currentColor: pos.color, targetColor: pos.color,
       } as NetworkNode
@@ -1103,6 +1174,22 @@ export function NetworkGraph({
     colorTRef.current = 0
     phaseRef.current = 'transitioning'
   }, [clusterMode, isReady, applyTargets])
+
+  const panToCluster = useCallback((key: string) => {
+    const { W, H } = dimRef.current
+    const counts = new Map<string, number>()
+    nodesRef.current.forEach(n => {
+      const k = getClusterKey(n, clusterMode)
+      counts.set(k, (counts.get(k) ?? 0) + 1)
+    })
+    const centers = computeClusterCenters(clusterMode, W, H, counts)
+    const center = centers.get(key)
+    if (center) {
+      const { k } = transformRef.current
+      transformRef.current.x = W / 2 - center.x * k
+      transformRef.current.y = H / 2 - center.y * k
+    }
+  }, [clusterMode])
 
   const screenToWorld = useCallback((sx: number, sy: number) => {
     const { x: tx, y: ty, k } = transformRef.current
@@ -1285,12 +1372,22 @@ export function NetworkGraph({
           {legendOpen && (
             <div className="p-2.5 pt-1.5 max-h-80 overflow-y-auto space-y-1.5">
               {legendItems.slice(0, 50).map(item => (
-                <div key={item.label} className="flex items-center gap-2 min-w-0">
+                <button
+                  key={item.key}
+                  onClick={() => panToCluster(item.key)}
+                  className="w-full flex items-center gap-2 min-w-0 cursor-pointer hover:opacity-80 transition-opacity"
+                  style={{
+                    background: selectedCluster === item.key ? `${item.color}22` : 'transparent',
+                    borderRadius: 4,
+                    padding: '2px 4px',
+                    marginLeft: -4,
+                  }}
+                >
                   <div className="w-2.5 h-2.5 rounded-[2px] shrink-0" style={{ backgroundColor: item.color }} />
                   <span className="text-[10px] truncate font-mono" style={{ color: isDark ? '#94A3B8' : '#475569' }}>
                     {item.label}
                   </span>
-                </div>
+                </button>
               ))}
               {legendItems.length > 50 && (
                 <div className="text-[10px] font-mono" style={{ color: isDark ? '#475569' : '#94A3B8' }}>

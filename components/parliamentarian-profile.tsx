@@ -17,8 +17,8 @@ import { PARTY_COLORS } from './network-graph'
 
 // ── CARD NAMES ────────────────────────────────────────────────
 const CARD_NAMES = [
-  'Quem é','Mandato','Associações','O que fez','Temas','Patrimônio',
-  'Campanha','Eleitores','Jurídico','Notícias',
+  'Quem é','Mandato','Associações','Temas','Patrimônio',
+  'Campanha','Jurídico','Notícias',
 ]
 
 // ── COLOUR PALETTE POOL ───────────────────────────────────────
@@ -337,10 +337,18 @@ function ShareSheet({ nome, cardName, bg, onClose }: {
 }
 
 // ── MAIN ──────────────────────────────────────────────────────
-interface Props { parlamentar:Parlamentar; onBack:()=>void; isDark:boolean; onToggleTheme:()=>void; onSaveToggle?:(id:string, saved:boolean)=>void }
+interface Props { parlamentar:Parlamentar; onBack:()=>void; isDark:boolean; onToggleTheme:()=>void; onSaveToggle?:(id:string, saved:boolean)=>void; showNavigation?: boolean; cardIndex?: number; onCardChange?: (idx: number) => void }
 
-export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle }:Props) {
-  const [idx,      setIdx]     = useState(0)
+export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, showNavigation = true, cardIndex: externalIdx, onCardChange }:Props) {
+  const [idx, setIdx] = useState(0)
+  const currentIdx = externalIdx !== undefined ? externalIdx : idx
+  const setCurrentIdx = (newIdx: number) => {
+    if (externalIdx !== undefined) {
+      onCardChange?.(newIdx)
+    } else {
+      setIdx(newIdx)
+    }
+  }
   const [liked,    setLiked]   = useState(false)
   const [showShare,setShare]   = useState(false)
   const [dx,       setDx]      = useState(0)
@@ -365,34 +373,34 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle }:P
 
   const go = useCallback((i:number)=>{
     const target = Math.max(0, Math.min(N-1, i))
-    if (target === idx || animLockRef.current) return
-    const dir = target > idx ? 'left' : 'right'
+    if (target === currentIdx || animLockRef.current) return
+    const dir = target > currentIdx ? 'left' : 'right'
     animLockRef.current = true
     setSlideDir(dir)
     setTimeout(()=>{
-      setIdx(target)
+      setCurrentIdx(target)
       setSlideDir(null)
       setTimeout(()=>{ animLockRef.current = false }, 200)
     }, 180)
-  }, [N, idx])
+  }, [N, currentIdx, setCurrentIdx])
 
   const onTS = (e:TouchEvent) => { sx.current=e.touches[0].clientX; setDrag(true); setDx(0) }
   const onTM = (e:TouchEvent) => { if(drag) setDx(e.touches[0].clientX-sx.current) }
-  const onTE = () => { setDrag(false); if(dx<-60&&idx<N-1)go(idx+1); else if(dx>60&&idx>0)go(idx-1); setDx(0) }
+  const onTE = () => { setDrag(false); if(dx<-60&&currentIdx<N-1)go(currentIdx+1); else if(dx>60&&currentIdx>0)go(currentIdx-1); setDx(0) }
   const onMD = (e:RMouseEvent) => { sx.current=e.clientX; setDrag(true); setDx(0) }
   const onMM = useCallback((e:globalThis.MouseEvent)=>{ if(drag) setDx(e.clientX-sx.current) },[drag])
-  const onMU = useCallback(()=>{ if(!drag)return; setDrag(false); if(dx<-60&&idx<N-1)go(idx+1); else if(dx>60&&idx>0)go(idx-1); setDx(0) },[drag,dx,idx,N,go])
+  const onMU = useCallback(()=>{ if(!drag)return; setDrag(false); if(dx<-60&&currentIdx<N-1)go(currentIdx+1); else if(dx>60&&currentIdx>0)go(currentIdx-1); setDx(0) },[drag,dx,currentIdx,N,go])
 
   useEffect(()=>{ window.addEventListener('mousemove',onMM); window.addEventListener('mouseup',onMU); return()=>{ window.removeEventListener('mousemove',onMM); window.removeEventListener('mouseup',onMU) } },[onMM,onMU])
   useEffect(()=>{
     const h=(e:KeyboardEvent)=>{
-      if(e.key==='ArrowRight'){e.preventDefault();go(idx+1)}
-      if(e.key==='ArrowLeft'){e.preventDefault();go(idx-1)}
+      if(e.key==='ArrowRight'){e.preventDefault();go(currentIdx+1)}
+      if(e.key==='ArrowLeft'){e.preventDefault();go(currentIdx-1)}
       if(e.key==='Escape'){e.preventDefault();onBack()}
     }
     window.addEventListener('keydown',h); return()=>window.removeEventListener('keydown',h)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[idx,go])
+  },[currentIdx,go])
 
   useEffect(()=>{ setLiked(!!localStorage.getItem(`legi-viz-saved-${p.id}`)) },[p.id])
   const toggleLike = ()=>{
@@ -402,7 +410,7 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle }:P
     onSaveToggle?.(p.id, next)
   }
 
-  const bg = palette[idx]
+  const bg = palette[currentIdx]
 
   return (
     <>
@@ -419,12 +427,12 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle }:P
         role="dialog" aria-label={`Perfil de ${p.nomeUrna}`}
       >
         {/* Floating pixels removed per design update */}
-        {/* TOP BAR - minimal */}
+        {/* TOP BAR - with card title centered */}
         <div style={{ display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 16px',opacity:drag?0.3:1,transition:'opacity 0.2s',flexShrink:0 }}>
           <button onClick={onBack} style={{ width:38,height:38,border:'none',display:'flex',alignItems:'center',justifyContent:'center',color:INK,cursor:'pointer',background:'transparent' }}>
             <X size={22} strokeWidth={2.5}/>
           </button>
-          <div style={{ flex:1 }} />
+          <span style={{ fontSize:15,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK,textAlign:'center' }}>{CARD_NAMES[currentIdx]}</span>
           <div style={{ display:'flex',gap:12 }}>
             <button onClick={toggleLike} style={{ width:38,height:38,border:'none',display:'flex',alignItems:'center',justifyContent:'center',color:INK,cursor:'pointer',background:'transparent' }}>
               <svg width={22} height={22} viewBox="0 0 24 24" fill={liked?INK:'none'} stroke={INK} strokeWidth={2}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -451,42 +459,32 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle }:P
           }}>
           {/* Inner centering wrapper — cards max 520px, items left-aligned inside */}
           <div style={{ maxWidth:520, margin:'0 auto', width:'100%' }}>
-          {idx===0&&<C0 p={p} votes={votes} palette={palette} pats={shuffledPats}/>}
-          {idx===1&&<C1 p={p}/>}
-          {idx===2&&<C8 p={p}/>}
-          {idx===3&&<C2 votes={votes} p={p} pats={shuffledPats}/>}
-          {idx===4&&<C3 p={p} pats={shuffledPats}/>}
-          {idx===5&&<C4 bens={bens} pats={shuffledPats}/>}
-          {idx===6&&<C5 fin={fin} pats={shuffledPats}/>}
-          {idx===7&&<C6 p={p} pats={shuffledPats}/>}
-          {idx===8&&<C7 p={p}/>}
-          {idx===9&&<C9 p={p}/>}
+          {currentIdx===0&&<C0 p={p} votes={votes} palette={palette} pats={shuffledPats}/>}
+          {currentIdx===1&&<C1 p={p}/>}
+          {currentIdx===2&&<C8 p={p}/>}
+          {currentIdx===3&&<C3 p={p} votes={votes} pats={shuffledPats}/>}
+          {currentIdx===4&&<C4 bens={bens} pats={shuffledPats}/>}
+          {currentIdx===5&&<C5 fin={fin} pats={shuffledPats}/>}
+          {currentIdx===6&&<C7 p={p}/>}
+          {currentIdx===7&&<C9 p={p}/>}
           </div>
         </div>
 
-        {/* BOTTOM NAVIGATION */}
+        {/* BOTTOM NAVIGATION - only dots, arrows are external */}
+        {showNavigation && (
         <div style={{ padding:'12px 16px 24px',opacity:drag?0.2:1,transition:'opacity 0.2s',flexShrink:0 }}>
-          {/* Card name and navigation */}
-          <div style={{ display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10 }}>
-            <button onClick={()=>go(idx-1)} disabled={idx===0} style={{ width:38,height:38,border:'none',display:'flex',alignItems:'center',justifyContent:'center',color:idx===0?'rgba(0,0,0,0.2)':INK,cursor:idx===0?'default':'pointer',background:'transparent' }}>
-              <ChevronLeft size={24}/>
-            </button>
-            <span style={{ fontSize:14,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK,textAlign:'center' }}>{CARD_NAMES[idx]}</span>
-            <button onClick={()=>go(idx+1)} disabled={idx===N-1} style={{ width:38,height:38,border:'none',display:'flex',alignItems:'center',justifyContent:'center',color:idx===N-1?'rgba(0,0,0,0.2)':INK,cursor:idx===N-1?'default':'pointer',background:'transparent' }}>
-              <ChevronRight size={24}/>
-            </button>
-          </div>
           {/* DOTS */}
           <div style={{ display:'flex',justifyContent:'center',gap:5 }}>
             {Array.from({length:N},(_,i)=>(
               <button key={i} onClick={()=>go(i)}
-                style={{ width:i===idx?20:6,height:6,borderRadius:99,background:i===idx?INK:'rgba(0,0,0,0.25)',border:'none',cursor:'pointer',transition:'width 0.3s',padding:0 }}/>
+                style={{ width:i===currentIdx?20:6,height:6,borderRadius:99,background:i===currentIdx?INK:'rgba(0,0,0,0.25)',border:'none',cursor:'pointer',transition:'width 0.3s',padding:0 }}/>
             ))}
           </div>
         </div>
+        )}
       </div>
 
-      {showShare&&<ShareSheet nome={p.nomeUrna} cardName={CARD_NAMES[idx]} bg={bg} onClose={()=>setShare(false)}/>}
+      {showShare&&<ShareSheet nome={p.nomeUrna} cardName={CARD_NAMES[currentIdx]} bg={bg} onClose={()=>setShare(false)}/>}
     </>
   )
 }
@@ -539,12 +537,20 @@ function calcProjetos(p: Parlamentar) {
 
 // ─────────────────────────────────────────────────────────────
 // C0 — QUEM É
-// ─��─────────���─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
 function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;palette:string[];pats:PatternConfig[]}) {
   const sim  = votes.filter(v=>v.pos==='sim').length
   const freq = Math.round(p.frequencia*100)
   const liderancas = calcLiderancas(p)
-  const projetos = calcProjetos(p)
+  
+  // Mock data for salary and expenses (based on seed)
+  const seed = parseInt(p.id.replace(/\D/g,''))||1
+  const rng = (n: number) => ((seed*n*7193)%1000)/1000
+  // Use real data if available, otherwise use estimates
+  const salarioBruto = p.salario ?? Math.round(33300 + rng(1) * 2000)
+  const cotasGastas = p.cotasTotal ?? Math.round(10000 + rng(2) * 25000)
+  const emendas = p.emendas ?? Math.round(500000 + rng(3) * 2000000)
+  const emendasPix = p.emendasPix ?? Math.round(100000 + rng(4) * 400000)
 
   return (
     <div style={{ padding:'0 18px 32px' }}>
@@ -612,9 +618,9 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
       <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12 }}>
         {[
           {l:'Mandatos',    v:`${p.mandatos}×`,                          sub:'eleito(a)'},
-          {l:'Patrimônio',  v:`R$${(p.patrimonio/1000).toFixed(1)}M`,    sub:'declarado 2022'},
-          {l:'Projetos',    v:`${projetos.desenvolvidos}`,               sub:`${projetos.aprovados} aprovados`},
-          {l:'Frequência',  v:`${freq}%`,                                sub:'no plenário'},
+          {l:'Salário',     v:`R$${salarioBruto.toLocaleString('pt-BR')}`,  sub:'bruto mensal'},
+          {l:'Cotas',       v:`R$${cotasGastas.toLocaleString('pt-BR')}`,  sub:'gastas em 2024'},
+          {l:'Presença',    v:`${freq}%`,                                 sub:'no plenário'},
         ].map(({l,v,sub})=>(
           <div key={l} style={{ padding:'14px 0',borderBottom:'1px solid rgba(0,0,0,0.12)',minWidth:0,overflow:'hidden' }}>
             <Lbl c={l}/>
@@ -624,12 +630,21 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
         ))}
       </div>
 
-      {/* Projetos aprovados em destaque */}
-      <div style={{ padding:'12px 0',borderBottom:'1px solid rgba(0,0,0,0.12)',marginBottom:12,display:'flex',alignItems:'center',gap:12 }}>
-        <CheckCircle2 size={22} color={INK} style={{ flexShrink:0 }}/>
-        <div>
-          <p style={{ fontSize:9,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,textTransform:'uppercase',letterSpacing:'0.08em',margin:0 }}>Projetos aprovados</p>
-          <p style={{ fontSize:22,fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,lineHeight:1.1 }}>{projetos.aprovados} <span style={{ fontSize:13,fontWeight:500 }}>de {projetos.desenvolvidos} propostos</span></p>
+      {/* Emendas parliamentares */}
+      <div style={{ padding:'12px 0',borderBottom:'1px solid rgba(0,0,0,0.12)',marginBottom:12 }}>
+        <div style={{ display:'flex',alignItems:'center',gap:12,marginBottom:12 }}>
+          <CheckCircle2 size={22} color={INK} style={{ flexShrink:0 }}/>
+          <p style={{ fontSize:9,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,textTransform:'uppercase',letterSpacing:'0.08em',margin:0 }}>Emendas apresentadas</p>
+        </div>
+        <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:16 }}>
+          <div>
+            <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,marginBottom:2 }}>Emendas parlamentares</p>
+            <p style={{ fontSize:24,fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,lineHeight:1.1 }}>R${(emendas/1000).toFixed(0)}K</p>
+          </div>
+          <div>
+            <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,marginBottom:2 }}>Transferência especial (Pix)</p>
+            <p style={{ fontSize:24,fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,lineHeight:1.1 }}>R${(emendasPix/1000).toFixed(0)}K</p>
+          </div>
         </div>
       </div>
 
@@ -639,8 +654,8 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
         <Lbl c="Resumo do mandato"/>
         <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:6,lineHeight:1.5 }}>
           {p.partido}/{p.uf} • {p.genero} • {p.raca}<br/>
-          {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {p.frequencia >= 0.8 ? 'Alta' : p.frequencia >= 0.5 ? 'Média' : 'Baixa'} frequência ({Math.round(p.frequencia*100)}%)<br/>
-          {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio > 5000 ? 'Patrimônio alto' : p.patrimonio > 1000 ? 'Patrimônio médio' : 'Patrimônio baixo'}
+          {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {p.frequencia >= 0.8 ? 'Alta' : p.frequencia >= 0.5 ? 'Média' : 'Baixa'} presença ({Math.round(p.frequencia*100)}%)<br/>
+          {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio === 0 ? 'Patrimônio não declarado' : p.patrimonio > 5000 ? `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M` : p.patrimonio > 1000 ? `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M` : `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M`}
         </p>
       </div>
 
@@ -668,9 +683,6 @@ function C1({p}:{p:Parlamentar}) {
     <div style={{ padding:'0 18px 32px' }}>
       <Lbl c="Mandato atual" style={{ marginBottom:6 }}/>
       <Big c={`${p.mandatos}º mandato`}/>
-      <p style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:5,marginBottom:16 }}>
-        {total.toLocaleString('pt-BR')} votos acumulados na carreira
-      </p>
 
       {/* Lideranças e cargos */}
       {liderancas.length > 0 && (
@@ -864,10 +876,11 @@ function C2({votes,p,pats}:{votes:ReturnType<typeof mockVotes>;p:Parlamentar;pat
 }
 
 // ─────────────────────────────────────────────────────────────
-// C3 — TEMAS (radar only)
+// C3 — TEMAS (radar with clickable points)
 // ─────────────────────────────────────────────────────────────
-function C3({p,pats}:{p:Parlamentar;pats:PatternConfig[]}) {
+function C3({p,votes,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;pats:PatternConfig[]}) {
   const [hov,setHov]=useState<number|null>(null)
+  const [selectedTheme, setSelectedTheme] = useState<number|null>(null)
   const pColor=PARTY_COLORS[p.partido]||'#3B82F6'
   const data=TEMAS.map((tema,i)=>({tema,score:Math.round(p.temaScores[i]*100)}))
   const N2=data.length,SZ=260,cx=SZ/2,cy=SZ/2,R=95
@@ -875,14 +888,33 @@ function C3({p,pats}:{p:Parlamentar;pats:PatternConfig[]}) {
   const dPts=data.map((d,i)=>{const a=(i/N2)*Math.PI*2-Math.PI/2;const r=(d.score/100)*R;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}})
   const poly=dPts.map(pt=>`${pt.x},${pt.y}`).join(' ')
 
+  const selectedVotes = selectedTheme !== null 
+    ? votes.filter(v => v.temaIdx === selectedTheme).slice(0, 5)
+    : []
+
   return (
     <div style={{ padding:'0 18px 32px' }}>
       <Lbl c="Macro-tema principal" style={{ marginBottom:5 }}/>
       <Big c={p.macroTema}/>
       <p style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:16 }}>Área de maior atuação legislativa</p>
       <div style={{ minHeight:34,marginBottom:6 }}>
-        {hov!==null?(<div style={{ borderBottom:'1px solid rgba(0,0,0,0.12)',padding:'6px 0',display:'inline-block' }}><span style={{ fontSize:14,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>{data[hov].tema}: {data[hov].score}%</span></div>)
-          :(<p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Toque em cada eixo para ver o score</p>)}
+        {selectedTheme !== null ? (
+          <div style={{ borderBottom:'1px solid rgba(0,0,0,0.12)',padding:'6px 0',display:'inline-block' }}>
+            <span style={{ fontSize:14,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>{data[selectedTheme].tema}: {data[selectedTheme].score}%</span>
+            <button 
+              onClick={() => setSelectedTheme(null)}
+              style={{ marginLeft: 8, background: 'none', border: 'none', cursor: 'pointer', color: INK, fontSize: 12 }}
+            >
+              (fechar)
+            </button>
+          </div>
+        ) : hov !== null ? (
+          <div style={{ borderBottom:'1px solid rgba(0,0,0,0.12)',padding:'6px 0',display:'inline-block' }}>
+            <span style={{ fontSize:14,fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>{data[hov].tema}: {data[hov].score}%</span>
+          </div>
+        ) : (
+          <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Toque/clique num ponto para ver projetos e votações</p>
+        )}
       </div>
       <div style={{ width:'100%',display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0' }}>
         <svg width={SZ} height={SZ} viewBox={`0 0 ${SZ} ${SZ}`} style={{ overflow:'visible',maxWidth:'100%',width:'100%',maxHeight:300,display:'block' }}>
@@ -893,15 +925,104 @@ function C3({p,pats}:{p:Parlamentar;pats:PatternConfig[]}) {
           {axPts.map((pt,i)=>(
             <g key={i}>
               <line x1={cx} y1={cy} x2={pt.x} y2={pt.y} stroke="rgba(128,128,128,0.15)" strokeWidth={1}/>
-              <text x={pt.x+(pt.x-cx)*0.27} y={pt.y+(pt.y-cy)*0.27+4} textAnchor="middle" fill={INK} fontSize={12} fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif" fontWeight={700}>{String(data[i].tema).slice(0,7)}</text>
-              <circle cx={pt.x+(pt.x-cx)*0.15} cy={pt.y+(pt.y-cy)*0.15} r={18} fill="transparent" style={{ cursor:'pointer' }} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}/>
+              <text x={pt.x+(pt.x-cx)*0.27} y={pt.y+(pt.y-cy)*0.27+4} textAnchor="middle" fill={INK} fontSize={12} fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif" fontWeight={700}>{data[i].tema}</text>
+              <circle cx={pt.x+(pt.x-cx)*0.15} cy={pt.y+(pt.y-cy)*0.15} r={18} fill="transparent" style={{ cursor:'pointer' }} onClick={() => setSelectedTheme(i)} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}/>
             </g>
           ))}
           <PatternDefs/>
           <polygon points={poly} fill={`url(#${pats[0].id})`} style={patStyle(pats[0])} stroke={INK} strokeWidth={2.5} opacity={1}/>
-          {dPts.map((pt,i)=>(<circle key={i} cx={pt.x} cy={pt.y} r={hov===i?8:5} fill={INK} stroke="white" strokeWidth={2} style={{ cursor:'pointer' }} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}/>))}
+          {dPts.map((pt,i)=>(
+            <circle 
+              key={i} 
+              cx={pt.x} 
+              cy={pt.y} 
+              r={selectedTheme === i ? 10 : hov === i ? 8 : 5} 
+              fill={selectedTheme === i ? pColor : INK} 
+              stroke="white" 
+              strokeWidth={2} 
+              style={{ cursor:'pointer' }} 
+              onClick={() => setSelectedTheme(i)}
+              onMouseEnter={()=>setHov(i)} 
+              onMouseLeave={()=>setHov(null)}
+            />
+          ))}
         </svg>
       </div>
+      
+      {/* Selected theme: projects and votes */}
+      {selectedTheme !== null && selectedVotes.length > 0 && (
+        <div style={{ marginTop: 16, borderTop: '1px solid rgba(0,0,0,0.12)', paddingTop: 16 }}>
+          <Lbl c={`Votações em ${data[selectedTheme].tema}`} style={{ marginBottom: 10 }}/>
+          {selectedVotes.map((v, idx) => (
+            <div key={idx} style={{ 
+              padding: '10px 0', 
+              borderBottom: '1px solid rgba(0,0,0,0.08)' 
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                <p style={{ 
+                  fontSize: 11, 
+                  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", 
+                  color: INK, 
+                  margin: 0,
+                  flex: 1,
+                  fontWeight: 700
+                }}>
+                  {v.nome}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0, marginLeft: 8 }}>
+                  {v.pos === 'sim' ? (
+                    <ThumbsUp size={14} color={INK}/>
+                  ) : v.pos === 'nao' ? (
+                    <ThumbsDown size={14} color={INK}/>
+                  ) : v.pos === 'abs' ? (
+                    <Minus size={14} color={INK}/>
+                  ) : (
+                    <X size={14} color={INK}/>
+                  )}
+                  <span style={{ 
+                    fontSize: 10, 
+                    fontWeight: 700, 
+                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", 
+                    color: INK 
+                  }}>
+                    {v.pos.toUpperCase()}
+                  </span>
+                </div>
+              </div>
+              <p style={{ 
+                fontSize: 10, 
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", 
+                color: INK, 
+                margin: '0 0 6px 0', 
+                opacity: 0.7,
+                lineHeight: 1.3
+              }}>
+                {v.desc}
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: 10, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, opacity: 0.5 }}>
+                  {v.data}
+                </span>
+                <a 
+                  href={v.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    fontSize: 10, 
+                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", 
+                    color: INK,
+                    fontWeight: 700,
+                    textDecoration: 'underline',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Ver na Câmara →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

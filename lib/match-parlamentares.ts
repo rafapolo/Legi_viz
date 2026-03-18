@@ -207,7 +207,27 @@ function mulberry32(seed: number) {
   }
 }
 
-function detectRaca(id: number, genero: string): string {
+// Known indigenous surnames in Brazilian politics
+const INDIGENOUS_SURNAMES = [
+  'Waiapã', 'Guajajara', 'Munduruku', 'Kayapó', 'Yanomami', 'Tikuna',
+  'Macuxi', 'Pataxó', 'Tremembé', 'Kadiwéu', 'Atikum', 'Karapã',
+  'Xavante', 'Bororo', 'Krahô', 'Kaingang', 'Guarani', 'Tupi',
+  'Potiguara', 'Tremembé', 'Olaria', 'Capistrano', 'Cairu', 'Tamoio',
+  'Arapuá', 'Coxim', 'Guriapá', 'Janduí', 'Koiupanká', 'Maraguá',
+  'Pajéu', 'Quaraçu', 'Turiuba', 'Umutina', 'Tapuia', 'Ariú',
+]
+
+function detectRaca(id: number, genero: string, nome?: string): string {
+  // Check for known indigenous surnames
+  if (nome) {
+    const nomeUpper = nome.toUpperCase()
+    for (const surname of INDIGENOUS_SURNAMES) {
+      if (nomeUpper.includes(surname.toUpperCase())) {
+        return 'Indigena'
+      }
+    }
+  }
+  
   const rng = mulberry32(id * 10007 + (genero === 'Mulher' ? 5000 : 0))
   const r = rng()
   
@@ -238,7 +258,7 @@ async function main() {
   todos.forEach(p => {
     const key = normalizeNome(p.nomeUrna)
     const genero = detectGender(p.nomeUrna, p.sexo)
-    const raca = detectRaca(p.id, genero)
+    const raca = detectRaca(p.id, genero, p.nomeUrna)
     
     // Patrimônio - alguns valores conhecidos de políticos brasileiros
     let patrimonio: number

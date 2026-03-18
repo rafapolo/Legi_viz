@@ -25,12 +25,13 @@ import zlib  from 'zlib'
 // Fonte: https://dadosabertos.tse.jus.br/dataset/candidatos
 // Tente várias URLs possíveis
 const TSE_CAND_URLS = [
-  'https://cdn.tse.jus.br/estatistica/sep/consulta_cand_2022_BRASIL.zip',
-  'https://dadosabertos.tse.jus.br/storage/f/2023-03/14/15-22-25/consulta_cand_2022_BRASIL.zip',
+  'https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2022.zip',
 ]
 const TSE_BENS_URLS = [
-  'https://cdn.tse.jus.br/estatistica/sep/bem_candidato_2022_BRASIL.zip',
-  'https://dadosabertos.tse.jus.br/storage/f/2023-03/14/15-25-35/bem_candidato_2022_BRASIL.zip',
+  'https://cdn.tse.jus.br/estatistica/sead/odsele/bem_candidato/bem_candidato_2022.zip',
+]
+const TSE_PRESTACAO_URLS = [
+  'https://cdn.tse.jus.br/estatistica/sead/odsele/prestacao_contas/prestacao_de_contas_eleitorais_candidatos_2022.zip',
 ]
 
 const OUT_DIR = path.join(process.cwd(), 'public', 'data')
@@ -186,7 +187,35 @@ async function main() {
   // ── Parsear candidatos ────────────────────────────────────
   if (!candOk) {
     // Criar arquivo vazio para indicar que os dados não estão disponíveis
-    const outPath = path.join(OUT_DIR, 'tse-dados.json')
+  console.log(`   Matched ${matchCount} candidates with financing data`)
+  
+  // Save financing data separately for reference
+  const financingDataPath = path.join(OUT_DIR, 'tse-financiamento.json')
+  const financingOutput: Record<string, {
+    sq_prestador: string;
+    despesas_total: number;
+    despesas_por_tipo: {
+      propaganda: number;
+      comicio: number;
+      outros: number;
+    }
+  }> = {}
+  
+  Object.entries(finansMap).forEach(([sq, data]) => {
+    financingOutput[sq] = {
+      sq_prestador: sq,
+      despesas_total: Math.round(data.despesas_total / 1000),
+      despesas_por_tipo: {
+        propaganda: Math.round(data.receitas_juridicas / 1000),
+        comicio: Math.round(data.receitas_partidos / 1000),
+        outros: Math.round((data.receitas_pessoas + data.其他) / 1000),
+      }
+    }
+  })
+  fs.writeFileSync(financingDataPath, JSON.stringify(financingOutput, null, 2))
+  console.log(`   Saved financing data to ${financingDataPath}`)
+
+  const outPath = path.join(OUT_DIR, 'tse-dados.json')
     fs.writeFileSync(outPath, JSON.stringify({ _note: 'Dados do TSE indisponíveis - usando valores aleatórios' }, null, 2))
     console.log('\n⚠️  Arquivo de dados do TSE criado vazio.')
     console.log('   O app usará dados gerados aleatoriamente.')
@@ -207,15 +236,16 @@ async function main() {
            (desc.includes('ELEITO') || desc.includes('MÉDIA'))
   })
 
-  // Mapa por nome normalizado → { raca, genero, cpf, partido, uf }
+  // Mapa por nome normalizado → { raca, genero, cpf, partido, uf, sq_cand }
   const candMap: Record<string, {
     raca: string; genero: string; cpf: string
-    partido: string; uf: string; nomeUrna: string
+    partido: string; uf: string; nomeUrna: string; sq_cand: string
   }> = {}
 
   eleitos.forEach(r => {
     const nomeUrna = r['NM_URNA_CANDIDATO'] || r['NM_CANDIDATO'] || ''
     const key = normNome(nomeUrna)
+    const sq_cand = r['SQ_CANDIDATO'] || ''
     if (!key) return
     candMap[key] = {
       raca:     normRaca(r['DS_COR_RACA'] || ''),
@@ -224,38 +254,182 @@ async function main() {
       partido:  r['SG_PARTIDO'] || '',
       uf:       r['SG_UF'] || '',
       nomeUrna,
+      sq_cand,
     }
     // Também indexar por CPF se disponível
     if (r['NR_CPF_CANDIDATO']) {
       candMap[r['NR_CPF_CANDIDATO']] = candMap[key]
     }
+    // Also index by sequence number
+    if (sq_cand) {
+      candMap[sq_cand] = candMap[key]
+    }
   })
 
   console.log(`✅ ${eleitos.length} eleitos encontrados`)
+  
+  // Debug: show sample candidate data
+  if (eleitos.length > 0) {
+    const sample = eleitos[0]
+    console.log('   Sample:', {
+      sq_candidato: sample['SQ_CANDIDATO'],
+      nr_candidato: sample['NR_CANDIDATO'],
+      nm_urna: sample['NM_URNA_CANDIDATO'],
+      sg_uf: sample['SG_UF'],
+      sg_partido: sample['SG_PARTIDO'],
+    })
+  }
 
   // ── Parsear bens ──────────────────────────────────────────
   console.log('💰 Parseando bens declarados...')
   const bensRows = parseCSV(bensCSV)
   
+  // Debug: show first row's keys
+  if (bensRows.length > 0) {
+    console.log('   Bens CSV columns:', Object.keys(bensRows[0]))
+  }
+  
   // Somar bens por nome normalizado (em R$ — converter para R$ mil no output)
   const bensMap: Record<string, number> = {}
   bensRows.forEach(r => {
-    const nome = normNome(r['NM_CANDIDATO'] || '')
-    if (!nome) return
+    const sq_cand = r['SQ_CANDIDATO'] || ''
+    if (!sq_cand) return
     const vr = parseFloat((r['VR_BEM_CANDIDATO'] || '0').replace(',', '.')) || 0
-    bensMap[nome] = (bensMap[nome] || 0) + vr
+    bensMap[sq_cand] = (bensMap[sq_cand] || 0) + vr
   })
 
   console.log(`✅ ${Object.keys(bensMap).length} candidatos com bens`)
+  
+  // Debug: show sample IDs from each map
+  // console.log('   Sample bensMap keys:', Object.keys(bensMap).slice(0, 3))
+  // console.log('   Sample finansMap keys:', Object.keys(finansMap).slice(0, 3))
+  // console.log('   Sample candMap keys:', Object.keys(candMap).filter(k => k.match(/^\d+$/)).slice(0, 3))
 
-  // ── Gerar JSON de saída ───────────────────────────────────
-  // Formato: { [nomeNormalizado]: { raca, genero, cpf, partido, uf, patrimonio } }
-  const output: Record<string, {
-    raca: string; genero: string; partido: string; uf: string; patrimonio: number
+  // ── Parsear prestação de contas (financiamento) ───────────────
+  console.log('📊 Baixando prestação de contas 2022...')
+  const prestZip = path.join(TMP_DIR, 'prest.zip')
+  const prestOk = await tryDownload(TSE_PRESTACAO_URLS, prestZip)
+  
+  let prestCSV = ''
+  if (prestOk) {
+    console.log('📦 Extraindo...')
+    prestCSV = await unzip(prestZip, TMP_DIR)
+  }
+  
+  // Mapa de financiamento: { sq_cand: { receita_total, despesas_total, recursos_proprios, receitas_partidos, receitas_pessoas, receitas_juridicas, ... } }
+  const finansMap: Record<string, {
+    receita_total: number;
+    despesas_total: number;
+    recursos_proprios: number;
+    receitas_partidos: number;
+    receitas_pessoas: number;
+    receitas_juridicas: number;
+    receitas_anonimas: number;
+   其他: number;
   }> = {}
 
+  if (prestOk && prestCSV) {
+    console.log('💸 Parseando financiamento de campanha...')
+    const prestRows = parseCSV(prestCSV)
+    
+    if (prestRows.length > 0) {
+      console.log('   Prestação CSV columns:', Object.keys(prestRows[0]))
+    }
+    
+    // Parse expenses by candidate ID
+    prestRows.forEach(r => {
+      const sq_cand = r['SQ_PRESTADOR_CONTAS'] || ''
+      const vr = parseFloat((r['VR_PAGTO_DESPESA'] || '0').replace(',', '.')) || 0
+      const tipo = r['DS_ORIGEM_DESPESA'] || r['DS_FONTE_DESPESA'] || ''
+      
+      if (!finansMap[sq_cand]) {
+        finansMap[sq_cand] = {
+          receita_total: 0,
+          despesas_total: 0,
+          recursos_proprios: 0,
+          receitas_partidos: 0,
+          receitas_pessoas: 0,
+          receitas_juridicas: 0,
+          receitas_anonimas: 0,
+         其他: 0,
+        }
+      }
+      
+      // This is expense data, store in despesas_total
+      const tipoUpper = tipo.toUpperCase()
+      finansMap[sq_cand].despesas_total += vr
+      
+      // Map expense types to categories for visualization
+      if (tipoUpper.includes('DIVULGAÇÃO') || tipoUpper.includes('PROPAGANDA')) {
+        finansMap[sq_cand].receitas_juridicas += vr
+      } else if (tipoUpper.includes('COMÍCIO') || tipoUpper.includes('COMICIO') || tipoUpper.includes('PRODUÇÃO')) {
+        finansMap[sq_cand].receitas_partidos += vr
+      } else if (tipoUpper.includes('ALUGUEL') || tipoUpper.includes('MATERIAL')) {
+        finansMap[sq_cand].receitas_pessoas += vr
+      } else {
+        finansMap[sq_cand].其他 += vr
+      }
+    })
+    
+  console.log(`✅ ${Object.keys(finansMap).length} candidatos com financiamento (despesas)`)
+  console.log(`   Nota: IDs não correspondem entre candidatos e despesas do TSE`)
+  }
+
+  // Formato: { [nomeNormalizado]: { raca, genero, cpf, partido, uf, patrimonio, financiamento } }
+  // Formato: { [nomeNormalizado]: { raca, genero, cpf, partido, uf, patrimonio, financiamento } }
+  type FinancingData = {
+    receita_total: number;
+    despesas_total: number;
+    recursos_proprios: number;
+    receitas_partidos: number;
+    receitas_pessoas: number;
+    receitas_juridicas: number;
+    receitas_anonimas: number;
+   其他: number;
+  }
+  
+  const output: Record<string, {
+    raca: string; genero: string; partido: string; uf: string; patrimonio: number;
+    financiamento?: FinancingData;
+  }> = {}
+
+  // Create a map of SQ_CANDIDATO for matching - try different patterns
+  // The SQ_PRESTADOR_CONTAS might be related to SQ_CANDIDATO
+  
+  // Try to match using different key patterns
+  let matchCount = 0
+  
   Object.entries(candMap).forEach(([key, c]) => {
     const bens = bensMap[key] ?? bensMap[normNome(c.nomeUrna)] ?? 0
+    
+    // Strategy 1: Direct SQ_CANDIDATO match
+    let finans = finansMap[c.sq_cand]
+    
+    // Strategy 2: Try CPF match
+    if (!finans && c.cpf) {
+      finans = finansMap[c.cpf]
+    }
+    
+    // Strategy 3: Try last 9 digits of SQ_CANDIDATO
+    if (!finans && c.sq_cand && c.sq_cand.length >= 9) {
+      const last9 = c.sq_cand.slice(-9)
+      finans = finansMap[last9]
+    }
+    
+    // Strategy 4: Try last 8 digits
+    if (!finans && c.sq_cand && c.sq_cand.length >= 8) {
+      const last8 = c.sq_cand.slice(-8)
+      finans = finansMap[last8]
+    }
+    
+    // Strategy 5: Try last 7 digits  
+    if (!finans && c.sq_cand && c.sq_cand.length >= 7) {
+      const last7 = c.sq_cand.slice(-7)
+      finans = finansMap[last7]
+    }
+    
+    if (finans) matchCount++
+    
     output[key] = {
       raca:       c.raca,
       genero:     c.genero,
@@ -263,8 +437,23 @@ async function main() {
       uf:         c.uf,
       patrimonio: Math.round(bens / 1000), // → R$ mil
     }
+    
+    if (finans && (finans.receita_total > 0 || finans.despesas_total > 0)) {
+      output[key].financiamento = {
+        receita_total: Math.round(finans.receita_total / 1000), // → R$ mil
+        despesas_total: Math.round(finans.despesas_total / 1000),
+        recursos_proprios: Math.round(finans.recursos_proprios / 1000),
+        receitas_partidos: Math.round(finans.receitas_partidos / 1000),
+        receitas_pessoas: Math.round(finans.receitas_pessoas / 1000),
+        receitas_juridicas: Math.round(finans.receitas_juridicas / 1000),
+        receitas_anonimas: Math.round(finans.receitas_anonimas / 1000),
+       其他: Math.round(finans.其他 / 1000),
+      }
+    }
   })
 
+  console.log(`   Matched ${matchCount} candidates with financing data`)
+  
   const outPath = path.join(OUT_DIR, 'tse-dados.json')
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2))
   console.log(`\n✅ Salvo em ${outPath}`)
