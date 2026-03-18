@@ -770,7 +770,7 @@ export default function Home() {
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
         </header>
-        <main className="max-w-2xl mx-auto px-6 py-10 space-y-10">
+        <main id="main-content" className="max-w-2xl mx-auto px-6 py-10 space-y-10">
           {/* Header */}
           <section>
             <h1 className="text-3xl font-bold mb-4 font-mono">LEGI_VIZ</h1>
@@ -983,6 +983,8 @@ export default function Home() {
             onClick={() => setMenuOpen(!menuOpen)}
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors"
             style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}
+            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
@@ -1017,7 +1019,7 @@ export default function Home() {
 
           {/* Search */}
           <div className="flex-1 relative min-w-0">
-            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" />
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" aria-hidden="true" />
             <input
               ref={searchRef}
               type="text"
@@ -1030,9 +1032,10 @@ export default function Home() {
                 color: isDark ? '#F8FAFC' : '#0F172A',
                 border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
               }}
+              aria-label="Buscar parlamentar por nome"
             />
             {search && (
-              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100">
+              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100" aria-label="Limpar busca">
                 <X size={11} />
               </button>
             )}
@@ -1049,10 +1052,12 @@ export default function Home() {
               backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
               color: isDark ? '#64748B' : '#94A3B8',
             }}
+            aria-label={hasActiveFilters ? 'Filtros ativos - Abrir painel de filtros' : 'Abrir painel de filtros'}
+            aria-expanded={filtersOpen}
           >
             <Filter size={15} />
             {hasActiveFilters && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold" aria-hidden="true">
                 {[filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterPatrimonio].filter(Boolean).length}
               </span>
             )}
@@ -1063,6 +1068,7 @@ export default function Home() {
             onClick={toggleTheme}
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors"
             style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}
+            aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
           >
             {isDark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
@@ -1131,6 +1137,7 @@ export default function Home() {
                     border: `1px solid ${filterPartido ? PARTY_COLORS[filterPartido] || '#3B82F6' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`,
                     minWidth: '110px',
                   }}
+                  aria-label="Filtrar por partido"
                 >
                   <option value="">Todos</option>
                   {uniqueParties.map(p => <option key={p} value={p}>{p}</option>)}
@@ -1150,6 +1157,7 @@ export default function Home() {
                     border: `1px solid ${filterUF ? '#3B82F6' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`,
                     minWidth: '80px',
                   }}
+                  aria-label="Filtrar por estado"
                 >
                   <option value="">Todos</option>
                   {UFS.map(u => <option key={u} value={u}>{u}</option>)}

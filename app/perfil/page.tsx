@@ -414,7 +414,7 @@ export default function PerfilPage() {
         </aside>
 
         {/* MAIN */}
-        <main style={{ flex:1,padding:'22px 20px 64px',minWidth:0,overflowY:'auto' }}>
+        <main id="main-content" style={{ flex:1,padding:'22px 20px 64px',minWidth:0,overflowY:'auto' }}>
           {/* Toolbar */}
           <div style={{ display:'flex',alignItems:'center',gap:10,marginBottom:18,flexWrap:'wrap' as const }}>
             <h2 style={{ fontSize:16,fontWeight:900,fontFamily:FONT,color:fg,margin:0,flex:1,minWidth:0,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis' }}>

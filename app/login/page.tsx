@@ -52,7 +52,7 @@ export default function LoginPage() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 flex items-center justify-center p-6">
+      <main id="main-content" className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-sm">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold mb-2">Entrar</h1>

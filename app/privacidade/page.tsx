@@ -44,7 +44,7 @@ export default function PrivacyPage() {
       </header>
 
       {/* Main */}
-      <main className="flex-1 max-w-3xl mx-auto w-full p-6 py-10">
+      <main id="main-content" className="flex-1 max-w-3xl mx-auto w-full p-6 py-10">
         <h1 className="text-3xl font-bold mb-2">Política de Privacidade</h1>
         <p className={`text-sm mb-8 ${isDark ? 'text-white/60' : 'text-black/60'}`}>
           Última atualização: {new Date().toLocaleDateString('pt-BR')}

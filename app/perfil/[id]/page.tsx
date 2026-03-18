@@ -314,7 +314,7 @@ export default function PerfilPage() {
         </div>
       </header>
 
-      <main style={{ maxWidth:540,margin:'0 auto',padding:'24px 16px 64px' }}>
+      <main id="main-content" style={{ maxWidth:540,margin:'0 auto',padding:'24px 16px 64px' }}>
         {/* User block — helvetica/sans, photo */}
         <div style={{ display:'flex',alignItems:'center',gap:16,marginBottom:28 }}>
           <div style={{ width:64,height:64,borderRadius:16,background:'#22C55E',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,fontWeight:900,fontFamily:'sans-serif',color:'#fff',flexShrink:0 }}>

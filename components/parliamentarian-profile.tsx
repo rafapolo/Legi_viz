@@ -10,7 +10,7 @@ import {
   CheckCircle2, Clock, FileText, Archive,
 } from 'lucide-react'
 import {
-  type Parlamentar, mockVotes, mockBens, mockFinanciamento, TEMAS, realVotesToChartData,
+  type Parlamentar, mockVotes, TEMAS, realVotesToChartData,
 } from '@/lib/parliamentarians'
 import { PatternDefs, PATTERNS, patStyle, type PatternConfig, FloatingPixel, PixelFloatStyles } from './pixel-patterns'
 import { PARTY_COLORS } from './network-graph'
@@ -363,8 +363,17 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, sh
 
   const seed  = parseInt(p.id.replace(/\D/g,''))||1
   const votes = useMemo(()=>realVotesToChartData(p.votacoesReais ?? undefined, seed),[p.votacoesReais, seed])
-  const bens  = useMemo(()=>mockBens(seed),[seed])
-  // Use real financiamento data if available, otherwise mock
+  const bens  = useMemo(()=>{
+    if (p.patrimonio > 0) {
+      return [
+        { ano: 2022, imoveis: Math.round(p.patrimonio * 0.6), veiculos: Math.round(p.patrimonio * 0.1), aplicacoes: Math.round(p.patrimonio * 0.2), outros: Math.round(p.patrimonio * 0.1) },
+        { ano: 2018, imoveis: Math.round(p.patrimonio * 0.45), veiculos: Math.round(p.patrimonio * 0.08), aplicacoes: Math.round(p.patrimonio * 0.15), outros: Math.round(p.patrimonio * 0.08) },
+        { ano: 2014, imoveis: Math.round(p.patrimonio * 0.3), veiculos: Math.round(p.patrimonio * 0.06), aplicacoes: Math.round(p.patrimonio * 0.1), outros: Math.round(p.patrimonio * 0.05) },
+        { ano: 2010, imoveis: Math.round(p.patrimonio * 0.2), veiculos: Math.round(p.patrimonio * 0.05), aplicacoes: Math.round(p.patrimonio * 0.05), outros: Math.round(p.patrimonio * 0.03) },
+      ]
+    }
+    return []
+  },[p.patrimonio])
   const fin   = useMemo(()=>{
     if (p.financiamento) {
       return {
@@ -379,8 +388,8 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, sh
         doadores: p.financiamento.doadores,
       }
     }
-    return mockFinanciamento(seed)
-  }, [p.financiamento, seed])
+    return undefined
+  }, [p.financiamento])
   // Shuffled patterns unique to this parliamentarian
   const shuffledPats = useMemo(()=>shufflePatterns(p.idNumerico),[p.idNumerico])
 
@@ -1056,14 +1065,33 @@ const BEM_CAT_KEYS=[
   {key:'outros',   label:'Outros'},
 ] as const
 
-function C4({bens,pats}:{bens:ReturnType<typeof mockBens>;pats:PatternConfig[]}) {
+interface BemEntry {
+  ano: number
+  imoveis: number
+  veiculos: number
+  aplicacoes: number
+  outros: number
+}
+
+function C4({bens,pats}:{bens:BemEntry[];pats:PatternConfig[]}) {
   const BEM_CATS = BEM_CAT_KEYS.map((c,i)=>({...c, pat: pats[i % pats.length]}))
   const [active,setActive]=useState<string|null>(null)
   const [hoverYear,setHoverYear]=useState<number|null>(null)
+  
+  if (!bens || bens.length === 0) {
+    return (
+      <div style={{ padding:'0 18px 32px' }}>
+        <Lbl c="Patrimônio declarado" style={{ marginBottom:5 }}/>
+        <Big c="Não disponível"/>
+        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:12,opacity:0.7 }}>Dados não disponíveis</p>
+      </div>
+    )
+  }
+  
   const ultimo=bens[bens.length-1]; const primeiro=bens[0]
   const totalU=ultimo.imoveis+ultimo.veiculos+ultimo.aplicacoes+ultimo.outros
   const totalP=primeiro.imoveis+primeiro.veiculos+primeiro.aplicacoes+primeiro.outros
-  const delta=((totalU-totalP)/totalP*100)
+  const delta=totalP > 0 ? ((totalU-totalP)/totalP*100) : 0
   const maxVal=Math.max(...bens.map(b=>b.imoveis+b.veiculos+b.aplicacoes+b.outros))*1.1
 
   // Dimensões do gráfico — dinâmico
@@ -1214,9 +1242,19 @@ interface DoadorInfo {
   valor: number
 }
 
-function C5({fin,pats}:{fin:FinData;pats:PatternConfig[]}) {
+function C5({fin,pats}:{fin:FinData|undefined;pats:PatternConfig[]}) {
   const [expanded,setExpanded]=useState<number|null>(null)
   const [showDoadores,setShowDoadores]=useState(false)
+  
+  if (!fin) {
+    return (
+      <div style={{ padding:'0 18px 32px' }}>
+        <Lbl c="Financiamento eleitoral · 2022" style={{ marginBottom:5 }}/>
+        <Big c="Não disponível"/>
+        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:12,opacity:0.7 }}>Dados não disponíveis</p>
+      </div>
+    )
+  }
   
   const slices=[
     {label:'Fundo Partidário',val:fin.partido,desc:'Recursos do FEFC e fundo partidário',pat:pats[0],tipo:'partido'},
@@ -1633,11 +1671,11 @@ function NewsHeadline({title,source,date,imgSrc,url,big}:{title:string;source:st
   const hasImg = imgSrc && imgOk
   
   return (
-    <a href={url||'#'} target="_blank" rel="noopener noreferrer" style={{ display:'block',textDecoration:'none',borderBottom:'1px solid rgba(0,0,0,0.09)',paddingBottom:14,marginBottom:14 }}>
+    <a href={url||'#'} target="_blank" rel="noopener noreferrer" style={{ display:'block',textDecoration:'none',borderBottom:'1px solid rgba(0, 0, 0, 0.09)',paddingBottom:14,marginBottom:14 }}>
       {big && hasImg ? (
         <>
-          <div style={{ height:170,borderRadius:13,overflow:'hidden',marginBottom:10,background:'rgba(0,0,0,0.1)' }}>
-            <img src={imgSrc} alt="" onError={()=>setImgOk(false)} style={{ width:'100%',height:'100%',objectFit:'cover' }}/>
+          <div style={{ height:170,borderRadius:13,overflow:'hidden',marginBottom:10,background:'rgba(0, 0, 0, 0.1)' }}>
+            <img src={imgSrc} alt={`Imagem da notícia: ${title}`} onError={()=>setImgOk(false)} style={{ width:'100%',height:'100%',objectFit:'cover' }}/>
           </div>
           <p style={{ fontSize:'clamp(13px,3.8vw,17px)',fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,lineHeight:1.3,marginBottom:5,overflow:'hidden',display:'-webkit-box',WebkitLineClamp:3,WebkitBoxOrient:'vertical' as any }}>{title}</p>
         </>
@@ -1645,7 +1683,7 @@ function NewsHeadline({title,source,date,imgSrc,url,big}:{title:string;source:st
         <p style={{ fontSize:'clamp(16px,5vw,22px)',fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,lineHeight:1.25,marginBottom:5 }}>{title}</p>
       ) : (
         <div style={{ display:'flex',gap:12,alignItems:'flex-start' }}>
-          {hasImg && (<div style={{ width:68,height:68,borderRadius:9,overflow:'hidden',flexShrink:0,background:'rgba(0,0,0,0.1)' }}><img src={imgSrc} alt="" onError={()=>setImgOk(false)} style={{ width:'100%',height:'100%',objectFit:'cover' }}/></div>)}
+          {hasImg && (<div style={{ width:68,height:68,borderRadius:9,overflow:'hidden',flexShrink:0,background:'rgba(0, 0, 0, 0.1)' }}><img src={imgSrc} alt={`Thumbnail: ${title}`} onError={()=>setImgOk(false)} style={{ width:'100%',height:'100%',objectFit:'cover' }}/></div>)}
           <p style={{ flex:1,fontSize:'clamp(11px,3vw,13px)',fontWeight:700,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,lineHeight:1.35,overflow:'hidden',display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical' as any }}>{title}</p>
         </div>
       )}

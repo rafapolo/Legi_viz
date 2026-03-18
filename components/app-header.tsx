@@ -31,7 +31,7 @@ export function AppHeader({ onOpenSearch }: AppHeaderProps) {
             </svg>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white tracking-tight">Poliviz</h1>
+            <span className="text-lg font-bold text-white tracking-tight">Poliviz</span>
             <p className="text-[10px] text-muted-foreground -mt-0.5">Painel de Transparência Parlamentar</p>
           </div>
         </div>

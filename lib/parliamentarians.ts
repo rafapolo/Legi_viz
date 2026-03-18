@@ -37,7 +37,7 @@ export interface Parlamentar {
   temaScores:       number[]
   macroTema:        string
   color:            string
-  votoBandidagem:   VotoBandidagem
+  votoBandidagem?:  VotoBandidagem
   projetosAprovados: number
   projetosEmTramitacao?: number  // Real data from Câmara API
   cotas:            number     // Number of expense records
@@ -945,98 +945,6 @@ function isIndigenousName(nome: string | undefined): boolean {
   return false
 }
 
-/**
- * Raça — distribuição aproximada do Congresso Nacional (~2022):
- * ~68% brancos, ~22% pardos, ~7% pretos, ~2% amarelos, ~1% indígenas
- * Seed independente por atributo para evitar correlações.
- */
-function pickRaca(idNumerico: number, nome?: string): Raca {
-  // Check for known indigenous surnames
-  if (isIndigenousName(nome)) {
-    return 'Indigena'
-  }
-  
-  const r = lcg(idNumerico * 10007 + 3)()
-  if (r < 0.68) return 'Branco'
-  if (r < 0.90) return 'Pardo'
-  if (r < 0.97) return 'Preto'
-  if (r < 0.99) return 'Amarelo'
-  return 'Indigena'
-}
-
-/**
- * Bancada — lógica por partido + gênero.
- * Mulheres: 35% chance Feminina. Depois probabilidades por partido.
- */
-function pickBancada(idNumerico: number, partido: string, genero: Genero): Bancada {
-  const rng = lcg(idNumerico * 20011 + 7)
-  const r1 = rng()
-  if ((genero === 'Mulher' || genero === 'Trans') && r1 < 0.35) return 'Feminina'
-
-  const r2 = rng()
-  const ev  = ['PL','REPUBLICANOS','PP','PODE','MDB','UNIÃO']
-  const rur = ['PL','PP','UNIÃO','MDB','PSD','PRD','AVANTE']
-  const sin = ['PT','PCdoB','PSOL','PDT','PSB','SOLIDARIEDADE']
-  const amb = ['PV','PSOL']
-  const bal = ['PL','PP','PODE','PRD']
-  const emp = ['PSD','MDB','UNIÃO','PL','PP','NOVO','PSDB','CIDADANIA']
-
-  if (ev.includes(partido)  && r2 < 0.22) return 'Evangelica'
-  if (rur.includes(partido) && r2 < 0.28) return 'Ruralista'
-  if (bal.includes(partido) && r2 < 0.18) return 'Bala'
-  if (emp.includes(partido) && r2 < 0.25) return 'Empresarial'
-  if (sin.includes(partido) && r2 < 0.20) return 'Sindical'
-  if (amb.includes(partido) && r2 < 0.30) return 'Ambientalista'
-
-  const r3 = rng()
-  if (r3 < 0.18) return 'Evangelica'
-  if (r3 < 0.32) return 'Ruralista'
-  if (r3 < 0.40) return 'Bala'
-  if (r3 < 0.52) return 'Empresarial'
-  if (r3 < 0.58) return 'Sindical'
-  if (r3 < 0.62) return 'Ambientalista'
-  if (r3 < 0.67) return 'Feminina'
-  return 'Nenhuma'
-}
-
-/**
- * PL da Bandidagem — PL 2630/2024 (pacote anti-crime / aumento de penas)
- * Aprovado em 2024 com ~320 votos a favor.
- * Modelamos: 60% sim, 20% nao, 10% abs, 10% aus — com viés por partido.
- * Partidos de direita/centro-direita: maior chance de sim.
- * Partidos de esquerda: maior chance de nao/abs.
- */
-function pickVotoBandidagem(idNumerico: number, partido: string): VotoBandidagem {
-  const r = lcg(idNumerico * 40013 + 11)()
-  const direitaForte = ['PL','PP','REPUBLICANOS','PODE','NOVO','PRD']
-  const direitaMod   = ['UNIÃO','PSD','MDB','AVANTE','SOLIDARIEDADE','PSDB','CIDADANIA','PDT','AGIR','DC']
-  const esquerda     = ['PT','PCdoB','PSOL','PSB','PV']
-
-  if (direitaForte.includes(partido)) {
-    if (r < 0.82) return 'sim'
-    if (r < 0.90) return 'nao'
-    if (r < 0.95) return 'abs'
-    return 'aus'
-  }
-  if (direitaMod.includes(partido)) {
-    if (r < 0.65) return 'sim'
-    if (r < 0.80) return 'nao'
-    if (r < 0.90) return 'abs'
-    return 'aus'
-  }
-  if (esquerda.includes(partido)) {
-    if (r < 0.20) return 'sim'
-    if (r < 0.65) return 'nao'
-    if (r < 0.85) return 'abs'
-    return 'aus'
-  }
-  // fallback
-  if (r < 0.55) return 'sim'
-  if (r < 0.75) return 'nao'
-  if (r < 0.88) return 'abs'
-  return 'aus'
-}
-
 // ── NORMALIZAÇÃO: DEPUTADO ────────────────────────────────────
 // A API de listagem retorna: { id, nome, siglaPartido, siglaUf, urlFoto, email }
 // A API de detalhe retorna:  { id, nomeCivil, ultimoStatus: { nomeEleitoral, siglaPartido, ... }, sexo, dataNascimento }
@@ -1080,19 +988,18 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosPro
   // Gender: SOAP API has accurate sexo (masculino/feminino) > TSE > new API
   const sexo = raw.sexoAPI ?? raw.sexo ?? 'M'
   const genero = parseGenero(sexo, urna, tse?.genero)
-  const mandatos = 1 + Math.floor(lcg(id * 71 + 11)() * 5)
-  // Raça: TSE tem prioridade se disponível
-  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(id, urna)
+  const mandatos = mandatosReais ?? 1
+  // Raça: Only use TSE data (no seed fallback)
+  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : 'Branco'
+  // Bancada: Only use real data (no seed fallback)
   const bancada = (bancadasProp && bancadasProp.length > 0) 
     ? bancadasProp[0] as Bancada 
-    : pickBancada(id, partido, genero)
-  // Temas: dados reais têm prioridade, senão usa seed
-  const temas = temasReais && temasReais.length === 8 ? temasReais : calcTemaScores(id)
+    : 'Nenhuma'
+  // Temas: Only use real data (no seed fallback)
+  const temas = temasReais && temasReais.length === 8 ? temasReais : Array(8).fill(0.5)
   const maxIdx = temas.indexOf(Math.max(...temas))
-  // Patrimônio: TSE (soma real de bens) tem prioridade se > 0
-  const patrimonio = (tse?.patrimonio && tse.patrimonio > 0)
-    ? tse.patrimonio
-    : Math.floor(200 + lcg(id * 191 + 17)() * 9800)
+  // Patrimônio: Only use TSE data (no seed fallback)
+  const patrimonio = tse?.patrimonio ?? 0
 
   const alinhamento = calcAlinhamento(partido)
   const cassado = raw.cassado
@@ -1101,11 +1008,11 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosPro
     id: `DEP-${id}`, idNumerico: id, nome, nomeUrna: urna,
     tipo: 'DEPUTADO_FEDERAL', partido, uf, urlFoto, email,
     alinhamento,
-    frequencia: Math.round((0.4 + lcg(id * 173 + 9)() * 0.6) * 100) / 100,
+    frequencia: presencaReal?.taxa ?? 0,
     frequenciaReal: presencaReal?.taxa,
     mandatosReais: mandatosReais ?? undefined,
     mandatos,
-    processos: Math.floor(lcg(id * 97 + 13)() * 3),
+    processos: processosReais?.count ?? 0,
     patrimonio,
     profissao: raw.escolaridade ?? 'Não informado',
     dataNascimento: raw.dataNascimento ?? '',
@@ -1115,8 +1022,8 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosPro
     bancadas: bancadasProp ?? [bancada],
     temaScores: temas, macroTema: TEMAS[maxIdx] as string,
     color: partyColor(partido),
-    votoBandidagem: pickVotoBandidagem(id, partido),
-    projetosAprovados: projetosAprovadosProp !== undefined ? projetosAprovadosProp : 0,
+    votoBandidagem: undefined, // Removed mock data
+    projetosAprovados: projetosAprovadosProp ?? 0,
     projetosEmTramitacao: tramitacao?.tramitando,
     cotas: cotasProp ?? 0,
     salario: realExpenses?.salario,
@@ -1213,14 +1120,12 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
   const urna    = ip.NomeParlamentar ?? nome
   const urlFoto = ip.UrlFotoParlamentar ?? ''
   const genero  = parseGenero(ip.SexoParlamentar ?? 'M', urna, tse?.genero)
-  const mandatos = 1 + Math.floor(lcg(idNum * 71 + 23)() * 4)
-  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : pickRaca(idNum, urna)
-  const bancada = pickBancada(idNum, partido, genero)
-  const temas   = calcTemaScores(idNum + 90000)
-  const maxIdx  = temas.indexOf(Math.max(...temas))
-  const patrimonio = (tse?.patrimonio && tse.patrimonio > 0)
-    ? tse.patrimonio
-    : Math.floor(500 + lcg(idNum * 191 + 31)() * 19500)
+  const mandatos = 1
+  const raca: Raca = (tse?.raca && tse.raca !== '') ? tse.raca as Raca : 'Branco'
+  const bancada = 'Nenhuma'
+  const temas   = Array(8).fill(0.5)
+  const maxIdx  = 0
+  const patrimonio = tse?.patrimonio ?? 0
   const senatorAlinhamento = calcAlinhamento(partido)
 
   return {
@@ -1228,9 +1133,9 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
     tipo: 'SENADOR', partido, uf,
     urlFoto, email: ip.EmailParlamentar ?? '',
     alinhamento: senatorAlinhamento,
-    frequencia:   Math.round((0.5 + lcg(idNum * 173 + 21)() * 0.5) * 100) / 100,
+    frequencia:   0,
     mandatos,
-    processos:    Math.floor(lcg(idNum * 97 + 27)()  * 3),
+    processos:    0,
     patrimonio,
     profissao:    'Não informado',
     dataNascimento: '',
@@ -1240,9 +1145,8 @@ function normalizeSenador(raw: RawSenador, tse?: TseDado): Parlamentar {
     bancadas: [bancada],
     temaScores: temas, macroTema: TEMAS[maxIdx] as string,
     color: partyColor(partido),
-    votoBandidagem: pickVotoBandidagem(idNum, partido),
-    // Simplified deterministic projects for senators
-    projetosAprovados: ((idNum * 7 + 13) % 35) + 1,
+    votoBandidagem: undefined,
+    projetosAprovados: 0,
     cotas: 0,
   }
 }
@@ -1816,7 +1720,7 @@ export interface VoteEntry {
   pos: 'sim' | 'nao' | 'abs' | 'aus'
   h: number
   temaIdx: number
-  tema: string
+  tema: typeof TEMAS[number]
   nome: string
   desc: string
   url: string
@@ -1888,33 +1792,6 @@ export function mockVotes(seed: number) {
     const data = `${String(dia).padStart(2,'0')}/${String(mes).padStart(2,'0')}/${ano}`
     return { i, pos, h: Math.floor(30 + rng() * 130), temaIdx, tema: TEMAS[temaIdx], nome: proj.nome, desc: proj.desc, url: proj.url, data }
   })
-}
-
-export function mockBens(seed: number) {
-  const rng = mulberry32(seed + 100)
-  const base = 300 + rng() * 1000
-  return [2010, 2014, 2018, 2022].map((ano, i) => ({
-    ano,
-    imoveis:    Math.round(base * (1 + i * 0.3 + rng() * 0.2)),
-    veiculos:   Math.round(base * 0.12 * (1 + rng() * 0.5)),
-    aplicacoes: Math.round(base * 0.22 * (1 + i * 0.15 + rng() * 0.3)),
-    outros:     Math.round(base * 0.08 * (1 + rng() * 0.4)),
-  }))
-}
-
-export function mockFinanciamento(seed: number) {
-  const rng = mulberry32(seed + 200)
-  const total = 800 + rng() * 3200
-  return {
-    total:   Math.round(total),
-    pf:      Math.round(total * (0.1 + rng() * 0.25)),
-    pj:      Math.round(total * (0.3 + rng() * 0.4)),
-    partido: Math.round(total * (0.15 + rng() * 0.2)),
-    proprio: Math.round(total * 0.05),
-    isReal: false,
-    receitas_outros: 0,
-    rendimentos: 0,
-  }
 }
 
 // ── LAYOUT DO CONGRESSO ───────────────────────────────────────
