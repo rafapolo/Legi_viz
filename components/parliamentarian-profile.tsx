@@ -644,6 +644,7 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
           <div>
             <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,marginBottom:2 }}>Transferência especial (Pix)</p>
             <p style={{ fontSize:24,fontWeight:900,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,margin:0,lineHeight:1.1 }}>R${(emendasPix/1000).toFixed(0)}K</p>
+            {(p as any).ctxEmendas && <p style={{ fontSize:10,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:'#64748B',margin:0 }}>{(p as any).ctxEmendas.label} (z={(p as any).ctxEmendas.zScore})</p>}
           </div>
         </div>
       </div>
@@ -655,7 +656,7 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
         <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:6,lineHeight:1.5 }}>
           {p.partido}/{p.uf} • {p.genero} • {p.raca}<br/>
           {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {p.frequencia >= 0.8 ? 'Alta' : p.frequencia >= 0.5 ? 'Média' : 'Baixa'} presença ({Math.round(p.frequencia*100)}%)<br/>
-          {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio === 0 ? 'Patrimônio não declarado' : p.patrimonio > 5000 ? `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M` : p.patrimonio > 1000 ? `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M` : `Patrimônio R$${(p.patrimonio/1000).toFixed(1)}M`}
+          {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio === 0 ? 'Patrimônio não declarado' : `Patrimônio ${(p as any).ctxPatrimonio?.label ?? ''} (z=${(p as any).ctxPatrimonio?.zScore})`}
         </p>
       </div>
 

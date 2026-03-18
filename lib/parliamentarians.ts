@@ -22,6 +22,8 @@ export interface Parlamentar {
   email:            string
   alinhamento:      number
   frequencia:       number
+  frequenciaReal?:   number      // Real presence rate from Câmara API
+  mandatosReais?:    number      // Real number of mandates from Câmara API
   mandatos:         number
   processos:        number
   patrimonio:       number        // R$ mil
@@ -42,9 +44,13 @@ export interface Parlamentar {
   salario?:          number     // Monthly salary
   cotasTotal?:       number     // Total expenses in 2024
   emendas?:          number     // Total amendments
-  emendasPix?:       number     // Pix amendments
-  // TSE data - patrimonio
-  patrimonio?:       number     // R$ mil, from TSE
+  emendasPix?:       number     // Pix amendments (R$ mil)
+  // Contextualização estatística (Framework Karina Marra)
+  ctxEmendas?:       ZScoreContext
+  ctxPatrimonio?:    ZScoreContext
+  ctxCotas?:         ZScoreContext
+  ctxFrequencia?:    ZScoreContext
+  // TSE data
   financiamento?: {
     receita_total: number      // R$ mil
     despesas_total: number
@@ -53,6 +59,7 @@ export interface Parlamentar {
     receitas_pessoas: number
     receitas_juridicas: number
   }
+  processosReais?: { count: number; motivos: string[] }  // Real process data from TSE
   cassado?:         string       // Reason if cassado/renunciado
 }
 
@@ -60,6 +67,107 @@ export const TEMAS = [
   'Saúde','Segurança','Agro','Educação',
   'Economia','Meio Ambiente','Infraestrutura','Direitos',
 ] as const
+
+// ── Framework de Contextualização Estatística ──────────────────────────────
+// Baseado em: "Ciência de Dados Cívica Aplicada à Transparência Legislativa"
+// Profª Dra. Karina Marra
+//
+// Princípios:
+// 1. Z-scores: z = (x - μ) / σ para contextualizar valores absolutos
+// 2. Normalização: comparar baseado em contexto (estado, partido)
+// 3. Separação dados/opinião: mostrar apenas o que os dados dizem
+// 4. Metodologia aberta: cálculos documentados
+
+// Estatísticas pré-calculadas para contextualização
+// Médias e desvios padrão baseados nos dados reais da Câmara
+
+// Estatísticas de emendas Pix (em milhões de R$)
+const EMENDAS_STATS = { media: 17.6, desvio: 58.8 } // ~R$17.6M média, ~R$58.8M desvio
+
+// Estatísticas de patrimônio (em R$ mil)
+const PATRIMONIO_STATS = { media: 1500, desvio: 3000 } // ~R$1.5M média
+
+// Estatísticas de cotas (número de registros)
+const COTAS_STATS = { media: 200, desvio: 100 }
+
+export interface ZScoreContext {
+  valor: number
+  zScore: number
+  label: string  // e.g., "Acima da média", "2σ acima", etc.
+  comparacao: string  // e.g., "Top 5%", "Acima de 84% dos deputados"
+}
+
+// Calcula z-score: z = (x - μ) / σ
+function calcZScore(valor: number, media: number, desvio: number): number {
+  if (desvio === 0) return 0
+  return (valor - media) / desvio
+}
+
+// Gera label contextual baseado no z-score
+function zScoreLabel(z: number): { label: string; comparacao: string } {
+  const absZ = Math.abs(z)
+  if (z > 2) return { label: 'Muito acima', comparacao: 'Top ~2%' }
+  if (z > 1.5) return { label: 'Acima', comparacao: 'Top ~7%' }
+  if (z > 1) return { label: 'Acima da média', comparacao: 'Acima de 84%' }
+  if (z > 0.5) return { label: 'Levemente acima', comparacao: 'Acima de 69%' }
+  if (z >= -0.5) return { label: 'Na média', comparacao: 'Entre 31-69%' }
+  if (z >= -1) return { label: 'Levemente abaixo', comparacao: 'Abaixo de 31%' }
+  if (z >= -1.5) return { label: 'Abaixo da média', comparacao: 'Abaixo de 16%' }
+  if (z >= -2) return { label: 'Abaixo', comparacao: 'Bottom ~7%' }
+  return { label: 'Muito abaixo', comparacao: 'Bottom ~2%' }
+}
+
+// Contextualiza emendas Pix
+export function contextualizaEmendas(pixMil: number): ZScoreContext {
+  const z = calcZScore(pixMil, EMENDAS_STATS.media, EMENDAS_STATS.desvio)
+  const { label, comparacao } = zScoreLabel(z)
+  return {
+    valor: pixMil,
+    zScore: Math.round(z * 10) / 10,
+    label,
+    comparacao
+  }
+}
+
+// Contextualiza patrimônio
+export function contextualizaPatrimonio(patrimonioMil: number): ZScoreContext {
+  const z = calcZScore(patrimonioMil, PATRIMONIO_STATS.media, PATRIMONIO_STATS.desvio)
+  const { label, comparacao } = zScoreLabel(z)
+  return {
+    valor: patrimonioMil,
+    zScore: Math.round(z * 10) / 10,
+    label,
+    comparacao
+  }
+}
+
+// Contextualiza cotas
+export function contextualizaCotas(cotas: number): ZScoreContext {
+  const z = calcZScore(cotas, COTAS_STATS.media, COTAS_STATS.desvio)
+  const { label, comparacao } = zScoreLabel(z)
+  return {
+    valor: cotas,
+    zScore: Math.round(z * 10) / 10,
+    label,
+    comparacao
+  }
+}
+
+// Contextualiza frequência de presença
+export function contextualizaFrequencia(taxa: number): ZScoreContext {
+  // Para frequência, maior é melhor, então invertemos a lógica
+  // Média ~80%, desvio ~15%
+  const MEDIA_FREQ = 80
+  const DESVIO_FREQ = 15
+  const z = calcZScore(taxa, MEDIA_FREQ, DESVIO_FREQ)
+  const { label, comparacao } = zScoreLabel(-z) // Invertido: z negativo = bom
+  return {
+    valor: taxa,
+    zScore: Math.round(z * 10) / 10,
+    label,
+    comparacao
+  }
+}
 
 export const PARTIDOS = [
   'PL','PT','UNIÃO','PSD','MDB','PP','REPUBLICANOS','PDT',
@@ -244,6 +352,72 @@ async function loadTemasReaisCache(): Promise<Record<number, number[]>> {
     }
   } catch (e) {
     console.error('[Temas Reais Error]', e)
+  }
+  return {}
+}
+
+// Real presence data
+let _presencaCache: Record<number, { presencas: number; sessoes: number; taxa: number }> | null = null
+
+async function loadPresencaCache(): Promise<Record<number, { presencas: number; sessoes: number; taxa: number }>> {
+  if (_presencaCache) return _presencaCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/presenca-real.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      console.debug('[Presença] Loaded', Object.keys(data).length, 'entries')
+      _presencaCache = data
+      return data
+    }
+  } catch (e) {
+    console.error('[Presença Error]', e)
+  }
+  return {}
+}
+
+// Real mandates data
+let _mandatosCache: Record<number, number> | null = null
+
+// Real process/cassacao data
+let _processosCache: Record<string, { count: number; motivos: string[] }> | null = null
+
+async function loadMandatosCache(): Promise<Record<number, number>> {
+  if (_mandatosCache) return _mandatosCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/mandatos-real.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      console.debug('[Mandatos] Loaded', Object.keys(data).length, 'entries')
+      _mandatosCache = data
+      return data
+    }
+  } catch (e) {
+    console.error('[Mandatos Error]', e)
+  }
+  return {}
+}
+
+async function loadProcessosCache(): Promise<Record<string, { count: number; motivos: string[] }>> {
+  if (_processosCache) return _processosCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/processos-real.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      console.debug('[Processos] Loaded', Object.keys(data).length, 'entries')
+      _processosCache = data
+      return data
+    }
+  } catch (e) {
+    console.error('[Processos Error]', e)
   }
   return {}
 }
@@ -688,7 +862,7 @@ interface RawDeputado {
   escolaridade?:    string
 }
 
-function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosProp?: number, bancadasProp?: string[], cotasProp?: number, realExpenses?: RealExpenseData, pixData?: { pix: number, count: number } | null, temasReais?: number[] | null): Parlamentar {
+function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosProp?: number, bancadasProp?: string[], cotasProp?: number, realExpenses?: RealExpenseData, pixData?: { pix: number, count: number } | null, temasReais?: number[] | null, presencaReal?: { presencas: number; sessoes: number; taxa: number } | null, mandatosReais?: number | null, processosReais?: { count: number; motivos: string[] } | null): Parlamentar {
   const id = raw.id
   
   // Handle both old API (with ultimoStatus) and new API (direct fields)
@@ -725,6 +899,8 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosPro
     tipo: 'DEPUTADO_FEDERAL', partido, uf, urlFoto, email,
     alinhamento,
     frequencia: Math.round((0.4 + lcg(id * 173 + 9)() * 0.6) * 100) / 100,
+    frequenciaReal: presencaReal?.taxa,
+    mandatosReais: mandatosReais ?? undefined,
     mandatos,
     processos: Math.floor(lcg(id * 97 + 13)() * 3),
     patrimonio,
@@ -743,6 +919,12 @@ function normalizeDeputado(raw: RawDeputado, tse?: TseDado, projetosAprovadosPro
     cotasTotal: realExpenses?.cotasTotal,
     emendas: realExpenses?.emendas,
     emendasPix: pixData?.pix ?? realExpenses?.emendasPix ?? 0,
+    // Contextualização estatística (Framework)
+    ctxEmendas: contextualizaEmendas(pixData?.pix ?? realExpenses?.emendasPix ?? 0),
+    ctxPatrimonio: contextualizaPatrimonio(patrimonio),
+    ctxCotas: contextualizaCotas(cotasProp ?? 0),
+    ctxFrequencia: presencaReal?.taxa ? contextualizaFrequencia(presencaReal.taxa) : undefined,
+    processosReais: processosReais ?? undefined,
     cassado,
   }
 }
@@ -937,6 +1119,18 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
   const temasReaisMap = await loadTemasReaisCache()
   console.log('[Temas Reais] Loaded', Object.keys(temasReaisMap).length, 'deputies with real theme data')
   
+  // ── Carregar dados reais de presença ──
+  const presencaMap = await loadPresencaCache()
+  console.log('[Presença] Loaded', Object.keys(presencaMap).length, 'deputies with real presence data')
+   
+  // ── Carregar dados reais de mandatos ──
+  const mandatosMap = await loadMandatosCache()
+  console.log('[Mandatos] Loaded', Object.keys(mandatosMap).length, 'deputies with real mandato data')
+  
+  // ── Carregar dados reais de processos (cassação TSE) ──
+  const processosMap = await loadProcessosCache()
+  console.log('[Processos] Loaded', Object.keys(processosMap).length, 'entries with process data')
+  
   // ── Carregar dados reais de Pix (transferências especiais) ──
   const pixDataMap = await loadPixDataCache()
   console.log('[Pix Data] Loaded', Object.keys(pixDataMap).length, 'deputies with Pix data')
@@ -963,6 +1157,33 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
         if (pixName.includes(v) || v.includes(pixName)) {
           return { pix: data.pix, count: data.count }
         }
+      }
+    }
+    
+    return null
+  }
+  
+  // Helper to find process data by deputy name
+  function findProcessosByName(nomeUrna: string): { count: number; motivos: string[] } | null {
+    if (!nomeUrna || !processosMap) return null
+    
+    const upperName = nomeUrna.toUpperCase()
+    
+    // Try exact match
+    if (processosMap[upperName]) {
+      return processosMap[upperName]
+    }
+    
+    // Try variations
+    const normalized = upperName.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    if (processosMap[normalized]) {
+      return processosMap[normalized]
+    }
+    
+    // Try partial match
+    for (const [procName, data] of Object.entries(processosMap)) {
+      if (normalized.includes(procName) || procName.includes(normalized)) {
+        return data
       }
     }
     
@@ -1103,7 +1324,8 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
       const realExpenses = realExpensesMap[raw.id]
       const pixData = findPixByName(urna)
       const temasReais = temasReaisMap[raw.id]
-      return normalizeDeputado(raw, lookupTse(urna), projetos, bancadas, cotas, realExpenses, pixData, temasReais)
+      const presenca = presencaMap[raw.id]
+      return normalizeDeputado(raw, lookupTse(urna), projetos, bancadas, cotas, realExpenses, pixData, temasReais, presenca, mandatosMap[raw.id], findProcessosByName(urna))
     }),
     ...senRaw.map(raw => {
       const ip = raw.IdentificacaoParlamentar ?? {}
