@@ -58,9 +58,11 @@ export async function GET() {
   try {
     const depRaw: RawDeputado[] = []
     const baseUrl = 'https://dadosabertos.camara.leg.br/api/v2/deputados'
-    const params = 'idLegislatura=57&itens=100&ordem=ASC&ordenarPor=nome'
+    // Don't filter by idLegislatura - it returns all historical data
+    // Just get the current 513 deputies
+    const params = 'itens=100&ordem=ASC&ordenarPor=nome'
     
-    // Fetch ALL pages - the API has many pages
+    // Fetch ALL pages - should be exactly 513 deputies
     let page = 1
     let hasMore = true
     while (hasMore) {
@@ -75,8 +77,8 @@ export async function GET() {
           depRaw.push(...dados)
           console.log(`[API] Page ${page}: ${dados.length} deputies, total: ${depRaw.length}`)
           page++
-          // Safety limit
-          if (page > 20) {
+          // Safety limit - 513 deputies / 100 per page = ~6 pages
+          if (page > 10) {
             console.log('[API] Safety limit reached')
             break
           }

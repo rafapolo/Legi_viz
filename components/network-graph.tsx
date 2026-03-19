@@ -12,8 +12,6 @@ import {
   FAIXAS_ETARIAS,
   RACAS,
   BANCADAS,
-  PATRIMONIO_LABELS,
-  patrimonioLabel,
   GENERO_COLORS,
   FAIXA_ETARIA_COLORS,
   RACA_COLORS,
@@ -25,7 +23,7 @@ import {
   type Bancada,
 } from '@/lib/parliamentarians'
 
-export type ClusterMode = 'partido' | 'uf' | 'tema' | 'tipo' | 'genero' | 'faixaEtaria' | 'raca' | 'bancada' | 'patrimonio' | 'cotas'
+export type ClusterMode = 'partido' | 'uf' | 'tema' | 'tipo' | 'genero' | 'faixaEtaria' | 'raca' | 'bancada' | 'cotas' | 'patrimonio'
 
 export const PARTY_COLORS: Record<string, string> = {
   PL:            '#22C55E',
@@ -155,7 +153,6 @@ function getNodeColor(node: Parlamentar, mode: ClusterMode): string {
     const primary = valid[0] || 'Nenhuma'
     return BANCADA_COLORS[primary as keyof typeof BANCADA_COLORS] || '#94A3B8'
   }
-  if (mode === 'patrimonio') return PATRIMONIO_COLORS[PATRIMONIO_LABELS.indexOf(patrimonioLabel(node.patrimonio) as typeof PATRIMONIO_LABELS[number])] || '#64748B'
   if (mode === 'cotas') {
     const cotas = (node as any).cotas ?? 0
     const cotasTotal = (node as any).cotasTotal ?? 0
@@ -166,6 +163,17 @@ function getNodeColor(node: Parlamentar, mode: ClusterMode): string {
     if (cotas >= 400) return '#F97316'  // Orange
     if (cotas >= 200) return '#FACC15'  // Yellow
     return '#22C55E'  // Green - least
+  }
+  if (mode === 'patrimonio') {
+    const p = node.patrimonio ?? 0
+    if (p === 0) return '#94A3B8'  // Gray - no patrimony
+    if (p < 100000) return '#86EFAC'  // Light green
+    if (p < 500000) return '#4ADE80'  // Green
+    if (p < 1000000) return '#FACC15'  // Yellow
+    if (p < 5000000) return '#FB923C'  // Orange
+    if (p < 10000000) return '#F87171'  // Red
+    if (p < 50000000) return '#EF4444'  // Dark red
+    return '#991B1B'  // Very dark red
   }
   const t = node.alinhamento / 100
   const r = Math.round(239 + (34 - 239) * t)
@@ -198,7 +206,6 @@ function getClusterKey(node: Parlamentar, mode: ClusterMode): string {
     const valid = bancadas.filter((b: string) => b && b !== 'Nenhuma')
     return valid[0] || 'Nenhuma'
   }
-  if (mode === 'patrimonio')  return patrimonioLabel(node.patrimonio)
   if (mode === 'cotas') {
     const cotas = (node as any).cotas ?? 0
     const cotasTotal = (node as any).cotasTotal ?? 0
@@ -209,6 +216,17 @@ function getClusterKey(node: Parlamentar, mode: ClusterMode): string {
     if (cotas >= 400) return '400-599'
     if (cotas >= 200) return '200-399'
     return '1-199'
+  }
+  if (mode === 'patrimonio') {
+    const p = node.patrimonio ?? 0
+    if (p === 0) return 'Não declarado'
+    if (p < 100000) return '< R$ 100 mil'
+    if (p < 500000) return 'R$ 100-500 mil'
+    if (p < 1000000) return 'R$ 500 mil-1 mi'
+    if (p < 5000000) return 'R$ 1-5 mi'
+    if (p < 10000000) return 'R$ 5-10 mi'
+    if (p < 50000000) return 'R$ 10-50 mi'
+    return 'R$ 50 mi+'
   }
   const bucket = Math.floor(node.alinhamento / 25)
   const labels = ['Oposicao (0-24%)', 'Neutro (25-49%)', 'Alinhado (50-74%)', 'Governo (75-100%)']
@@ -304,15 +322,24 @@ function computeClusterCenters(
     BANCADAS.forEach((k, i) => {
       map.set(k, { x: pad + (i % cols) * cw + cw / 2, y: pad + Math.floor(i / cols) * ch + ch / 2 })
     })
-  } else if (mode === 'patrimonio') {
-    PATRIMONIO_LABELS.forEach((k, i) => {
-      map.set(k, { x: pad + (i / (PATRIMONIO_LABELS.length - 1)) * (W - pad * 2), y: H / 2 })
-    })
   } else if (mode === 'cotas') {
     // Horizontal bar layout
     const keys = ['600+ despesas', '400-599', '200-399', '1-199', 'Sem despesas']
     keys.forEach((k, i) => {
       map.set(k, { x: pad + (i / (keys.length - 1)) * (W - pad * 2), y: H / 2 })
+    })
+  } else if (mode === 'patrimonio') {
+    // Vertical gradient layout: richest at top, poorest at bottom
+    const keys = ['R$ 50 mi+', 'R$ 10-50 mi', 'R$ 5-10 mi', 'R$ 1-5 mi', 'R$ 500 mil-1 mi', 'R$ 100-500 mil', '< R$ 100 mil', 'Não declarado']
+    const cols = 4
+    const rows = Math.ceil(keys.length / cols)
+    const cw = (W - pad * 2) / cols
+    const ch = (H - pad * 2) / rows
+    keys.forEach((k, i) => {
+      map.set(k, {
+        x: pad + (i % cols) * cw + cw / 2,
+        y: pad + Math.floor(i / cols) * ch + ch / 2,
+      })
     })
   }
 
@@ -463,7 +490,6 @@ interface NetworkGraphProps {
   filterGenero?: string
   filterFaixaEtaria?: string
   filterRaca?: string
-  filterPatrimonio?: string
   filterAlinhamento?: string
   clusterMode: ClusterMode
   isDark: boolean
@@ -483,7 +509,6 @@ export function NetworkGraph({
   filterGenero,
   filterFaixaEtaria,
   filterRaca,
-  filterPatrimonio,
   filterAlinhamento,
   clusterMode,
   isDark,
@@ -538,7 +563,6 @@ export function NetworkGraph({
         if (filterAlinhamento === '50' && (ali < 50 || ali >= 75)) return false
         if (filterAlinhamento === '75' && ali < 75) return false
       }
-      if (filterPatrimonio && patrimonioLabel(p.patrimonio) !== filterPatrimonio) return false
       if (searchQuery) {
         const q = searchQuery.toLowerCase()
         const nameMatch = p.nomeUrna.toLowerCase().includes(q) || p.nome.toLowerCase().includes(q)
@@ -552,11 +576,11 @@ export function NetworkGraph({
     console.debug('[DEBUG] Filtering:', { 
       total: parliamentarians.length, 
       filtered: result.length,
-      filters: { filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterAlinhamento, filterPatrimonio, searchQuery }
+      filters: { filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterAlinhamento, searchQuery }
     })
     
     return result
-  }, [parliamentarians, searchQuery, filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterAlinhamento, filterPatrimonio])
+  }, [parliamentarians, searchQuery, filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterAlinhamento])
 
   const filteredIds = useMemo(() => new Set(filtered.map(f => f.id)), [filtered])
 
@@ -704,8 +728,6 @@ export function NetworkGraph({
       RACAS.forEach(r => items.push({ label: r, color: RACA_COLORS[r] || '#888', key: r }))
     } else if (mode === 'bancada') {
       BANCADAS.forEach(b => items.push({ label: b, color: BANCADA_COLORS[b] || '#888', key: b }))
-    } else if (mode === 'patrimonio') {
-      PATRIMONIO_LABELS.forEach((l, i) => items.push({ label: l, color: PATRIMONIO_COLORS[i], key: l }))
     } else if (mode === 'cotas') {
       [
         { label: '600+ despesas', color: '#EF4444', key: '600+ despesas' },
@@ -713,6 +735,17 @@ export function NetworkGraph({
         { label: '200-399', color: '#FACC15', key: '200-399' },
         { label: '1-199', color: '#22C55E', key: '1-199' },
         { label: 'Sem despesas', color: '#64748B', key: 'Sem despesas' },
+      ].forEach(i => items.push(i))
+    } else if (mode === 'patrimonio') {
+      [
+        { label: 'Não declarado', color: '#94A3B8', key: 'Não declarado' },
+        { label: '< R$ 100 mil', color: '#86EFAC', key: '< R$ 100 mil' },
+        { label: 'R$ 100-500 mil', color: '#4ADE80', key: 'R$ 100-500 mil' },
+        { label: 'R$ 500 mil-1 mi', color: '#FACC15', key: 'R$ 500 mil-1 mi' },
+        { label: 'R$ 1-5 mi', color: '#FB923C', key: 'R$ 1-5 mi' },
+        { label: 'R$ 5-10 mi', color: '#F87171', key: 'R$ 5-10 mi' },
+        { label: 'R$ 10-50 mi', color: '#EF4444', key: 'R$ 10-50 mi' },
+        { label: 'R$ 50 mi+', color: '#991B1B', key: 'R$ 50 mi+' },
       ].forEach(i => items.push(i))
     }
     setLegendItems(items)
@@ -889,10 +922,6 @@ export function NetworkGraph({
           }
           if (clusterMode === 'raca') return RACA_COLORS[label as Raca] || '#94A3B8'
           if (clusterMode === 'bancada') return BANCADA_COLORS[label as Bancada] || '#94A3B8'
-          if (clusterMode === 'patrimonio') {
-            const idx = PATRIMONIO_LABELS.indexOf(label as typeof PATRIMONIO_LABELS[number])
-            return idx >= 0 ? PATRIMONIO_COLORS[idx] : '#94A3B8'
-          }
           return '#94A3B8'
         })()
 
@@ -935,10 +964,15 @@ export function NetworkGraph({
       ctx.scale(dpr, dpr)
 
       const color = (n.currentColor && (n.currentColor.startsWith('#') || n.currentColor.startsWith('rgb'))) ? n.currentColor : '#3B82F6'
+      const freq = n.frequencia > 1 ? n.frequencia : Math.round((n.frequencia ?? 0) * 100)
+      const patrimonioText = n.patrimonio > 0 
+        ? `Patrimônio R$${(n.patrimonio/1000).toFixed(0)}M` 
+        : 'Patrimônio não declarado'
       const lines = [
         n.nomeUrna || n.nome || 'Nome não disponível',
         `${n.partido || 'S.PART.'} · ${n.uf || '??'} · ${n.tipo === 'SENADOR' ? 'Senador(a)' : 'Dep. Federal'}`,
-        `Alinhamento ${n.alinhamento ?? 0}% · Freq. ${Math.round((n.frequencia ?? 0) * 100)}%`,
+        patrimonioText,
+        `Freq. ${freq}%`,
       ]
       ctx.font = "600 12px 'Helvetica Neue', sans-serif"
       const maxW = Math.max(...lines.map(l => ctx.measureText(l).width))
@@ -1207,9 +1241,12 @@ export function NetworkGraph({
       return
     }
     const { x: mx, y: my } = screenToWorld(sx, sy)
-    // Tighter hit detection - only select pixels that are actually under cursor
-    const baseHitRadius = 8
-    let closest: number | null = null, closestD = baseHitRadius / transformRef.current.k
+    // Hit detection: use a radius proportional to visual pixel size
+    // This ensures pixels are clickable regardless of zoom level
+    const scale = transformRef.current.k
+    const nodeSize = Math.max(5, 8 / Math.sqrt(Math.max(0.3, scale)))
+    const hitRadius = nodeSize * 1.5  // Slightly larger than visual size for easier clicking
+    let closest: number | null = null, closestD = hitRadius
     nodesRef.current.forEach((n, i) => {
       if (!filteredIds.has(n.id)) return
       const d = Math.hypot(n.x - mx, n.y - my)
@@ -1290,6 +1327,23 @@ export function NetworkGraph({
     e.preventDefault()
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect) return
+    
+    // Update hover state for touch
+    if (e.touches.length === 1) {
+      const sx = e.touches[0].clientX - rect.left, sy = e.touches[0].clientY - rect.top
+      const { x: mx, y: my } = screenToWorld(sx, sy)
+      const scale = transformRef.current.k
+      const nodeSize = Math.max(5, 8 / Math.sqrt(Math.max(0.3, scale)))
+      const hitRadius = nodeSize * 1.5
+      let closest: number | null = null, closestD = hitRadius
+      nodesRef.current.forEach((n, i) => {
+        if (!filteredIds.has(n.id)) return
+        const d = Math.hypot(n.x - mx, n.y - my)
+        if (d < closestD) { closestD = d; closest = i }
+      })
+      setHovered(closest)
+    }
+    
     if (e.touches.length === 2) {
       const dx = e.touches[0].clientX - e.touches[1].clientX
       const dy = e.touches[0].clientY - e.touches[1].clientY

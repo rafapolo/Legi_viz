@@ -366,10 +366,10 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, sh
   const bens  = useMemo(()=>{
     if (p.patrimonio > 0) {
       return [
-        { ano: 2022, imoveis: Math.round(p.patrimonio * 0.6), veiculos: Math.round(p.patrimonio * 0.1), aplicacoes: Math.round(p.patrimonio * 0.2), outros: Math.round(p.patrimonio * 0.1) },
-        { ano: 2018, imoveis: Math.round(p.patrimonio * 0.45), veiculos: Math.round(p.patrimonio * 0.08), aplicacoes: Math.round(p.patrimonio * 0.15), outros: Math.round(p.patrimonio * 0.08) },
-        { ano: 2014, imoveis: Math.round(p.patrimonio * 0.3), veiculos: Math.round(p.patrimonio * 0.06), aplicacoes: Math.round(p.patrimonio * 0.1), outros: Math.round(p.patrimonio * 0.05) },
         { ano: 2010, imoveis: Math.round(p.patrimonio * 0.2), veiculos: Math.round(p.patrimonio * 0.05), aplicacoes: Math.round(p.patrimonio * 0.05), outros: Math.round(p.patrimonio * 0.03) },
+        { ano: 2014, imoveis: Math.round(p.patrimonio * 0.3), veiculos: Math.round(p.patrimonio * 0.06), aplicacoes: Math.round(p.patrimonio * 0.1), outros: Math.round(p.patrimonio * 0.05) },
+        { ano: 2018, imoveis: Math.round(p.patrimonio * 0.45), veiculos: Math.round(p.patrimonio * 0.08), aplicacoes: Math.round(p.patrimonio * 0.15), outros: Math.round(p.patrimonio * 0.08) },
+        { ano: 2022, imoveis: Math.round(p.patrimonio * 0.6), veiculos: Math.round(p.patrimonio * 0.1), aplicacoes: Math.round(p.patrimonio * 0.2), outros: Math.round(p.patrimonio * 0.1) },
       ]
     }
     return []
@@ -566,7 +566,8 @@ function calcProjetos(p: Parlamentar) {
 // ─────────────────────────────────────────────────────────────
 function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;palette:string[];pats:PatternConfig[]}) {
   const sim  = votes.filter(v=>v.pos==='sim').length
-  const freq = Math.round(p.frequencia*100)
+  // frequencia is already stored as percentage (0-100), not decimal
+  const freq = p.frequencia > 1 ? p.frequencia : Math.round(p.frequencia * 100)
   const liderancas = calcLiderancas(p)
   
   // Mock data for salary and expenses (based on seed)
@@ -616,6 +617,26 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
           )}
         </div>
       </div>
+
+      {/* Banner de situação do mandato */}
+      {p.cassado && (
+        <div style={{
+          border: '2px solid #0A0A0A',
+          backgroundColor: 'transparent',
+          padding: '8px 12px',
+          marginBottom: 16,
+          borderRadius: 4,
+        }}>
+          <span style={{
+            fontSize: 12,
+            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            fontWeight: 700,
+            color: '#0A0A0A',
+          }}>
+            {p.cassado}
+          </span>
+        </div>
+      )}
 
       {/* Badges de liderança */}
       {liderancas.length > 0 && (
@@ -681,7 +702,7 @@ function C0({p,votes,palette,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVo
         <Lbl c="Resumo do mandato"/>
         <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:6,lineHeight:1.5 }}>
           {p.partido}/{p.uf} • {p.genero} • {p.raca}<br/>
-          {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {p.frequencia >= 0.8 ? 'Alta' : p.frequencia >= 0.5 ? 'Média' : 'Baixa'} presença ({Math.round(p.frequencia*100)}%)<br/>
+          {p.mandatos > 1 ? `${p.mandatos} mandatos` : '1º mandato'} • {freq >= 80 ? 'Alta' : freq >= 50 ? 'Média' : 'Baixa'} presença ({freq}%)<br/>
           {p.processos > 0 ? `${p.processos} processos` : 'Sem processos'} • {p.patrimonio === 0 ? 'Patrimônio não declarado' : `Patrimônio ${(p as any).ctxPatrimonio?.label ?? ''} (z=${(p as any).ctxPatrimonio?.zScore})`}
         </p>
       </div>
@@ -909,7 +930,7 @@ function C3({p,votes,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;pat
   const [hov,setHov]=useState<number|null>(null)
   const [selectedTheme, setSelectedTheme] = useState<number|null>(null)
   const pColor=PARTY_COLORS[p.partido]||'#3B82F6'
-  const data=TEMAS.map((tema,i)=>({tema,score:Math.round(p.temaScores[i]*100)}))
+  const data=TEMAS.map((tema,i)=>({tema,score:p.temaScores[i]}))
   const N2=data.length,SZ=260,cx=SZ/2,cy=SZ/2,R=95
   const axPts=data.map((_,i)=>{const a=(i/N2)*Math.PI*2-Math.PI/2;return{x:cx+R*Math.cos(a),y:cy+R*Math.sin(a)}})
   const dPts=data.map((d,i)=>{const a=(i/N2)*Math.PI*2-Math.PI/2;const r=(d.score/100)*R;return{x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}})
@@ -944,7 +965,7 @@ function C3({p,votes,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;pat
         )}
       </div>
       <div style={{ width:'100%',display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0' }}>
-        <svg width={SZ} height={SZ} viewBox={`0 0 ${SZ} ${SZ}`} style={{ overflow:'visible',maxWidth:'100%',width:'100%',maxHeight:300,display:'block' }}>
+        <svg width={SZ} height={SZ} viewBox={`0 0 ${SZ} ${SZ}`} style={{ overflow:'visible',maxWidth:'100%',width:'100%',maxHeight:300,display:'block', ...patStyle(pats[0]) }}>
           {[0.25,0.5,0.75,1].map(pct=>{
             const ring=data.map((_,i)=>{const a=(i/N2)*Math.PI*2-Math.PI/2;return`${cx+R*pct*Math.cos(a)},${cy+R*pct*Math.sin(a)}`}).join(' ')
             return <polygon key={pct} points={ring} fill="none" stroke="rgba(128,128,128,0.2)" strokeWidth={1}/>
@@ -957,7 +978,7 @@ function C3({p,votes,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;pat
             </g>
           ))}
           <PatternDefs/>
-          <polygon points={poly} fill={`url(#${pats[0].id})`} style={patStyle(pats[0])} stroke={INK} strokeWidth={2.5} opacity={1}/>
+          <polygon points={poly} fill={`url(#${pats[0].id})`} stroke={INK} strokeWidth={2.5} opacity={1}/>
           {dPts.map((pt,i)=>(
             <circle 
               key={i} 
@@ -1082,8 +1103,8 @@ function C4({bens,pats}:{bens:BemEntry[];pats:PatternConfig[]}) {
     return (
       <div style={{ padding:'0 18px 32px' }}>
         <Lbl c="Patrimônio declarado" style={{ marginBottom:5 }}/>
-        <Big c="Não disponível"/>
-        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:12,opacity:0.7 }}>Dados não disponíveis</p>
+        <Big c="Não declarou"/>
+        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:12,opacity:0.7 }}>Dados do TSE não disponíveis</p>
       </div>
     )
   }

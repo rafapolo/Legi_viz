@@ -4,12 +4,12 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { NetworkGraph, type ClusterMode, PARTY_COLORS } from '@/components/network-graph'
 import { ParliamentarianProfile } from '@/components/parliamentarian-profile'
 import { Logo } from '@/components/logo'
-import { UFS, BANCADAS, FAIXAS_ETARIAS, RACAS, PATRIMONIO_LABELS, getAllParliamentariansAsync } from '@/lib/parliamentarians'
+import { UFS, BANCADAS, FAIXAS_ETARIAS, RACAS, getAllParliamentariansAsync } from '@/lib/parliamentarians'
 import type { Parlamentar } from '@/lib/parliamentarians'
 import {
   Sun, Moon, Menu, X, Search, User, Info,
   Users, MapPin, Tag, TrendingUp, BarChart2, ChevronDown,
-  Filter, ChevronLeft, ChevronRight, DollarSign
+  Filter, ChevronLeft, ChevronRight, DollarSign, Wallet
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -24,19 +24,19 @@ type Collection = {
   createdAt: number
 }
 
-type SortMode = 'nome' | 'partido' | 'uf' | 'patrimonio' | 'mandatos'
+type SortMode = 'nome' | 'partido' | 'uf' | 'mandatos'
 
 const CLUSTER_OPTIONS: { mode: ClusterMode; label: string; icon: React.ReactNode; desc: string }[] = [
   { mode: 'partido',    label: 'Partido',      icon: <Users size={13} />,       desc: 'Agrupa pelos 18 partidos' },
   { mode: 'uf',         label: 'Estado',       icon: <MapPin size={13} />,      desc: 'Distribuição geográfica' },
-  { mode: 'tema',       label: 'Tema',         icon: <Tag size={13} />,         desc: '8 macro temas legislativos' },
-  { mode: 'tipo',       label: 'Casa',         icon: <BarChart2 size={13} />,   desc: 'Câmara vs Senado' },
-  { mode: 'bancada',    label: 'Bancada',      icon: <Users size={13} />,       desc: 'Frentes parlamentares' },
-  { mode: 'genero',     label: 'Gênero',       icon: <Users size={13} />,       desc: 'Homem Cis · Mulher Cis · Mulher Trans · Não-binárie' },
-  { mode: 'faixaEtaria',label: 'Mandatos',     icon: <Users size={13} />,       desc: 'Tempo no poder' },
-  { mode: 'raca',       label: 'Raça',         icon: <Users size={13} />,       desc: 'Autodeclaração racial' },
-  { mode: 'patrimonio', label: 'Patrimônio',   icon: <TrendingUp size={13} />,  desc: 'Os mais ricos do Congresso' },
-  { mode: 'cotas',      label: 'Cotas',        icon: <DollarSign size={13} />,  desc: 'Despesas da Cota Parlamentar' },
+  { mode: 'tema',       label: 'Tema',         icon: <Tag size={13} />,        desc: '8 macro temas legislativos' },
+  { mode: 'tipo',       label: 'Casa',         icon: <BarChart2 size={13} />,  desc: 'Câmara vs Senado' },
+  { mode: 'bancada',    label: 'Bancada',      icon: <Users size={13} />,      desc: 'Frentes parlamentares' },
+  { mode: 'genero',     label: 'Gênero',       icon: <Users size={13} />,      desc: 'Homem Cis · Mulher Cis · Mulher Trans · Não-binárie' },
+  { mode: 'faixaEtaria',label: 'Mandatos',     icon: <Users size={13} />,      desc: 'Tempo no poder' },
+  { mode: 'raca',       label: 'Raça',         icon: <Users size={13} />,      desc: 'Autodeclaração racial' },
+  { mode: 'cotas',      label: 'Cotas',        icon: <DollarSign size={13} />, desc: 'Despesas da Cota Parlamentar' },
+  { mode: 'patrimonio', label: 'Patrimônio',   icon: <Wallet size={13} />,     desc: 'Declaração patrimonial (TSE)' },
 ]
 
 
@@ -217,7 +217,6 @@ export default function Home() {
   const [filterGenero, setFilterGenero] = useState('')
   const [filterFaixaEtaria, setFilterFaixaEtaria] = useState('')
   const [filterRaca, setFilterRaca] = useState('')
-  const [filterPatrimonio, setFilterPatrimonio] = useState('')
   const [filterAlinhamento, setFilterAlinhamento] = useState('')
   const [clusterMode, setClusterMode] = useState<ClusterMode>('partido')
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -225,7 +224,7 @@ export default function Home() {
   const uiTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const searchRef = useRef<HTMLInputElement>(null)
 
-  const hasActiveFilters = !!(search || filterPartido || filterUF || filterTipo || filterBancada || filterGenero || filterFaixaEtaria || filterRaca || filterPatrimonio || filterAlinhamento)
+  const hasActiveFilters = !!(search || filterPartido || filterUF || filterTipo || filterBancada || filterGenero || filterFaixaEtaria || filterRaca || filterAlinhamento)
 
   const [parlamentaresLoaded, setParlamentaresLoaded] = useState(false)
   const [showAddModal, setShowAddModal] = useState(false)
@@ -454,7 +453,7 @@ export default function Home() {
 
   const clearFilters = useCallback(() => {
     setSearch(''); setFilterPartido(''); setFilterUF(''); setFilterTipo('')
-    setFilterBancada(''); setFilterGenero(''); setFilterFaixaEtaria(''); setFilterRaca(''); setFilterPatrimonio(''); setFilterAlinhamento('')
+    setFilterBancada(''); setFilterGenero(''); setFilterFaixaEtaria(''); setFilterRaca(''); setFilterAlinhamento('')
   }, [])
 
 
@@ -470,7 +469,6 @@ export default function Home() {
         if (dashSort === 'nome')       return a.nomeUrna.localeCompare(b.nomeUrna)
         if (dashSort === 'partido')    return a.partido.localeCompare(b.partido)
         if (dashSort === 'uf')         return a.uf.localeCompare(b.uf)
-        if (dashSort === 'patrimonio')  return b.patrimonio - a.patrimonio
         if (dashSort === 'mandatos')    return b.mandatos - a.mandatos
         return 0
       })
@@ -489,7 +487,7 @@ export default function Home() {
 
     const SORT_OPTS: {v: SortMode; l: string}[] = [
       {v:'nome',l:'A–Z'},{v:'partido',l:'Partido'},{v:'uf',l:'Estado'},
-      {v:'patrimonio',l:'Patrimônio'},{v:'mandatos',l:'Mandatos'},
+      {v:'mandatos',l:'Mandatos'},
     ]
 
     // Collection helper — toggle single member
@@ -954,7 +952,6 @@ export default function Home() {
         filterGenero={filterGenero}
         filterFaixaEtaria={filterFaixaEtaria}
         filterRaca={filterRaca}
-        filterPatrimonio={filterPatrimonio}
         filterAlinhamento={filterAlinhamento}
         clusterMode={clusterMode}
         isDark={isDark}
@@ -1058,7 +1055,7 @@ export default function Home() {
             <Filter size={15} />
             {hasActiveFilters && (
               <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold" aria-hidden="true">
-                {[filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterPatrimonio].filter(Boolean).length}
+                {[filterPartido, filterUF, filterTipo, filterBancada, filterGenero, filterFaixaEtaria, filterRaca, filterAlinhamento].filter(Boolean).length}
               </span>
             )}
           </button>
@@ -1299,25 +1296,6 @@ export default function Home() {
                 >
                   <option value="">Todas</option>
                   {RACAS.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
-              </div>
-
-              {/* Patrimônio */}
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-mono" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>💰 Patrimônio</span>
-                <select
-                  value={filterPatrimonio}
-                  onChange={e => setFilterPatrimonio(e.target.value)}
-                  className="text-xs font-mono rounded-lg px-2.5 py-1.5 outline-none appearance-none"
-                  style={{
-                    backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)',
-                    color: filterPatrimonio ? '#F97316' : (isDark ? '#FFFFFF' : '#64748B'),
-                    border: `1px solid ${filterPatrimonio ? '#F97316' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`,
-                    minWidth: '110px',
-                  }}
-                >
-                  <option value="">Todos</option>
-                  {PATRIMONIO_LABELS.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
 
