@@ -123,6 +123,33 @@ type SenatorVotosData = {
 
 let _senadorVotosCache: Record<number, SenatorVotosData> | null = null
 
+type SenatorLiderancaData = {
+  codigo: number
+  nome: string
+  liderancas: {
+    tipo: string
+    partido: string
+    dataInicio: string
+    dataFim?: string
+  }[]
+}
+
+type SenatorComissaoData = {
+  codigo: number
+  nome: string
+  comissoes: {
+    id: number
+    sigla: string
+    nome: string
+    cargo: string
+    dataInicio: string
+    dataFim?: string
+  }[]
+}
+
+let _senadorLiderancasCache: Record<number, SenatorLiderancaData> | null = null
+let _senadorComissoesCache: Record<number, SenatorComissaoData> | null = null
+
 // Proposition type legend
 const TIPO_PROPOSICAO = {
   PL: 'Projeto de Lei',
@@ -158,13 +185,46 @@ async function loadSenadorVotosData(): Promise<Record<number, SenatorVotosData>>
   }
   return _senadorVotosCache || {}
 }
+
+async function loadSenadorLiderancasData(): Promise<Record<number, SenatorLiderancaData>> {
+  if (_senadorLiderancasCache) return _senadorLiderancasCache
+  _senadorLiderancasCache = {}
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : ''
+    const res = await fetch(`${base}/data/senadores-liderancas.json?t=${Date.now()}`, { cache: 'no-store' })
+    if (res.ok) {
+      _senadorLiderancasCache = await res.json()
+    }
+  } catch (e) {
+    console.error('[Senador Lideranças Error]', e)
+  }
+  return _senadorLiderancasCache || {}
+}
+
+async function loadSenadorComissoesData(): Promise<Record<number, SenatorComissaoData>> {
+  if (_senadorComissoesCache) return _senadorComissoesCache
+  _senadorComissoesCache = {}
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : ''
+    const res = await fetch(`${base}/data/senadores-comissoes.json?t=${Date.now()}`, { cache: 'no-store' })
+    if (res.ok) {
+      _senadorComissoesCache = await res.json()
+    }
+  } catch (e) {
+    console.error('[Senador Comissões Error]', e)
+  }
+  return _senadorComissoesCache || {}
+}
+
 import { PatternDefs, PATTERNS, patStyle, type PatternConfig, FloatingPixel, PixelFloatStyles } from './pixel-patterns'
 import { PARTY_COLORS } from './network-graph'
 
 // ── CARD NAMES ────────────────────────────────────────────────
 const CARD_NAMES = [
   'Quem é','Mandato','Votações','Associações','Temas','Patrimônio',
-  'Campanha','Jurídico','Notícias',
+  'Campanha','Jurídico','Custo','Notícias',
 ]
 
 // ── COLOUR PALETTE POOL ───────────────────────────────────────
@@ -536,14 +596,9 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, sh
     loadLiderancas()
     return () => { mounted = false }
   }, [p.id])
-  const bens  = useMemo(()=>{
+  const bens  = useMemo(():{patrimonio:number;ano:number}[]=>{
     if (p.patrimonio > 0) {
-      return [
-        { ano: 2010, imoveis: Math.round(p.patrimonio * 0.2), veiculos: Math.round(p.patrimonio * 0.05), aplicacoes: Math.round(p.patrimonio * 0.05), outros: Math.round(p.patrimonio * 0.03) },
-        { ano: 2014, imoveis: Math.round(p.patrimonio * 0.3), veiculos: Math.round(p.patrimonio * 0.06), aplicacoes: Math.round(p.patrimonio * 0.1), outros: Math.round(p.patrimonio * 0.05) },
-        { ano: 2018, imoveis: Math.round(p.patrimonio * 0.45), veiculos: Math.round(p.patrimonio * 0.08), aplicacoes: Math.round(p.patrimonio * 0.15), outros: Math.round(p.patrimonio * 0.08) },
-        { ano: 2022, imoveis: Math.round(p.patrimonio * 0.6), veiculos: Math.round(p.patrimonio * 0.1), aplicacoes: Math.round(p.patrimonio * 0.2), outros: Math.round(p.patrimonio * 0.1) },
-      ]
+      return [{ patrimonio: p.patrimonio, ano: new Date().getFullYear() }]
     }
     return []
   },[p.patrimonio])
@@ -665,7 +720,8 @@ export function ParliamentarianProfile({ parlamentar:p, onBack, onSaveToggle, sh
           {currentIdx===5&&<C4 bens={bens} pats={shuffledPats}/>}
           {currentIdx===6&&<C5 fin={fin} pats={shuffledPats}/>}
           {currentIdx===7&&<C7 p={p}/>}
-          {currentIdx===8&&<C9 p={p}/>}
+          {currentIdx===8&&<C10 p={p}/>}
+          {currentIdx===9&&<C9 p={p}/>}
           </div>
         </div>
 
@@ -1084,151 +1140,117 @@ function C2Senador({p, pats}:{p:Parlamentar; pats: PatternConfig[]}) {
           <p style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, marginTop: 8 }}>
             Carregando...
           </p>
-        </div>
-      </div>
-    )
-  }
-  
-  const totalSessoes = senadorVotos.votos.length
-  const votouCount = senadorVotos.votos.filter((v: SenatorVoto) => v.voto === 'Votou').length
-  const naoVotou = totalSessoes - votouCount
-  const taxaPresenca = totalSessoes > 0 ? Math.round((votouCount / totalSessoes) * 100) : 0
-  const last = senadorVotos.votos.slice(0, 32)
-  
-  return (
-    <div style={{ padding: '0 0 32px' }}>
-      <div style={{ padding: '0 18px' }}>
-        <Lbl c="Presença em votações" style={{ marginBottom: 6 }} />
-        <Big c={`${taxaPresenca}%`} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 7, margin: '18px 0' }}>
-          <div style={{ padding: '11px 0', borderBottom: '1px solid rgba(0,0,0,0.12)' }}>
-            <p style={{ fontSize: 'clamp(15px,4vw,22px)', fontWeight: 900, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, lineHeight: 1, margin: 0 }}>{votouCount}</p>
-            <p style={{ fontSize: 9, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK, textTransform: 'uppercase', margin: 0 }}>Presente</p>
-          </div>
-          <div style={{ padding: '11px 0', borderBottom: '1px solid rgba(0,0,0,0.12)' }}>
-            <p style={{ fontSize: 'clamp(15px,4vw,22px)', fontWeight: 900, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, lineHeight: 1, margin: 0 }}>{naoVotou}</p>
-            <p style={{ fontSize: 9, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK, textTransform: 'uppercase', margin: 0 }}>Ausente</p>
-          </div>
-        </div>
-        <p style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, marginBottom: 8 }}>
-          {totalSessoes} votações na atual legislação
-        </p>
-        <div style={{ minHeight: 32, marginBottom: 7 }}>
-          {clicked !== null ? (
-            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.12)', padding: '5px 0', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              {last[clicked]?.codigo ? (
-                <a 
-                  href={`https://www25.senado.leg.br/web/senadores/materia/-/materia/${last[clicked]?.codigo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ fontSize: 12, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
-                >
-                  {last[clicked]?.sigla} {last[clicked]?.numero}/{last[clicked]?.ano} <ExternalLink size={10} color={INK} style={{ opacity: 0.5 }}/>
-                </a>
-              ) : (
-                <span style={{ fontSize: 12, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK }}>
-                  {last[clicked]?.sigla} {last[clicked]?.numero}/{last[clicked]?.ano}
-                </span>
-              )}
-              <span style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, opacity: 0.6 }}>
-                {last[clicked]?.data}
-              </span>
-              <span style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK }}>
-                {last[clicked]?.voto}
-              </span>
-              <button 
-                onClick={() => setClicked(null)}
-                style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: INK, fontSize: 11, opacity: 0.6 }}
-              >
-                ✕
-              </button>
-            </div>
-          ) : hov !== null ? (
-            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.12)', padding: '5px 0', display: 'inline-block' }}>
-              <span style={{ fontSize: 12, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 700, color: INK }}>
-                {last[hov]?.sigla} {last[hov]?.numero}/{last[hov]?.ano} · {last[hov]?.voto}
-              </span>
-            </div>
-          ) : (
-            <p style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK }}>
-              Toque/Clique numa barra para ver detalhes
-            </p>
-          )}
-        </div>
-      </div>
-      {/* Voting chart with patterns */}
-      <div style={{ width: '100%', overflowX: 'auto' }}>
-        <svg width={Math.max(last.length * 14 + 48, 320)} height={150} style={{ display: 'block', width: '100%', minWidth: Math.max(last.length * 14 + 48, 320) }} onMouseLeave={() => setHov(null)}>
-          <PatternDefs/>
-          <line x1={0} y1={75} x2={Math.max(last.length * 14 + 48, 320)} y2={75} stroke="rgba(0,0,0,0.15)" strokeWidth={2} strokeDasharray="5 4"/>
-          {last.map((v: SenatorVoto, i: number) => {
-            const x = 24 + i * 14
-            const pat = lp(pats[getTemaIdx(v.sigla) % pats.length])
-            const isH = hov === i
-            const isC = clicked === i
-            const isVotou = v.voto === 'Votou'
-            const H = 150
-            const bh = isVotou ? 50 : 40
-            const y = isVotou ? 30 : 50
-            const barOpacity = hov !== null && !isH && !isC ? 0.3 : (isVotou ? 1 : 0.25)
-            return (
-              <g key={i}>
-                <rect x={x} y={y} width={10} height={bh} rx={3} fill={`url(#${pat.id})`} style={patStyle(pat)} opacity={barOpacity}/>
-                {(isH || isC) && <rect x={x - 2} y={y - 2} width={14} height={bh + 4} rx={3} fill="none" stroke={INK} strokeWidth={2}/>}
-                <rect x={x} y={0} width={10} height={H} fill="transparent" style={{ cursor: 'pointer' }} onMouseEnter={() => setHov(i)} onClick={() => setClicked(i)} onMouseLeave={() => setHov(null)}/>
-              </g>
-            )
-          })}
-        </svg>
-      </div>
-      {/* Votações em destaque */}
-      <div style={{ padding: '0 18px' }}>
-        <Hr />
-        <div style={{ paddingTop: 18 }}>
-          <Lbl c="Matérias em destaque" style={{ marginBottom: 10 }} />
-          {last.slice(0, 8).map((v: SenatorVoto, i: number) => (
-            <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid rgba(0,0,0,0.12)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {v.codigo ? (
-                    <a 
-                      href={`https://www25.senado.leg.br/web/senadores/materia/-/materia/${v.codigo}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ fontSize: 13, fontWeight: 700, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
-                    >
-                      {v.sigla} {v.numero}/{v.ano} <ExternalLink size={11} color={INK} style={{ opacity: 0.5 }}/>
-                    </a>
-                  ) : (
-                    <span style={{ fontSize: 13, fontWeight: 700, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK }}>
-                      {v.sigla} {v.numero}/{v.ano}
-                    </span>
-                  )}
-                  <span style={{ fontSize: 9, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, opacity: 0.5, backgroundColor: 'rgba(0,0,0,0.06)', padding: '2px 6px', borderRadius: 3 }}>
-                    {TIPO_PROPOSICAO[v.sigla as keyof typeof TIPO_PROPOSICAO] || v.sigla}
-                  </span>
-                </div>
-                <span style={{ fontSize: 10, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, opacity: 0.6 }}>
-                  {v.data}
-                </span>
-              </div>
-              <p style={{ fontSize: 11, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, margin: '0 0 6px 0', lineHeight: 1.4 }}>
-                {v.descricao}
-              </p>
-              {v.ementa && (
-                <p style={{ fontSize: 10, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: INK, margin: 0, opacity: 0.7, lineHeight: 1.4 }}>
-                  {v.ementa.substring(0, 150)}...
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-        <InfoBox/>
       </div>
     </div>
   )
 }
 
+// ─────────────────────────────────────────────────────────────
+// C10 — CUSTO PARA A UNIÃO vs NECESSIDADES BÁSICAS
+// ─────────────────────────────────────────────────────────────
+
+const BASIC_NEEDS = [
+  { nome: 'Botijão de gás (13kg)', valor: 135, fonte: 'ANP 2025' },
+  { nome: 'Bolsa Família (benefício médio)', valor: 682, fonte: 'MDS 2025', periodicidade: 'mensal' },
+  { nome: 'Merenda escolar (por aluno/mês)', valor: 0.92, fonte: 'FNDE 2025', unidade: 'dia' },
+  { nome: 'Auxílio-emergencial (vale-refeição)', valor: 55, fonte: 'MTE 2025', periodicidade: 'diário' },
+  { nome: 'INSS mínimo (aposentadoria)', valor: 1412, fonte: 'Previc 2025' },
+  { nome: 'Piso enfermagem', valor: 1412, fonte: 'Lei 14.581/2023' },
+  { nome: 'Salário mínimo', valor: 1518, fonte: 'Decreto 11.790/2023' },
+]
+
+const DEPUTY_COSTS = {
+  salario: 46340,
+  cotas: 45000,
+  emendasPix: 500000,
+  gabinete: 60000,
+  totalAnual: (46340 + 45000 + 60000) * 12 + 500000,
+}
+
+function C10({p}:{p:Parlamentar}) {
+  const salario = p.salario ?? DEPUTY_COSTS.salario
+  const cotas = p.cotasTotal ?? 0
+  const emendasPix = p.emendasPix ?? 0
+  
+  const totalMensal = salario + cotas
+  const totalAnual = totalMensal * 12 + emendasPix
+  
+  const getEquivalente = (custo: number) => {
+    return BASIC_NEEDS.map(need => ({
+      ...need,
+      quantidade: need.unidade === 'dia' 
+        ? Math.round(custo / (need.valor * 30))
+        : Math.round(custo / need.valor)
+    }))
+  }
+  
+  const equivalentes = getEquivalente(totalAnual)
+  
+  return (
+    <div style={{ padding:'0 18px 32px' }}>
+      <Lbl c="Custo para a União" style={{ marginBottom:5 }}/>
+      <Big c={`R$ ${(totalAnual/1000).toFixed(0)} mil`}/>
+      <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:16 }}>
+        por ano (salário + cotas + emendas PIX)
+      </p>
+      
+      <div style={{ marginBottom: 24 }}>
+        <Lbl c="Composição anual" style={{ marginBottom:8 }}/>
+        <div style={{ display:'flex',flexDirection:'column',gap:0 }}>
+          <div style={{ display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:'1px solid rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Salário</span>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK }}>R$ {(salario * 12).toLocaleString('pt-BR')}</span>
+          </div>
+          <div style={{ display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:'1px solid rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Cotas parlament.</span>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK }}>R$ {(cotas * 12).toLocaleString('pt-BR')}</span>
+          </div>
+          <div style={{ display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:'1px solid rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Emendas PIX</span>
+            <span style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK }}>R$ {emendasPix.toLocaleString('pt-BR')}</span>
+          </div>
+        </div>
+      </div>
+      
+      <Hr/>
+      <div style={{ paddingTop: 16 }}>
+        <Lbl c="Equivale a..." style={{ marginBottom:12 }}/>
+        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,opacity:0.7,marginBottom:12 }}>
+          O custo anual de 1 {p.tipo === 'SENADOR' ? 'senador' : 'deputado'} equivale a:
+        </p>
+        
+        <div style={{ display:'flex',flexDirection:'column',gap:0 }}>
+          {equivalentes.map((eq, i) => (
+            <div key={i} style={{ padding:'12px 0',borderBottom:i<equivalentes.length-1?'1px solid rgba(0,0,0,0.08)':'none' }}>
+              <div style={{ display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:4 }}>
+                <span style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,flex:1 }}>
+                  {eq.nome}
+                </span>
+                <span style={{ fontSize:14,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:900,color:INK,minWidth:60,textAlign:'right' }}>
+                  {eq.quantidade.toLocaleString('pt-BR')}
+                </span>
+              </div>
+              <span style={{ fontSize:9,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,opacity:0.5 }}>
+                {eq.fonte} • R$ {eq.valor.toLocaleString('pt-BR')}{eq.periodicidade ? `/${eq.periodicidade}` : ''}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div style={{ marginTop: 20, padding: '12px', border: '1px solid #0A0A0A', backgroundColor: 'transparent' }}>
+        <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,fontWeight:700,marginBottom:4 }}>
+          Para comparação
+        </p>
+        <p style={{ fontSize:10,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,lineHeight:1.5 }}>
+          O custo anual equivale a aproximadamente <strong>{Math.round(totalAnual / 1412)} salários mínimos</strong> ou <strong>{Math.round(totalAnual / 682)} benefícios do Bolsa Família</strong>.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// C2 handles both deputies and senators (senators via C2Senador)
 function C2({votes,p,pats}:{votes:ReturnType<typeof mockVotes>;p:Parlamentar;pats:PatternConfig[]}) {
   // Show senator voting data if this is a senator
   if (p.tipo === 'SENADOR') {
@@ -1475,29 +1497,10 @@ function C3({p,votes,pats}:{p:Parlamentar;votes:ReturnType<typeof mockVotes>;pat
 }
 
 // ─────────────────────────────────────────────────────────────
-// C4 — PATRIMÔNIO (Stacked Area Chart)
+// C4 — PATRIMÔNIO (DADO REAL DO TSE)
 // ─────────────────────────────────────────────────────────────
-// BEM_CATS uses dynamic pats — defined inside C4 now (see below)
-const BEM_CAT_KEYS=[
-  {key:'imoveis',  label:'Imóveis'},
-  {key:'aplicacoes',label:'Aplicações'},
-  {key:'veiculos', label:'Veículos'},
-  {key:'outros',   label:'Outros'},
-] as const
 
-interface BemEntry {
-  ano: number
-  imoveis: number
-  veiculos: number
-  aplicacoes: number
-  outros: number
-}
-
-function C4({bens,pats}:{bens:BemEntry[];pats:PatternConfig[]}) {
-  const BEM_CATS = BEM_CAT_KEYS.map((c,i)=>({...c, pat: pats[i % pats.length]}))
-  const [active,setActive]=useState<string|null>(null)
-  const [hoverYear,setHoverYear]=useState<number|null>(null)
-  
+function C4({bens}:{bens:{patrimonio:number;ano:number}[];pats?:PatternConfig[]}) {
   if (!bens || bens.length === 0) {
     return (
       <div style={{ padding:'0 18px 32px' }}>
@@ -1508,134 +1511,15 @@ function C4({bens,pats}:{bens:BemEntry[];pats:PatternConfig[]}) {
     )
   }
   
-  const ultimo=bens[bens.length-1]; const primeiro=bens[0]
-  const totalU=ultimo.imoveis+ultimo.veiculos+ultimo.aplicacoes+ultimo.outros
-  const totalP=primeiro.imoveis+primeiro.veiculos+primeiro.aplicacoes+primeiro.outros
-  const delta=totalP > 0 ? ((totalU-totalP)/totalP*100) : 0
-  const maxVal=Math.max(...bens.map(b=>b.imoveis+b.veiculos+b.aplicacoes+b.outros))*1.1
-
-  // Dimensões do gráfico — dinâmico
-  const W=340, H=180, PAD_L=45, PAD_R=15, PAD_T=20, PAD_B=30
-  const chartW=W-PAD_L-PAD_R, chartH=H-PAD_T-PAD_B
-
-  // Calcular pontos para cada categoria (stacked)
-  const years=bens.map(b=>b.ano)
-  const xScale=(i:number)=>PAD_L+(i/(bens.length-1))*chartW
-  const yScale=(v:number)=>PAD_T+chartH-(v/maxVal)*chartH
-
-  // Criar áreas empilhadas (de baixo para cima: outros, veiculos, aplicacoes, imoveis)
-  const stackOrder=['outros','veiculos','aplicacoes','imoveis'] as const
-  const stacks=stackOrder.map((key,stackIdx)=>{
-    const pat=BEM_CATS.find((c)=>c.key===key)!.pat
-    const ap=lp(pat)
-    
-    // Calcular baseline (soma das categorias anteriores)
-    const baseline=bens.map(b=>{
-      let sum=0
-      for(let i=0;i<stackIdx;i++) sum+=b[stackOrder[i]]
-      return sum
-    })
-    
-    // Calcular topline (baseline + valor atual)
-    const topline=bens.map((b,i)=>baseline[i]+b[key])
-    
-    // Criar path para área
-    const topPoints=topline.map((v,i)=>`${xScale(i)},${yScale(v)}`).join(' L ')
-    const botPoints=[...baseline].reverse().map((v,i)=>`${xScale(bens.length-1-i)},${yScale(v)}`).join(' L ')
-    const d=`M ${topPoints} L ${botPoints} Z`
-    
-    return {key,d,ap,label:BEM_CATS.find(c=>c.key===key)!.label}
-  })
-
+  const { patrimonio, ano } = bens[0]
+  
   return (
     <div style={{ padding:'0 18px 32px' }}>
-      <Lbl c={`Patrimônio declarado — ${ultimo.ano}`} style={{ marginBottom:5 }}/>
-      <Big c={`R$${(totalU/1000).toFixed(1)}M`}/>
-      <div style={{ display:'inline-flex',alignItems:'center',gap:6,marginTop:7,marginBottom:20,padding:'4px 0',borderBottom:'1px solid rgba(0,0,0,0.12)' }}>
-        <span style={{ fontSize:13,fontWeight:900,fontFamily:'Helvetica Neue, sans-serif',color:INK }}>{delta>0?'▲':'▼'} {Math.abs(delta).toFixed(0)}%</span>
-        <span style={{ fontSize:11,fontFamily:'Helvetica Neue, sans-serif',color:INK }}>desde {primeiro.ano}</span>
-      </div>
-      
-      {/* Legenda */}
-      <div style={{ display:'flex',flexWrap:'wrap',gap:10,marginBottom:14 }}>
-        {[...BEM_CATS].reverse().map(({key,label,pat})=>{const ap=pat;const isA=active===key;return(
-          <button key={key} onClick={()=>setActive(active===key?null:key)} style={{ display:'flex',alignItems:'center',gap:5,padding:'5px 0',borderBottom:isA?'2px solid rgba(0,0,0,0.8)':'2px solid transparent',background:'transparent',cursor:'pointer' }}>
-            <svg width={14} height={10} style={{ borderRadius:2,overflow:'hidden',flexShrink:0 }}><PatternDefs/><rect width={14} height={10} fill={`url(#${ap.id})`} style={patStyle(ap)}/></svg>
-            <span style={{ fontSize:11,fontFamily:'Helvetica Neue, sans-serif',fontWeight:600,color:INK }}>{label}</span>
-          </button>
-        )})}
-      </div>
-      
-      {/* Stacked Area Chart - full card width */}
-      <div style={{ width:'100%' }}>
-        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow:'visible',display:'block' }}>
-          <PatternDefs/>
-          
-          {/* Grid horizontal */}
-          {[0,0.25,0.5,0.75,1].map(pct=>{
-            const y=PAD_T+chartH*(1-pct)
-            const val=maxVal*pct/1000
-            return (
-              <g key={pct}>
-                <line x1={PAD_L} y1={y} x2={W-PAD_R} y2={y} stroke="rgba(0,0,0,0.1)" strokeDasharray="2,2"/>
-                <text x={PAD_L-5} y={y} textAnchor="end" alignmentBaseline="middle" fontSize={9} fontFamily="Helvetica Neue, sans-serif" fill={INK}>{val.toFixed(1)}M</text>
-              </g>
-            )
-          })}
-          
-          {/* Áreas empilhadas */}
-          {stacks.map(({key,d,ap})=>(
-            <path key={key} d={d} fill={`url(#${ap.id})`} style={patStyle(ap)} opacity={active&&active!==key?0.15:0.9}/>
-          ))}
-          
-          {/* Linha de contorno no topo */}
-          <path 
-            d={`M ${bens.map((b,i)=>`${xScale(i)},${yScale(b.imoveis+b.aplicacoes+b.veiculos+b.outros)}`).join(' L ')}`} 
-            fill="none" 
-            stroke={INK} 
-            strokeWidth={1.5}
-          />
-          
-          {/* Anos no eixo X */}
-          {years.map((ano,i)=>(
-            <text key={ano} x={xScale(i)} y={H-8} textAnchor="middle" fontSize={11} fontWeight={700} fontFamily="Helvetica Neue, sans-serif" fill={INK}>{ano}</text>
-          ))}
-          
-          {/* Pontos e interatividade */}
-          {bens.map((b,i)=>{
-            const tot=b.imoveis+b.aplicacoes+b.veiculos+b.outros
-            const x=xScale(i), y=yScale(tot)
-            return (
-              <g key={b.ano} onMouseEnter={()=>setHoverYear(b.ano)} onMouseLeave={()=>setHoverYear(null)} style={{ cursor:'pointer' }}>
-                <rect x={x-15} y={PAD_T} width={30} height={chartH} fill="transparent"/>
-                <circle cx={x} cy={y} r={hoverYear===b.ano?6:4} fill={INK}/>
-                {hoverYear===b.ano&&(
-                  <g>
-                    <rect x={x-40} y={y-55} width={80} height={45} rx={4} fill="currentColor" opacity={0.95}/>
-                    <text x={x} y={y-38} textAnchor="middle" fontSize={12} fontWeight={700} fontFamily="Helvetica Neue, sans-serif" fill="#FFF">R${(tot/1000).toFixed(1)}M</text>
-                    <text x={x} y={y-22} textAnchor="middle" fontSize={9} fontFamily="Helvetica Neue, sans-serif" fill="#94A3B8">{b.ano}</text>
-                  </g>
-                )}
-              </g>
-            )
-          })}
-        </svg>
-      </div>
-      
-      {/* Detalhes da categoria selecionada */}
-      {active&&(
-        <div style={{ marginTop:14,padding:'10px 0',borderTop:'1px solid rgba(0,0,0,0.12)' }}>
-          <p style={{ fontSize:12,fontWeight:700,fontFamily:'Helvetica Neue, sans-serif',color:INK,marginBottom:6 }}>{BEM_CATS.find(c=>c.key===active)?.label}</p>
-          <div style={{ display:'flex',gap:16,flexWrap:'wrap' }}>
-            {bens.map(b=>(
-              <div key={b.ano} style={{ textAlign:'center' }}>
-                <p style={{ fontSize:10,fontFamily:'Helvetica Neue, sans-serif',color:INK,opacity:0.6 }}>{b.ano}</p>
-                <p style={{ fontSize:13,fontWeight:700,fontFamily:'Helvetica Neue, sans-serif',color:INK }}>R${((b[active as keyof typeof b] as number)/1000).toFixed(1)}M</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <Lbl c="Patrimônio declarado" style={{ marginBottom:5 }}/>
+      <Big c={`R$${(patrimonio/1000).toFixed(1)}M`}/>
+      <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,opacity:0.6,marginTop:8,marginBottom:0 }}>
+        Fonte: TSE {ano} — declaração de bens
+      </p>
     </div>
   )
 }
@@ -2277,4 +2161,5 @@ function InfoBox({ tipo }: { tipo?: string }) {
       </div>
     </div>
   )
+}
 }

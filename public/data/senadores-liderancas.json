@@ -1,0 +1,2824 @@
+{
+  "22": {
+    "codigo": 22,
+    "nome": "Esperidião Amin",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PP",
+        "dataInicio": "2025-04-15"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2025-04-07"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2022-12-06",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-13",
+        "dataFim": "2021-02-01"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PPB",
+        "dataInicio": "1996-06-03",
+        "dataFim": "1996-06-11"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PPB",
+        "dataInicio": "1995-11-07",
+        "dataFim": "1998-12-31"
+      }
+    ]
+  },
+  "35": {
+    "codigo": 35,
+    "nome": "Jader Barbalho",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "1999-02-01",
+        "dataFim": "2001-02-21"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "1995-02-16",
+        "dataFim": "1999-01-31"
+      }
+    ]
+  },
+  "70": {
+    "codigo": 70,
+    "nome": "Renan Calheiros",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-07",
+        "dataFim": "2025-02-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-02-02",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-03-22",
+        "dataFim": "2017-06-28"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2017-02-01",
+        "dataFim": "2017-06-28"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2011-06-07",
+        "dataFim": "2013-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2011-02-01",
+        "dataFim": "2013-01-30"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2009-01-30",
+        "dataFim": "2010-12-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2009-01-30",
+        "dataFim": "2010-12-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2003-02-01",
+        "dataFim": "2005-02-13"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2001-02-22",
+        "dataFim": "2003-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2000-03-03",
+        "dataFim": "2001-02-21"
+      }
+    ]
+  },
+  "285": {
+    "codigo": 285,
+    "nome": "Marcio Bittar",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2019-06-28",
+        "dataFim": "2021-02-21"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2019-03-12",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "345": {
+    "codigo": 345,
+    "nome": "Flávio Arns",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2024-11-13",
+        "dataFim": "2025-02-17"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-03-10",
+        "dataFim": "2023-01-30"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2007-02-13",
+        "dataFim": "2010-12-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2006-02-22",
+        "dataFim": "2007-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2005-02-23",
+        "dataFim": "2006-02-21"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2003-02-01",
+        "dataFim": "2005-02-22"
+      }
+    ]
+  },
+  "470": {
+    "codigo": 470,
+    "nome": "Chico Rodrigues",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-03-15",
+        "dataFim": "2020-10-14"
+      }
+    ]
+  },
+  "475": {
+    "codigo": 475,
+    "nome": "Confúcio Moura",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2025-04-02"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2023-04-11",
+        "dataFim": "2025-01-27"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-20",
+        "dataFim": "2023-03-22"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2022-05-25",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "581": {
+    "codigo": 581,
+    "nome": "Jaques Wagner",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-02-28",
+        "dataFim": "2025-09-05"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-01-06"
+      }
+    ]
+  },
+  "631": {
+    "codigo": 631,
+    "nome": "Magno Malta",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-02-03"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-27",
+        "dataFim": "2024-06-17"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2017-02-03",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2011-02-01",
+        "dataFim": "2012-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2003-02-25",
+        "dataFim": "2004-04-13"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2003-02-01",
+        "dataFim": "2004-12-21"
+      }
+    ]
+  },
+  "739": {
+    "codigo": 739,
+    "nome": "Ciro Nogueira",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-20",
+        "dataFim": "2024-03-05"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2023-02-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2023-01-02",
+        "dataFim": "2023-02-01"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PP",
+        "dataInicio": "2021-02-17",
+        "dataFim": "2021-03-30"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-02-10",
+        "dataFim": "2021-07-27"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2021-07-27"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2020-03-04",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2020-03-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2018-04-10",
+        "dataFim": "2019-01-29"
+      }
+    ]
+  },
+  "742": {
+    "codigo": 742,
+    "nome": "Marcelo Castro",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2025-04-15"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2025-04-02"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2024-05-08",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2023-04-24",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2023-04-11",
+        "dataFim": "2025-01-27"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2021-07-14",
+        "dataFim": "2022-03-29"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2021-02-22",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "MDB",
+        "dataInicio": "2021-02-22",
+        "dataFim": "2021-03-30"
+      }
+    ]
+  },
+  "825": {
+    "codigo": 825,
+    "nome": "Paulo Paim",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2013-03-05",
+        "dataFim": "2015-01-31"
+      }
+    ]
+  },
+  "1173": {
+    "codigo": 1173,
+    "nome": "Wellington Fagundes",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-10-29",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-11-03",
+        "dataFim": "2024-06-11"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-06",
+        "dataFim": "2023-07-05"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2022-05-11",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2021-09-28",
+        "dataFim": "2022-03-29"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2021-02-23",
+        "dataFim": "2021-03-30"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2019-06-05",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2018-05-30",
+        "dataFim": "2019-02-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-02-03",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2016-05-24",
+        "dataFim": "2017-03-28"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2016-04-06",
+        "dataFim": "2017-02-02"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2015-11-19",
+        "dataFim": "2017-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-08-25",
+        "dataFim": "2016-06-13"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2015-04-07",
+        "dataFim": "2016-03-29"
+      }
+    ]
+  },
+  "1186": {
+    "codigo": 1186,
+    "nome": "Luis Carlos Heinze",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-02",
+        "dataFim": "2023-03-20"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "3777": {
+    "codigo": 3777,
+    "nome": "Eduardo Gomes",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-02-03"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2023-04-12",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-09",
+        "dataFim": "2024-06-17"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2019-10-17",
+        "dataFim": "2023-01-05"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-09-11",
+        "dataFim": "2023-01-04"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-03-15",
+        "dataFim": "2019-07-12"
+      }
+    ]
+  },
+  "3806": {
+    "codigo": 3806,
+    "nome": "Zequinha Marinho",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2025-10-27"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PODEMOS",
+        "dataInicio": "2025-03-17",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-04-28",
+        "dataFim": "2023-05-29"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25",
+        "dataFim": "2024-04-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSC",
+        "dataInicio": "2019-02-18",
+        "dataFim": "2022-03-06"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2022-03-06"
+      }
+    ]
+  },
+  "3830": {
+    "codigo": 3830,
+    "nome": "Davi Alcolumbre",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2023-02-28",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-01-17",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2022-04-12",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2018-12-26",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-09-13",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-05-08",
+        "dataFim": "2017-09-12"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2016-06-14",
+        "dataFim": "2017-05-05"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2016-05-05",
+        "dataFim": "2019-01-31"
+      }
+    ]
+  },
+  "4531": {
+    "codigo": 4531,
+    "nome": "Jayme Campos",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2025-06-11"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2014-04-03",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2013-05-07",
+        "dataFim": "2013-10-22"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2012-02-09",
+        "dataFim": "2013-01-30"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2011-05-10",
+        "dataFim": "2012-02-08"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "DEM",
+        "dataInicio": "2011-04-04",
+        "dataFim": "2012-03-26"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2011-03-22",
+        "dataFim": "2013-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2009-02-17",
+        "dataFim": "2010-12-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2007-08-02",
+        "dataFim": "2009-02-16"
+      }
+    ]
+  },
+  "4560": {
+    "codigo": 4560,
+    "nome": "Sérgio Petecão",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2015-02-03",
+        "dataFim": "2017-02-21"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2014-03-27",
+        "dataFim": "2015-03-24"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2013-04-16",
+        "dataFim": "2014-03-24"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2013-02-13",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2012-03-27",
+        "dataFim": "2013-03-26"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2011-11-08",
+        "dataFim": "2013-01-31"
+      }
+    ]
+  },
+  "4639": {
+    "codigo": 4639,
+    "nome": "Beto Faro",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2024-02-27",
+        "dataFim": "2025-01-30"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PT",
+        "dataInicio": "2023-04-25",
+        "dataFim": "2024-03-31"
+      }
+    ]
+  },
+  "4642": {
+    "codigo": 4642,
+    "nome": "Efraim Filho",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-18"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2025-02-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2024-10-18",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-10-18",
+        "dataFim": "2025-02-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-08",
+        "dataFim": "2024-06-19"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2024-06-19"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "DEM",
+        "dataInicio": "2021-03-25",
+        "dataFim": "2021-03-30"
+      }
+    ]
+  },
+  "4694": {
+    "codigo": 4694,
+    "nome": "Rogerio Marinho",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-04"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-10-18",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25",
+        "dataFim": "2024-06-19"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-06",
+        "dataFim": "2024-06-19"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2018-05-23",
+        "dataFim": "2019-02-01"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2011-03-29",
+        "dataFim": "2012-03-26"
+      }
+    ]
+  },
+  "4770": {
+    "codigo": 4770,
+    "nome": "Izalci Lucas",
+    "liderancas": [
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-12-03",
+        "dataFim": "2025-12-08"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-10-27",
+        "dataFim": "2025-11-04"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-09-11",
+        "dataFim": "2025-09-20"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2025-06-30"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-06-03",
+        "dataFim": "2025-07-17"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-05-08"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2025-04-15"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-03-21",
+        "dataFim": "2025-05-07"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PL",
+        "dataInicio": "2024-05-07",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2024-04-02",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2023-04-12",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2024-03-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2022-05-12",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2021-11-10",
+        "dataFim": "2022-03-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2021-02-08",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2020-12-07",
+        "dataFim": "2021-02-05"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2020-09-09",
+        "dataFim": "2020-11-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSDB",
+        "dataInicio": "2019-04-23",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-03-15",
+        "dataFim": "2020-10-06"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2019-02-19",
+        "dataFim": "2021-02-05"
+      }
+    ]
+  },
+  "4811": {
+    "codigo": 4811,
+    "nome": "Laércio Oliveira",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-03-06",
+        "dataFim": "2025-02-16"
+      }
+    ]
+  },
+  "4994": {
+    "codigo": 4994,
+    "nome": "Eduardo Braga",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2025-01-28"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2025-01-27"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-19",
+        "dataFim": "2021-02-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2012-03-13",
+        "dataFim": "2015-01-01"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2011-02-18",
+        "dataFim": "2012-03-20"
+      }
+    ]
+  },
+  "5008": {
+    "codigo": 5008,
+    "nome": "Humberto Costa",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2023-09-20",
+        "dataFim": "2023-09-21"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2019-02-19"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2019-02-05",
+        "dataFim": "2020-02-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-02-08",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2016-08-08",
+        "dataFim": "2017-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2016-02-24",
+        "dataFim": "2016-05-12"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-02-24",
+        "dataFim": "2016-03-07"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2015-02-04",
+        "dataFim": "2016-03-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2014-03-25",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2014-02-04",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2011-02-08",
+        "dataFim": "2012-02-08"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2011-02-01",
+        "dataFim": "2012-02-06"
+      }
+    ]
+  },
+  "5012": {
+    "codigo": 5012,
+    "nome": "Randolfe Rodrigues",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PT",
+        "dataInicio": "2025-05-07"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-01-06"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-02-12",
+        "dataFim": "2023-01-04"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "REDE",
+        "dataInicio": "2021-02-10",
+        "dataFim": "2024-01-23"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "REDE",
+        "dataInicio": "2019-05-09",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-13",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "REDE",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2021-02-09"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-10-31",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2016-08-24",
+        "dataFim": "2017-02-07"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "REDE",
+        "dataInicio": "2016-05-24",
+        "dataFim": "2017-03-28"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "REDE",
+        "dataInicio": "2015-09-29",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSOL",
+        "dataInicio": "2015-04-08",
+        "dataFim": "2016-03-29"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-02-24",
+        "dataFim": "2015-09-28"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSOL",
+        "dataInicio": "2015-02-10",
+        "dataFim": "2015-09-28"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSOL",
+        "dataInicio": "2014-04-02",
+        "dataFim": "2015-03-24"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSOL",
+        "dataInicio": "2013-04-16",
+        "dataFim": "2014-03-24"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSOL",
+        "dataInicio": "2011-12-21",
+        "dataFim": "2015-01-31"
+      }
+    ]
+  },
+  "5070": {
+    "codigo": 5070,
+    "nome": "Wilder Morais",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-09-13",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-05-08",
+        "dataFim": "2017-09-12"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2017-03-14",
+        "dataFim": "2018-04-04"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-04-07",
+        "dataFim": "2015-09-14"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2014-03-12",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2013-10-23",
+        "dataFim": "2015-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2013-03-05",
+        "dataFim": "2014-01-31"
+      }
+    ]
+  },
+  "5352": {
+    "codigo": 5352,
+    "nome": "Rogério Carvalho",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-10-14",
+        "dataFim": "2026-02-02"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-08-13",
+        "dataFim": "2026-03-02"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-08-13"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-01-31",
+        "dataFim": "2025-10-14"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PT",
+        "dataInicio": "2024-05-07",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2021-10-18",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2020-02-04",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2019-02-19",
+        "dataFim": "2020-02-03"
+      }
+    ]
+  },
+  "5376": {
+    "codigo": 5376,
+    "nome": "Mara Gabrilli",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2021-02-08",
+        "dataFim": "2023-01-27"
+      }
+    ]
+  },
+  "5385": {
+    "codigo": 5385,
+    "nome": "Irajá",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2019-02-13",
+        "dataFim": "2020-10-11"
+      }
+    ]
+  },
+  "5386": {
+    "codigo": 5386,
+    "nome": "Professora Dorinha Seabra",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-07-09"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2025-06-11"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "UNIÃO",
+        "dataInicio": "2025-04-15"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-02-17"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "UNIÃO",
+        "dataInicio": "2024-04-26",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "UNIÃO",
+        "dataInicio": "2023-04-11",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23",
+        "dataFim": "2025-09-17"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-20",
+        "dataFim": "2023-03-22"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2023-02-28",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-16",
+        "dataFim": "2024-06-17"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "DEM",
+        "dataInicio": "2015-08-06",
+        "dataFim": "2016-03-29"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "DEM",
+        "dataInicio": "2014-04-08",
+        "dataFim": "2015-03-24"
+      }
+    ]
+  },
+  "5411": {
+    "codigo": 5411,
+    "nome": "Weverton",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-18"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2024-02-08",
+        "dataFim": "2024-05-02"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-20",
+        "dataFim": "2023-03-22"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2021-02-08"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PDT",
+        "dataInicio": "2017-05-18",
+        "dataFim": "2018-02-27"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PDT",
+        "dataInicio": "2013-04-16",
+        "dataFim": "2014-03-24"
+      }
+    ]
+  },
+  "5422": {
+    "codigo": 5422,
+    "nome": "Marcos Rogério",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-06-12"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-24",
+        "dataFim": "2024-10-16"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2024-06-23"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2022-06-10",
+        "dataFim": "2022-12-14"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2021-01-29",
+        "dataFim": "2022-01-26"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2020-09-03",
+        "dataFim": "2022-01-24"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2019-06-06",
+        "dataFim": "2021-01-29"
+      }
+    ]
+  },
+  "5502": {
+    "codigo": 5502,
+    "nome": "Plínio Valério",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2024-04-09",
+        "dataFim": "2025-01-30"
+      }
+    ]
+  },
+  "5523": {
+    "codigo": 5523,
+    "nome": "Otto Alencar",
+    "liderancas": [
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-10-22",
+        "dataFim": "2024-11-29"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-10-22"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-07-17",
+        "dataFim": "2024-11-08"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2024-10-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2016-06-07",
+        "dataFim": "2017-03-28"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-12-16",
+        "dataFim": "2019-01-29"
+      }
+    ]
+  },
+  "5525": {
+    "codigo": 5525,
+    "nome": "Omar Aziz",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2024-10-30"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2023-03-08",
+        "dataFim": "2024-10-29"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-02-28"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2021-02-03",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2017-02-01",
+        "dataFim": "2019-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2015-11-03",
+        "dataFim": "2017-03-13"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2015-02-03",
+        "dataFim": "2017-01-31"
+      }
+    ]
+  },
+  "5672": {
+    "codigo": 5672,
+    "nome": "Alan Rick",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "REPUBLICANOS",
+        "dataInicio": "2026-03-17"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2023-02-28",
+        "dataFim": "2025-01-31"
+      }
+    ]
+  },
+  "5718": {
+    "codigo": 5718,
+    "nome": "Eliziane Gama",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-11-11"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-12-07",
+        "dataFim": "2024-07-16"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2023-04-12",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-28",
+        "dataFim": "2024-07-16"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "CIDADANIA",
+        "dataInicio": "2022-03-22",
+        "dataFim": "2023-01-30"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2022-02-15",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "CIDADANIA",
+        "dataInicio": "2021-12-07",
+        "dataFim": "2022-03-21"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "CIDADANIA",
+        "dataInicio": "2021-02-10",
+        "dataFim": "2021-03-30"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2021-07-16"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "CIDADANIA",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2021-01-29"
+      }
+    ]
+  },
+  "5732": {
+    "codigo": 5732,
+    "nome": "Rodrigo Pacheco",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "DEM",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2021-01-29"
+      }
+    ]
+  },
+  "5736": {
+    "codigo": 5736,
+    "nome": "Tereza Cristina",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2023-02-02"
+      }
+    ]
+  },
+  "5748": {
+    "codigo": 5748,
+    "nome": "Veneziano Vital do Rêgo",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-18"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2020-04-23",
+        "dataFim": "2020-09-22"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSB",
+        "dataInicio": "2019-04-30",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2020-09-22"
+      }
+    ]
+  },
+  "5783": {
+    "codigo": 5783,
+    "nome": "Zenaide Maia",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2024-05-02",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-02-28"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PROS",
+        "dataInicio": "2022-05-12",
+        "dataFim": "2022-12-19"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-02-02",
+        "dataFim": "2022-12-19"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PROS",
+        "dataInicio": "2019-02-14",
+        "dataFim": "2022-12-19"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-06",
+        "dataFim": "2021-01-29"
+      }
+    ]
+  },
+  "5793": {
+    "codigo": 5793,
+    "nome": "Dr. Hiran",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-17"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PP",
+        "dataInicio": "2024-05-06",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PP",
+        "dataInicio": "2023-04-13",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2021-04-28",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "5894": {
+    "codigo": 5894,
+    "nome": "Flávio Bolsonaro",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2025-03-10"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-05",
+        "dataFim": "2025-02-26"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2023-02-16"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2022-06-10",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PATRIOTA",
+        "dataInicio": "2021-06-04",
+        "dataFim": "2021-11-29"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2020-04-06",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "5895": {
+    "codigo": 5895,
+    "nome": "Jorge Kajuru",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2025-02-18"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2025-02-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PATRIOTA",
+        "dataInicio": "2019-08-09",
+        "dataFim": "2019-09-16"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2019-08-08"
+      }
+    ]
+  },
+  "5899": {
+    "codigo": 5899,
+    "nome": "Vanderlan Cardoso",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PP",
+        "dataInicio": "2019-04-25",
+        "dataFim": "2020-03-31"
+      }
+    ]
+  },
+  "5906": {
+    "codigo": 5906,
+    "nome": "Dra. Eudócia",
+    "liderancas": []
+  },
+  "5917": {
+    "codigo": 5917,
+    "nome": "Fernando Dueire",
+    "liderancas": []
+  },
+  "5924": {
+    "codigo": 5924,
+    "nome": "Oriovisto Guimarães",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2024-02-20"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2022-10-20",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2019-02-13",
+        "dataFim": "2022-10-18"
+      }
+    ]
+  },
+  "5926": {
+    "codigo": 5926,
+    "nome": "Lucas Barreto",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2023-07-05",
+        "dataFim": "2025-02-02"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2019-11-19",
+        "dataFim": "2019-12-16"
+      }
+    ]
+  },
+  "5936": {
+    "codigo": 5936,
+    "nome": "Carlos Portinho",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-02-03"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2023-02-17",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2022-06-07",
+        "dataFim": "2023-01-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2021-01-12",
+        "dataFim": "2022-06-09"
+      }
+    ]
+  },
+  "5942": {
+    "codigo": 5942,
+    "nome": "Marcos do Val",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2024-02-28",
+        "dataFim": "2025-10-24"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PODEMOS",
+        "dataInicio": "2022-05-11",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "5953": {
+    "codigo": 5953,
+    "nome": "Fabiano Contarato",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2023-02-01",
+        "dataFim": "2024-02-26"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PT",
+        "dataInicio": "2022-05-24",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "REDE",
+        "dataInicio": "2019-10-22",
+        "dataFim": "2021-02-09"
+      }
+    ]
+  },
+  "5959": {
+    "codigo": 5959,
+    "nome": "Styvenson Valentim",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2025-03-25"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-04"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-04-09",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-03-19",
+        "dataFim": "2024-04-01"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2024-02-28",
+        "dataFim": "2025-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2021-02-23",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "5967": {
+    "codigo": 5967,
+    "nome": "Angelo Coronel",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2025-05-07"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2025-02-03",
+        "dataFim": "2026-03-16"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2021-07-08",
+        "dataFim": "2022-03-29"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSD",
+        "dataInicio": "2019-04-24",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2019-02-13",
+        "dataFim": "2021-02-01"
+      }
+    ]
+  },
+  "5973": {
+    "codigo": 5973,
+    "nome": "Cid Gomes",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2025-02-18"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2023-02-03",
+        "dataFim": "2024-02-04"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2021-02-09",
+        "dataFim": "2023-01-31"
+      }
+    ]
+  },
+  "5976": {
+    "codigo": 5976,
+    "nome": "Eduardo Girão",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-02-03"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-02-27",
+        "dataFim": "2024-06-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "NOVO",
+        "dataInicio": "2023-02-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2019-07-10",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2019-02-12",
+        "dataFim": "2019-07-07"
+      }
+    ]
+  },
+  "5979": {
+    "codigo": 5979,
+    "nome": "Leila Barros",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-03-13"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PDT",
+        "dataInicio": "2024-06-18",
+        "dataFim": "2025-03-25"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-05-23",
+        "dataFim": "2025-07-08"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-02-28"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2022-09-02",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2021-02-08",
+        "dataFim": "2021-08-03"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "",
+        "dataInicio": "2020-10-01",
+        "dataFim": "2021-02-01"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2019-08-27",
+        "dataFim": "2020-04-22"
+      }
+    ]
+  },
+  "5982": {
+    "codigo": 5982,
+    "nome": "Alessandro Vieira",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSDB",
+        "dataInicio": "2023-05-10",
+        "dataFim": "2023-06-20"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "CIDADANIA",
+        "dataInicio": "2021-01-29",
+        "dataFim": "2022-03-20"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "CIDADANIA",
+        "dataInicio": "2019-05-08",
+        "dataFim": "2021-01-29"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "CIDADANIA",
+        "dataInicio": "2019-04-24",
+        "dataFim": "2020-03-31"
+      }
+    ]
+  },
+  "5985": {
+    "codigo": 5985,
+    "nome": "Nelsinho Trad",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2022-03-07",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSD",
+        "dataInicio": "2020-10-12",
+        "dataFim": "2021-01-29"
+      }
+    ]
+  },
+  "5988": {
+    "codigo": 5988,
+    "nome": "Soraya Thronicke",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-05-23",
+        "dataFim": "2025-07-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "UNIÃO",
+        "dataInicio": "2022-05-09",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PSL",
+        "dataInicio": "2022-02-08",
+        "dataFim": "2022-04-11"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2021-05-05",
+        "dataFim": "2022-11-09"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2021-03-10",
+        "dataFim": "2022-04-11"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSL",
+        "dataInicio": "2019-12-04",
+        "dataFim": "2020-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSL",
+        "dataInicio": "2019-10-01",
+        "dataFim": "2022-04-05"
+      }
+    ]
+  },
+  "5990": {
+    "codigo": 5990,
+    "nome": "Carlos Viana",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PODEMOS",
+        "dataInicio": "2025-04-15"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PODEMOS",
+        "dataInicio": "2025-02-18",
+        "dataFim": "2025-03-17"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PODEMOS",
+        "dataInicio": "2025-01-02"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PODEMOS",
+        "dataInicio": "2023-04-13",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2022-06-10",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2020-11-27",
+        "dataFim": "2023-01-04"
+      }
+    ]
+  },
+  "5998": {
+    "codigo": 5998,
+    "nome": "Daniella Ribeiro",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2024-04-17"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-05-31",
+        "dataFim": "2024-04-16"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-29",
+        "dataFim": "2024-05-22"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-23"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-03-20",
+        "dataFim": "2023-03-22"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2021-06-01",
+        "dataFim": "2023-01-31"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2021-02-01",
+        "dataFim": "2022-04-04"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2020-03-04",
+        "dataFim": "2020-09-22"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PP",
+        "dataInicio": "2019-02-02",
+        "dataFim": "2020-03-03"
+      }
+    ]
+  },
+  "6008": {
+    "codigo": 6008,
+    "nome": "Giordano",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2025-04-02",
+        "dataFim": "2025-12-15"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "MDB",
+        "dataInicio": "2023-04-11",
+        "dataFim": "2025-01-27"
+      }
+    ]
+  },
+  "6009": {
+    "codigo": 6009,
+    "nome": "Astronauta Marcos Pontes",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-02-27"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-06-29",
+        "dataFim": "2025-01-31"
+      }
+    ]
+  },
+  "6010": {
+    "codigo": 6010,
+    "nome": "Ivete da Silveira",
+    "liderancas": []
+  },
+  "6025": {
+    "codigo": 6025,
+    "nome": "Roberta Acioly",
+    "liderancas": []
+  },
+  "6304": {
+    "codigo": 6304,
+    "nome": "Margareth Buzetti",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-12-21",
+        "dataFim": "2024-05-22"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-05-17",
+        "dataFim": "2023-11-21"
+      }
+    ]
+  },
+  "6331": {
+    "codigo": 6331,
+    "nome": "Sergio Moro",
+    "liderancas": []
+  },
+  "6335": {
+    "codigo": 6335,
+    "nome": "Damares Alves",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-03-06",
+        "dataFim": "2025-02-16"
+      },
+      {
+        "tipo": "Vice-líder do Congresso Nacional",
+        "partido": "",
+        "dataInicio": "2023-04-25"
+      }
+    ]
+  },
+  "6337": {
+    "codigo": 6337,
+    "nome": "Cleitinho",
+    "liderancas": []
+  },
+  "6338": {
+    "codigo": 6338,
+    "nome": "Teresa Leitão",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-10-14"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-08-13",
+        "dataFim": "2025-10-14"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-05-23",
+        "dataFim": "2025-07-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2023-05-18",
+        "dataFim": "2025-08-12"
+      }
+    ]
+  },
+  "6340": {
+    "codigo": 6340,
+    "nome": "Jaime Bagattoli",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-05-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-03-21",
+        "dataFim": "2025-05-07"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2024-04-22",
+        "dataFim": "2025-01-31"
+      }
+    ]
+  },
+  "6341": {
+    "codigo": 6341,
+    "nome": "Hamilton Mourão",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "REPUBLICANOS",
+        "dataInicio": "2025-10-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "REPUBLICANOS",
+        "dataInicio": "2023-03-09",
+        "dataFim": "2025-01-13"
+      }
+    ]
+  },
+  "6342": {
+    "codigo": 6342,
+    "nome": "Jorge Seif",
+    "liderancas": [
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2026-03-01",
+        "dataFim": "2026-03-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-05-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2025-03-21",
+        "dataFim": "2025-05-07"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PL",
+        "dataInicio": "2023-04-19",
+        "dataFim": "2025-01-31"
+      }
+    ]
+  },
+  "6345": {
+    "codigo": 6345,
+    "nome": "Fernando Farias",
+    "liderancas": []
+  },
+  "6350": {
+    "codigo": 6350,
+    "nome": "Augusta Brito",
+    "liderancas": [
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2026-02-03"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-10-14",
+        "dataFim": "2026-02-02"
+      },
+      {
+        "tipo": "Líder em exercício do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-08-13",
+        "dataFim": "2025-10-14"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2025-08-13",
+        "dataFim": "2025-10-14"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2025-03-13"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2024-09-04",
+        "dataFim": "2025-02-01"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2024-07-31",
+        "dataFim": "2025-02-01"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2023-12-14",
+        "dataFim": "2024-03-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-12-14",
+        "dataFim": "2024-02-08"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-10-24",
+        "dataFim": "2023-12-12"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PT",
+        "dataInicio": "2023-05-18",
+        "dataFim": "2023-09-19"
+      }
+    ]
+  },
+  "6358": {
+    "codigo": 6358,
+    "nome": "Ana Paula Lobato",
+    "liderancas": [
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PDT",
+        "dataInicio": "2025-04-29"
+      },
+      {
+        "tipo": "Líder do Senado Federal",
+        "partido": "PDT",
+        "dataInicio": "2024-05-03",
+        "dataFim": "2025-01-30"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2024-02-26",
+        "dataFim": "2024-04-23"
+      },
+      {
+        "tipo": "Líder do Congresso Nacional",
+        "partido": "PSB",
+        "dataInicio": "2023-04-14",
+        "dataFim": "2024-01-31"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "PSB",
+        "dataInicio": "2023-02-08",
+        "dataFim": "2024-01-31"
+      }
+    ]
+  },
+  "6369": {
+    "codigo": 6369,
+    "nome": "Jussara Lima",
+    "liderancas": [
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-12-14",
+        "dataFim": "2024-05-22"
+      },
+      {
+        "tipo": "Vice-líder do Senado Federal",
+        "partido": "",
+        "dataInicio": "2023-05-17",
+        "dataFim": "2023-12-12"
+      }
+    ]
+  },
+  "6372": {
+    "codigo": 6372,
+    "nome": "Bruno Bonetti",
+    "liderancas": []
+  }
+}

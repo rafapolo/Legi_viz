@@ -1243,8 +1243,34 @@ interface SenatorRealData {
   taxaPresenca?: number
 }
 
+interface SenatorLiderancaData {
+  codigo: number
+  nome: string
+  liderancas: {
+    tipo: string
+    partido: string
+    dataInicio: string
+    dataFim?: string
+  }[]
+}
+
+interface SenatorComissaoData {
+  codigo: number
+  nome: string
+  comissoes: {
+    id: number
+    sigla: string
+    nome: string
+    cargo: string
+    dataInicio: string
+    dataFim?: string
+  }[]
+}
+
 let _senadoresRealCache: Record<number, SenatorRealData> | null = null
 let _senadoresVotacoesCache: Record<number, { votou: number; totalSessoes: number; taxaPresenca: number }> | null = null
+let _senadoresLiderancasCache: Record<number, SenatorLiderancaData> | null = null
+let _senadoresComissoesCache: Record<number, SenatorComissaoData> | null = null
 
 async function loadSenadoresRealCache(): Promise<Record<number, SenatorRealData>> {
   if (_senadoresRealCache) return _senadoresRealCache
@@ -1282,7 +1308,49 @@ async function loadSenadoresVotacoesCache(): Promise<Record<number, { votou: num
   return {}
 }
 
-function normalizeSenador(raw: RawSenador, tse?: TseDado, senatorReal?: SenatorRealData): Parlamentar {
+async function loadSenadoresLiderancasCache(): Promise<Record<number, SenatorLiderancaData>> {
+  if (_senadoresLiderancasCache) return _senadoresLiderancasCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/senadores-liderancas.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      _senadoresLiderancasCache = await res.json()
+      console.debug('[Senadores Lideranças] Loaded', Object.keys(_senadoresLiderancasCache!).length, 'entries')
+      return _senadoresLiderancasCache!
+    }
+  } catch (e) {
+    console.error('[Senadores Lideranças Error]', e)
+  }
+  return {}
+}
+
+async function loadSenadoresComissoesCache(): Promise<Record<number, SenatorComissaoData>> {
+  if (_senadoresComissoesCache) return _senadoresComissoesCache
+  
+  try {
+    const base = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
+    const cacheBust = `?t=${Date.now()}`
+    const res = await fetch(`${base}/data/senadores-comissoes.json${cacheBust}`, { cache: 'no-store' })
+    if (res.ok) {
+      _senadoresComissoesCache = await res.json()
+      console.debug('[Senadores Comissões] Loaded', Object.keys(_senadoresComissoesCache!).length, 'entries')
+      return _senadoresComissoesCache!
+    }
+  } catch (e) {
+    console.error('[Senadores Comissões Error]', e)
+  }
+  return {}
+}
+
+function normalizeSenador(
+  raw: RawSenador, 
+  tse?: TseDado, 
+  senatorReal?: SenatorRealData,
+  senatorLiderancas?: SenatorLiderancaData,
+  senatorComissoes?: SenatorComissaoData
+): Parlamentar {
   const ip      = raw.IdentificacaoParlamentar ?? {}
   const idNum   = parseInt(ip.CodigoParlamentar ?? '0') || 0
   const partido = normalizePartido(ip.SiglaPartidoParlamentar ?? '')
@@ -1468,6 +1536,14 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
   // ── Carregar dados de votações dos senadores (frequência) ──
   const senatorVotacoesMap = await loadSenadoresVotacoesCache()
   console.log('[Senadores Votações] Loaded', Object.keys(senatorVotacoesMap).length, 'senators with voting data')
+  
+  // ── Carregar lideranças dos senadores ──
+  const senatorLiderancasMap = await loadSenadoresLiderancasCache()
+  console.log('[Senadores Lideranças] Loaded', Object.keys(senatorLiderancasMap).length, 'senators with leadership data')
+  
+  // ── Carregar comissões dos senadores ──
+  const senatorComissoesMap = await loadSenadoresComissoesCache()
+  console.log('[Senadores Comissões] Loaded', Object.keys(senatorComissoesMap).length, 'senators with commission data')
   
   // Merge voting data into senatorRealMap
   for (const [codigo, votData] of Object.entries(senatorVotacoesMap)) {
@@ -1856,7 +1932,9 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
       const urna = ip.NomeParlamentar ?? ip.NomeCompletoParlamentar ?? ''
       const idNum = parseInt(ip.CodigoParlamentar ?? '0') || 0
       const senatorReal = senatorRealMap[idNum]
-      return normalizeSenador(raw, lookupTse(urna), senatorReal)
+      const senatorLiderancas = senatorLiderancasMap[idNum]
+      const senatorComissoes = senatorComissoesMap[idNum]
+      return normalizeSenador(raw, lookupTse(urna), senatorReal, senatorLiderancas, senatorComissoes)
     }),
   ]
   
