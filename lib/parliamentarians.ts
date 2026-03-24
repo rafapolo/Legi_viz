@@ -1422,11 +1422,39 @@ export async function getAllParliamentariansAsync(): Promise<Parlamentar[]> {
     try {
       const base = typeof window !== 'undefined' ? (process.env.NEXT_PUBLIC_BASE_PATH ?? '') : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
       const [dRes, sRes] = await Promise.all([
-        fetch(`${base}/data/deputados.json`, { cache: 'force-cache' }),
-        fetch(`${base}/data/senadores.json`, { cache: 'force-cache' }),
+        fetch(`${base}/data/deputados-info.json`, { cache: 'force-cache' }),
+        fetch(`${base}/data/senadores-real.json`, { cache: 'force-cache' }),
       ])
-      if (dRes.ok && depRaw.length === 0) depRaw = await dRes.json()
-      if (sRes.ok && senRaw.length === 0) senRaw = await sRes.json()
+      // Note: These files have different formats, so we handle them separately
+      if (dRes.ok && depRaw.length === 0) {
+        const data = await dRes.json()
+        // Convert from object format to array format if needed
+        if (data.partyInfo) {
+          depRaw = Object.entries(data.partyInfo).map(([id, info]: [string, any]) => ({
+            id: parseInt(id),
+            nome: info.nome || `Deputado ${id}`,
+            siglaPartido: info.partido,
+            siglaUf: info.uf,
+          }))
+        } else if (Array.isArray(data)) {
+          depRaw = data
+        }
+      }
+      if (sRes.ok && senRaw.length === 0) {
+        const data = await sRes.json()
+        // Convert from object format to array format if needed
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          senRaw = Object.values(data).map((info: any) => ({
+            codigo: info.codigo,
+            nome: info.nome,
+            partido: info.partido,
+            uf: info.uf,
+            mandatos: info.mandatos || 1,
+          }))
+        } else if (Array.isArray(data)) {
+          senRaw = data
+        }
+      }
     } catch { /* não existem ainda */ }
   }
 

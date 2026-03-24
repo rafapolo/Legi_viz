@@ -1994,54 +1994,14 @@ function NewsHeadline({title,source,date,imgSrc,url,big}:{title:string;source:st
 }
 
 function C9({p}:{p:Parlamentar}) {
-  const [newsItems, setNewsItems] = useState<{title:string;source:string;date:string;img?:string;url?:string;big?:boolean}[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        setLoading(true)
-        setError(false)
-        
-        const params = new URLSearchParams({
-          nome: p.nomeUrna,
-          partido: p.partido,
-        })
-        
-        const response = await fetch(`/api/news?${params}`)
-        
-        if (!response.ok) throw new Error('Falha ao buscar notícias')
-        
-        const data = await response.json()
-        
-        if (data.news && data.news.length > 0) {
-          // Marca a primeira notícia como destaque (big)
-          const newsWithBig = data.news.map((item: {title:string;source:string;date:string;img?:string;url?:string}, i: number) => ({
-            ...item,
-            big: i === 0,
-          }))
-          setNewsItems(newsWithBig)
-        } else {
-          setNewsItems([])
-        }
-      } catch (err) {
-        console.error('Erro ao buscar notícias:', err)
-        setError(true)
-        setNewsItems([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    
-    fetchNews()
-  }, [p.nomeUrna, p.partido])
+  const newsQuery = `${p.nomeUrna} ${p.partido} congresso OR câmara OR senado`
+  const googleNewsUrl = `https://news.google.com/search?q=${encodeURIComponent(newsQuery)}&hl=pt-BR&gl=BR`
 
   return (
     <div style={{ padding:'0 18px 32px' }}>
       <Lbl c="Cobertura da imprensa" style={{ marginBottom:5 }}/>
-      <Big c={loading ? '...' : `${newsItems.length} manchetes`}/>
-      <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:12 }}>de {NEWS_SOURCES.length} fontes monitoradas</p>
+      <Big c="busque"/>
+      <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginBottom:16 }}>Buscar notícias em {NEWS_SOURCES.length} fontes</p>
       {/* Fontes */}
       <div style={{ display:'flex',flexWrap:'wrap',gap:4,marginBottom:16 }}>
         {NEWS_SOURCES.slice(0,8).map(s=>(
@@ -2054,28 +2014,26 @@ function C9({p}:{p:Parlamentar}) {
         ))}
         <span style={{ fontSize:9,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",padding:'3px 0',color:INK }}>+{NEWS_SOURCES.length-8}</span>
       </div>
-      {loading ? (
-        <div style={{ textAlign:'center',padding:'40px 0' }}>
-          <div style={{ width:24,height:24,border:'2px solid rgba(0,0,0,0.1)',borderTopColor:INK,borderRadius:'50%',animation:'spin 0.8s linear infinite',margin:'0 auto' }}/>
-          <p style={{ fontSize:12,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:12 }}>Buscando notícias em tempo real...</p>
-        </div>
-      ) : error ? (
-        <div style={{ textAlign:'center',padding:'30px 0',borderBottom:'1px solid rgba(0,0,0,0.12)',marginBottom:16 }}>
-          <AlertTriangle size={20} color={INK} style={{ marginBottom:8 }} />
-          <p style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,fontWeight:600 }}>Não foi possível carregar notícias</p>
-          <p style={{ fontSize:11,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK,marginTop:4 }}>Tente novamente mais tarde</p>
-        </div>
-      ) : newsItems.length === 0 ? (
-        <div style={{ textAlign:'center',padding:'30px 0',borderBottom:'1px solid rgba(0,0,0,0.12)',marginBottom:16 }}>
-          <p style={{ fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",color:INK }}>Nenhuma notícia recente encontrada</p>
-        </div>
-      ) : (
-        newsItems.map((item,i)=>(<NewsHeadline key={i} title={item.title} source={item.source} date={item.date} imgSrc={item.img} url={item.url} big={item.big}/>))
-      )}
-      <a href={`https://news.google.com/search?q=${encodeURIComponent(p.nomeUrna)}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex',alignItems:'center',gap:5,fontSize:13,fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",fontWeight:700,color:INK,textDecoration:'none' }}>
-        <ExternalLink size={13}/>Ver todas as notícias no Google News
+      <a 
+        href={googleNewsUrl} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        style={{ 
+          display:'flex',
+          alignItems:'center',
+          justifyContent:'center',
+          gap:8,
+          fontSize:14,
+          fontFamily:"'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontWeight:600,
+          color:INK,
+          textDecoration:'none',
+          padding:'16px 0',
+          borderTop:'1px solid rgba(0,0,0,0.09)',
+        }}
+      >
+        <ExternalLink size={16}/>Buscar notícias no Google News
       </a>
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
   )
 }
