@@ -32,6 +32,43 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Fetch parliamentary data (deputados + senadores)
+        run: |
+          node -e "
+          const https = require('https');
+          const fs = require('fs');
+
+          function get(url) {
+            return new Promise((resolve, reject) => {
+              https.get(url, { headers: { Accept: 'application/json' } }, res => {
+                let data = '';
+                res.on('data', d => data += d);
+                res.on('end', () => resolve(JSON.parse(data)));
+              }).on('error', reject);
+            });
+          }
+
+          async function main() {
+            // Fetch all deputies (paginated)
+            const deps = [];
+            for (let p = 1; p <= 10; p++) {
+              const j = await get('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100&ordem=ASC&ordenarPor=nome&pagina=' + p);
+              if (!j.dados || j.dados.length === 0) break;
+              deps.push(...j.dados);
+            }
+            fs.writeFileSync('public/data/deputados.json', JSON.stringify(deps));
+            console.log('Deputies:', deps.length);
+
+            // Fetch senators
+            const sj = await get('https://legis.senado.leg.br/dadosabertos/senador/lista/atual.json');
+            const sens = sj?.ListaParlamentarEmExercicio?.Parlamentares?.Parlamentar ?? [];
+            fs.writeFileSync('public/data/senadores.json', JSON.stringify(sens));
+            console.log('Senators:', sens.length);
+          }
+
+          main().catch(e => { console.error(e); process.exit(1); });
+          "
+
       - name: Remove API routes (not supported in static export)
         run: rm -rf app/api
 
