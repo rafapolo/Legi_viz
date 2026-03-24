@@ -2,6 +2,8 @@
  * API Route para carregar parlamentares (contorna CORS)
  */
 
+export const dynamic = 'force-static'
+
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 
