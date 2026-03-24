@@ -340,6 +340,10 @@ export default function Home() {
           setView('profile')
         }
       }
+    }).catch(err => {
+      console.error('[Load Error]', err)
+      setAllParls([])
+      setParlamentaresLoaded(true)
     })
   }, [])
 
