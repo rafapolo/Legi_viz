@@ -14,3 +14,7 @@ tsconfig.tsbuildinfo
 .env*.local
 out/
 *.zip
+
+# AI assistant configs
+.qwen/
+pnpm-lock.yaml
